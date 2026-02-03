@@ -1,0 +1,16 @@
+{
+  "short_name": "Hesap Uzmanı",
+  "name": "Hesap Uzmanı - Pratik Hesaplama Araçları",
+  "description": "Günlük, finansal ve bilimsel hesaplama araçları.",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ],
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#ff9800",
+  "background_color": "#ffffff"
+}

@@ -1,0 +1,268 @@
+import React, { useState, useEffect } from 'react'
+import { Box, Container, Grid, TextField, Typography, Card, Button, useTheme, alpha, InputAdornment } from '@mui/material'
+import BackspaceIcon from '@mui/icons-material/Backspace'
+import DeleteIcon from '@mui/icons-material/Delete'
+import LocalOfferIcon from '@mui/icons-material/LocalOffer'
+import { Helmet } from 'react-helmet-async'
+import { calculateDiscountResults } from './discountUtils'
+import { useTranslation } from '../../hooks/useTranslation'
+
+export default function DiscountCalc() {
+  const theme = useTheme()
+  const { t } = useTranslation()
+
+  // State Tanımlamaları
+  const [price, setPrice] = useState(() => localStorage.getItem('discount_price') || '')
+  const [rate, setRate] = useState(() => localStorage.getItem('discount_rate') || '')
+  const [activeField, setActiveField] = useState('price') // 'price' | 'rate'
+  const [result, setResult] = useState({ finalPrice: '0', savedAmount: '0' })
+
+  // Hesaplama Effect'i
+  useEffect(() => {
+    setResult(calculateDiscountResults(price, rate))
+  }, [price, rate])
+
+  // LocalStorage Kayıt
+  useEffect(() => {
+    localStorage.setItem('discount_price', price)
+    localStorage.setItem('discount_rate', rate)
+  }, [price, rate])
+
+  // Temizleme
+  const handleClear = () => {
+    setPrice('')
+    setRate('')
+    setResult({ finalPrice: '0', savedAmount: '0' })
+    setActiveField('price')
+  }
+
+  // Tuş Takımı İşlemleri
+  const handleKeyPress = (key) => {
+    const currentVal = activeField === 'price' ? price : rate
+    const setVal = activeField === 'price' ? setPrice : setRate
+
+    if (key === 'C') {
+      handleClear()
+      return
+    }
+    if (key === 'DEL') {
+      setVal(currentVal.toString().slice(0, -1))
+      return
+    }
+    if (key === '.') {
+      if (currentVal === '' || currentVal.toString().includes('.')) return
+      setVal(currentVal + '.')
+      return
+    }
+    
+    // İndirim oranı 100'den büyük olamaz kontrolü (basit UX)
+    if (activeField === 'rate') {
+      const nextVal = parseFloat(currentVal + key)
+      if (nextVal > 100) return
+    }
+
+    setVal(currentVal.toString() + key)
+  }
+
+  // Klavye Girişi İçin Handlerlar
+  const handlePriceChange = (e) => {
+    const val = e.target.value
+    if (val.startsWith('.')) return
+    if (/^\d*\.?\d*$/.test(val)) {
+      setPrice(val)
+    }
+  }
+
+  const handleRateChange = (e) => {
+    const val = e.target.value
+    if (val.startsWith('.')) return
+    if (/^\d*\.?\d*$/.test(val)) {
+      if (val && parseFloat(val) > 100) return
+      setRate(val)
+    }
+  }
+
+  // Stiller
+  const orangeColor = '#ff9800'
+  const darkGrey = '#333'
+
+  const cardStyle = {
+    p: 4,
+    borderRadius: 5,
+    bgcolor: theme.palette.mode === 'dark' ? alpha(theme.palette.background.paper, 0.6) : 'rgba(255, 255, 255, 0.9)',
+    backdropFilter: 'blur(20px)',
+    border: `1px solid ${alpha(theme.palette.divider, 0.1)}`,
+    boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.07)',
+    height: '100%',
+  }
+
+  const keyStyle = {
+    height: { xs: 64, sm: 80, md: 90 },
+    borderRadius: 4,
+    fontSize: '2rem',
+    fontWeight: 600,
+    color: theme.palette.text.primary,
+    bgcolor: theme.palette.mode === 'dark' ? alpha(theme.palette.background.paper, 0.8) : '#fff',
+    border: `1px solid ${alpha(theme.palette.divider, 0.1)}`,
+    boxShadow: theme.palette.mode === 'dark' ? '0 4px 0 0 rgba(0,0,0,0.5)' : '0 4px 0 0 #e0e0e0',
+    transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
+    '&:hover': {
+      bgcolor: alpha(theme.palette.primary.main, 0.1),
+      color: theme.palette.primary.main,
+      transform: 'translateY(-4px)',
+      boxShadow: `0 12px 20px ${alpha(theme.palette.primary.main, 0.2)}`
+    },
+    '&:active': {
+      transform: 'translateY(0)'
+    }
+  }
+
+  return (
+    <Container maxWidth="lg" sx={{ py: { xs: 2, md: 4 } }}>
+      <Helmet>
+        <title>{t('discount')} | {t('appTitle')}</title>
+        <meta name="description" content={t('discountDesc')} />
+      </Helmet>
+      <Box sx={{ mb: 5, textAlign: 'center', position: 'relative' }}>
+        <Typography 
+          variant="h3" 
+          fontWeight="800" 
+          sx={{ 
+            background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.secondary?.main || '#ff4081'} 100%)`,
+            backgroundClip: 'text',
+            textFillColor: 'transparent',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            mb: 1,
+            fontSize: { xs: '2rem', md: '3rem' }
+          }}
+        >
+          {t('discount')}
+        </Typography>
+        <Typography variant="body1" color="text.secondary" sx={{ maxWidth: 500, mx: 'auto' }}>
+          {t('discountDesc')}
+        </Typography>
+        <Button 
+          variant="text" 
+          color="error" 
+          startIcon={<DeleteIcon />}
+          onClick={handleClear}
+          sx={{ position: { md: 'absolute' }, right: 0, top: '50%', transform: { md: 'translateY(-50%)' }, mt: { xs: 2, md: 0 } }}
+        >
+          {t('reset')}
+        </Button>
+      </Box>
+
+      <Grid container spacing={3} alignItems="stretch">
+        {/* Sol Taraf: Girişler ve Sonuç */}
+        <Grid size={{ xs: 12, md: 6 }}>
+          <Card elevation={0} sx={{ ...cardStyle, display: 'flex', flexDirection: 'column', gap: 4, justifyContent: 'center' }}>
+            
+            {/* Orijinal Fiyat */}
+            <Box onClick={() => setActiveField('price')} sx={{ cursor: 'pointer' }}>
+              <Typography variant="caption" sx={{ color: activeField === 'price' ? orangeColor : 'text.secondary', fontWeight: 'bold', ml: 1 }}>
+                {t('originalPrice')}
+              </Typography>
+              <TextField
+                fullWidth
+                value={price}
+                onChange={handlePriceChange}
+                onFocus={() => setActiveField('price')}
+                placeholder="0"
+                variant="standard"
+                InputProps={{
+                  disableUnderline: true,
+                  startAdornment: <InputAdornment position="start"><LocalOfferIcon sx={{ color: activeField === 'price' ? orangeColor : 'text.disabled' }} /></InputAdornment>,
+                  sx: { 
+                    fontSize: '2.5rem', 
+                    fontWeight: 700, 
+                    color: activeField === 'price' ? orangeColor : 'text.primary',
+                    bgcolor: alpha(theme.palette.background.default, 0.5),
+                    borderRadius: 3,
+                    p: 1,
+                    border: activeField === 'price' ? `2px solid ${alpha(orangeColor, 0.5)}` : '1px solid transparent'
+                  }
+                }}
+              />
+            </Box>
+
+            {/* İndirim Oranı */}
+            <Box onClick={() => setActiveField('rate')} sx={{ cursor: 'pointer' }}>
+              <Typography variant="caption" sx={{ color: activeField === 'rate' ? 'primary.main' : 'text.secondary', fontWeight: 'bold', ml: 1 }}>
+                {t('discountRate')}
+              </Typography>
+              <TextField
+                fullWidth
+                value={rate}
+                onChange={handleRateChange}
+                onFocus={() => setActiveField('rate')}
+                placeholder="0"
+                variant="standard"
+                InputProps={{
+                  disableUnderline: true,
+                  endAdornment: <InputAdornment position="end"><Typography variant="h5" color="text.secondary">%</Typography></InputAdornment>,
+                  sx: { 
+                    fontSize: '2rem', 
+                    fontWeight: 700, 
+                    color: activeField === 'rate' ? 'primary.main' : 'text.primary',
+                    bgcolor: alpha(theme.palette.background.default, 0.5),
+                    borderRadius: 3,
+                    p: 1,
+                    border: activeField === 'rate' ? `2px solid ${alpha(theme.palette.primary.main, 0.5)}` : '1px solid transparent'
+                  }
+                }}
+              />
+            </Box>
+
+            {/* Sonuç Alanı */}
+            <Box sx={{ 
+              mt: 2, 
+              p: 3, 
+              borderRadius: 4, 
+              bgcolor: theme.palette.mode === 'dark' ? '#263238' : alpha(theme.palette.primary.main, 0.1),
+              color: theme.palette.mode === 'dark' ? '#fff' : theme.palette.text.primary,
+              textAlign: 'center',
+              boxShadow: theme.shadows[4]
+            }}>
+              <Typography variant="body2" sx={{ opacity: 0.7, mb: 1 }}>{t('finalPrice')}</Typography>
+              <Typography variant="h2" fontWeight="800" sx={{ color: theme.palette.mode === 'dark' ? '#fff' : theme.palette.primary.main }}>
+                {result.finalPrice}
+              </Typography>
+              <Typography variant="body2" sx={{ mt: 1, opacity: 0.6, fontSize: '0.9rem' }}>
+                {t('savedAmount')}: {result.savedAmount}
+              </Typography>
+            </Box>
+
+          </Card>
+        </Grid>
+
+        {/* Sağ Taraf: Özel Numpad */}
+        <Grid size={{ xs: 12, md: 6 }}>
+          <Card elevation={0} sx={{ ...cardStyle, display: 'flex', flexDirection: 'column', height: '100%', justifyContent: 'center', bgcolor: theme.palette.mode === 'dark' ? alpha(theme.palette.background.paper, 0.4) : alpha('#fff', 0.6) }}>
+            <Box sx={{
+              width: '100%',
+              maxWidth: 420,
+              mx: 'auto',
+              display: 'grid',
+              gridTemplateColumns: 'repeat(3, 1fr)',
+              gap: 3
+            }}>
+              {['7', '8', '9', '4', '5', '6', '1', '2', '3', '.', '0', 'DEL'].map((key) => (
+                <Button
+                  key={key}
+                  fullWidth
+                  disableElevation
+                  variant="text"
+                  onClick={() => handleKeyPress(key)}
+                  sx={key === 'DEL' ? { ...keyStyle, color: 'error.main', bgcolor: alpha(theme.palette.error.main, 0.1), boxShadow: 'none', border: `1px solid ${alpha(theme.palette.error.main, 0.3)}` } : keyStyle}
+                >
+                  {key === 'DEL' ? <BackspaceIcon /> : key}
+                </Button>
+              ))}
+            </Box>
+          </Card>
+        </Grid>
+      </Grid>
+    </Container>
+  )
+}

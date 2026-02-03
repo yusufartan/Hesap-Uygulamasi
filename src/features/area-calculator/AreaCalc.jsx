@@ -1,0 +1,296 @@
+import React, { useState, useEffect } from 'react'
+import { Box, Container, Grid, TextField, Typography, Card, MenuItem, Select, Button, IconButton, useTheme, alpha } from '@mui/material'
+import BackspaceIcon from '@mui/icons-material/Backspace'
+import DeleteIcon from '@mui/icons-material/Delete'
+import SwapVertIcon from '@mui/icons-material/SwapVert'
+import { Helmet } from 'react-helmet-async'
+import { unitOptions, convertArea } from './areaUtils'
+import { useTranslation } from '../../hooks/useTranslation'
+
+export default function AreaCalc() {
+  const theme = useTheme()
+  const { t } = useTranslation()
+
+  // State tanımlamaları (LocalStorage entegrasyonlu)
+  const [val1, setVal1] = useState(() => localStorage.getItem('area_val1') || '')
+  const [unit1, setUnit1] = useState(() => {
+    const saved = localStorage.getItem('area_unit1')
+    return unitOptions.find(u => u.shortName === saved) || unitOptions[3] // Default m²
+  })
+
+  const [val2, setVal2] = useState(() => localStorage.getItem('area_val2') || '')
+  const [unit2, setUnit2] = useState(() => {
+    const saved = localStorage.getItem('area_unit2')
+    return unitOptions.find(u => u.shortName === saved) || unitOptions[0] // Default km²
+  })
+
+  const [focusedInput, setFocusedInput] = useState(1) // Hangi input aktif? (1 veya 2)
+
+  // Değerleri localStorage'a kaydet
+  useEffect(() => {
+    localStorage.setItem('area_val1', val1)
+    localStorage.setItem('area_unit1', unit1.shortName)
+    localStorage.setItem('area_val2', val2)
+    localStorage.setItem('area_unit2', unit2.shortName)
+  }, [val1, unit1, val2, unit2])
+
+  const handleVal1Change = (newValue) => {
+    if (!/^\d*\.?\d*$/.test(newValue)) return
+    setVal1(newValue)
+    setVal2(convertArea(newValue, unit1.factor, unit2.factor))
+  }
+
+  const handleVal2Change = (newValue) => {
+    if (!/^\d*\.?\d*$/.test(newValue)) return
+    setVal2(newValue)
+    setVal1(convertArea(newValue, unit2.factor, unit1.factor))
+  }
+
+  const handleUnit1Change = (newUnitShort) => {
+    const newUnit = unitOptions.find(u => u.shortName === newUnitShort)
+    setUnit1(newUnit)
+    setVal2(convertArea(val1, newUnit.factor, unit2.factor))
+  }
+
+  const handleUnit2Change = (newUnitShort) => {
+    const newUnit = unitOptions.find(u => u.shortName === newUnitShort)
+    setUnit2(newUnit)
+    setVal2(convertArea(val1, unit1.factor, newUnit.factor))
+  }
+
+  const handleClear = () => {
+    setVal1('')
+    setVal2('')
+    setFocusedInput(1)
+  }
+
+  // Tuş Takımı İşlemleri
+  const handleKeyPress = (key) => {
+    const isInput1 = focusedInput === 1
+    const currentVal = isInput1 ? val1 : val2
+    const setVal = isInput1 ? handleVal1Change : handleVal2Change
+
+    if (key === 'AC') {
+      handleClear()
+      return
+    }
+    if (key === 'DEL') {
+      setVal(currentVal.toString().slice(0, -1))
+      return
+    }
+    if (key === '.') {
+      if (!currentVal.toString().includes('.')) {
+        setVal(currentVal + '.')
+      }
+      return
+    }
+    setVal(currentVal.toString() + key)
+  }
+
+  // Ortak Kart Stili
+  const cardStyle = {
+    p: 4,
+    borderRadius: 5,
+    bgcolor: theme.palette.mode === 'dark' ? alpha(theme.palette.background.paper, 0.6) : 'rgba(255, 255, 255, 0.9)',
+    backdropFilter: 'blur(20px)',
+    border: `1px solid ${alpha(theme.palette.divider, 0.1)}`,
+    boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.07)',
+    height: '100%',
+    transition: 'transform 0.3s ease',
+  }
+
+  const keyStyle = {
+    height: { xs: 64, sm: 80, md: 90 },
+    borderRadius: 4,
+    fontSize: '2rem',
+    fontWeight: 600,
+    color: theme.palette.text.primary,
+    bgcolor: theme.palette.mode === 'dark' ? alpha(theme.palette.background.paper, 0.8) : '#fff',
+    border: `1px solid ${alpha(theme.palette.divider, 0.1)}`,
+    boxShadow: theme.palette.mode === 'dark' ? '0 4px 0 0 rgba(0,0,0,0.5)' : '0 4px 0 0 #e0e0e0',
+    transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
+    '&:hover': {
+      bgcolor: alpha(theme.palette.primary.main, 0.1),
+      color: theme.palette.primary.main,
+      transform: 'translateY(-4px)',
+      boxShadow: `0 12px 20px ${alpha(theme.palette.primary.main, 0.2)}`
+    },
+    '&:active': {
+      transform: 'translateY(0)'
+    }
+  }
+
+  return (
+    <Container maxWidth="lg" sx={{ py: { xs: 2, md: 4 } }}>
+      <Helmet>
+        <title>{t('area')} | {t('appTitle')}</title>
+        <meta name="description" content={t('areaDesc')} />
+        <meta name="keywords" content="alan çevirici, metrekare hesaplama, dönüm hesaplama, hektar çevirme, arsa ölçümü, arazi birimleri, m2 hesaplama" />
+        <link rel="canonical" href="https://site-adresi.com/area" />
+        <meta property="og:title" content={`${t('area')} | ${t('appTitle')}`} />
+        <meta property="og:description" content={t('areaDesc')} />
+        <meta property="og:url" content="https://site-adresi.com/area" />
+        <meta property="og:type" content="website" />
+      </Helmet>
+      <Box sx={{ mb: 5, textAlign: 'center', position: 'relative' }}>
+        <Typography
+          variant="h3"
+          fontWeight="800"
+          sx={{
+            background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.secondary?.main || '#ff4081'} 100%)`,
+            backgroundClip: 'text',
+            textFillColor: 'transparent',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            mb: 1,
+            fontSize: { xs: '2rem', md: '3rem' }
+          }}
+        >
+          {t('area')}
+        </Typography>
+        <Typography variant="body1" color="text.secondary" sx={{ maxWidth: 500, mx: 'auto' }}>
+          {t('areaDesc')}
+        </Typography>
+        <Button
+          variant="text"
+          color="error"
+          startIcon={<DeleteIcon />}
+          onClick={handleClear}
+          sx={{ position: { md: 'absolute' }, right: 0, top: '50%', transform: { md: 'translateY(-50%)' }, mt: { xs: 2, md: 0 } }}
+        >
+          {t('reset')}
+        </Button>
+      </Box>
+
+      <Grid container spacing={3} alignItems="stretch">
+        {/* Sol Taraf: Inputlar */}
+        <Grid size={{ xs: 12, md: 7 }}>
+          <Card elevation={0} sx={{ ...cardStyle, display: 'flex', flexDirection: 'column', gap: 4, justifyContent: 'center' }}>
+
+            {/* 1. Alan */}
+            <Box sx={{ p: 2, borderRadius: 4, bgcolor: alpha(theme.palette.background.default, 0.5), border: `1px solid ${alpha(theme.palette.divider, 0.1)}` }}>
+              <Typography variant="caption" color="text.secondary" sx={{ ml: 1, mb: 1, display: 'block' }}>{t('inputUnit')}</Typography>
+              <Select
+                value={unit1.shortName}
+                onChange={(e) => handleUnit1Change(e.target.value)}
+                fullWidth
+                displayEmpty
+                variant="standard"
+                disableUnderline
+                renderValue={(selected) => {
+                  const unit = unitOptions.find(u => u.shortName === selected)
+                  return <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, fontWeight: 'bold', color: 'primary.main' }}>{unit?.shortName}</Box>
+                }}
+                sx={{ mb: 1, '& .MuiSelect-select': { py: 0.5 } }}
+              >
+                {unitOptions.map((option) => (
+                  <MenuItem key={option.shortName} value={option.shortName}>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
+                      <span>{option.longName}</span>
+                      <Typography variant="caption" color="text.secondary">{option.shortName}</Typography>
+                    </Box>
+                  </MenuItem>
+                ))}
+              </Select>
+              <TextField
+                fullWidth
+                value={val1}
+                onChange={(e) => handleVal1Change(e.target.value)}
+                onFocus={() => setFocusedInput(1)}
+                placeholder={t('enterValue')}
+                variant="standard"
+                InputProps={{
+                  disableUnderline: true,
+                  sx: { fontSize: '2rem', fontWeight: 700, color: focusedInput === 1 ? 'primary.main' : 'text.primary' }
+                }}
+              />
+            </Box>
+
+            <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+              <IconButton
+                onClick={() => {
+                  const tempUnit = unit1; setUnit1(unit2); setUnit2(tempUnit);
+                  const tempVal = val1; setVal1(val2); setVal2(tempVal);
+                }}
+                sx={{
+                  bgcolor: alpha(theme.palette.primary.main, 0.1),
+                  color: 'primary.main',
+                  '&:hover': { bgcolor: 'primary.main', color: 'white', transform: 'rotate(180deg)' },
+                  transition: 'all 0.3s ease'
+                }}
+              >
+                <SwapVertIcon />
+              </IconButton>
+            </Box>
+
+            {/* 2. Alan */}
+            <Box sx={{ p: 2, borderRadius: 4, bgcolor: alpha(theme.palette.background.default, 0.5), border: `1px solid ${alpha(theme.palette.divider, 0.1)}` }}>
+              <Typography variant="caption" color="text.secondary" sx={{ ml: 1, mb: 1, display: 'block' }}>{t('outputUnit')}</Typography>
+              <Select
+                value={unit2.shortName}
+                onChange={(e) => handleUnit2Change(e.target.value)}
+                fullWidth
+                displayEmpty
+                variant="standard"
+                disableUnderline
+                renderValue={(selected) => {
+                  const unit = unitOptions.find(u => u.shortName === selected)
+                  return <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, fontWeight: 'bold', color: 'secondary.main' }}>{unit?.shortName}</Box>
+                }}
+                sx={{ mb: 1, '& .MuiSelect-select': { py: 0.5 } }}
+              >
+                {unitOptions.map((option) => (
+                  <MenuItem key={option.shortName} value={option.shortName}>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
+                      <span>{option.longName}</span>
+                      <Typography variant="caption" color="text.secondary">{option.shortName}</Typography>
+                    </Box>
+                  </MenuItem>
+                ))}
+              </Select>
+              <TextField
+                fullWidth
+                value={val2}
+                onChange={(e) => handleVal2Change(e.target.value)}
+                onFocus={() => setFocusedInput(2)}
+                placeholder={t('resultPlaceholder')}
+                variant="standard"
+                InputProps={{
+                  disableUnderline: true,
+                  sx: { fontSize: '2rem', fontWeight: 700, color: focusedInput === 2 ? 'primary.main' : 'text.primary' }
+                }}
+              />
+            </Box>
+
+          </Card>
+        </Grid>
+
+        {/* Sağ Taraf: Klavye */}
+        <Grid size={{ xs: 12, md: 5 }}>
+          <Card elevation={0} sx={{ ...cardStyle, display: 'flex', flexDirection: 'column', height: '100%', justifyContent: 'center', bgcolor: theme.palette.mode === 'dark' ? alpha(theme.palette.background.paper, 0.4) : alpha('#fff', 0.6) }}>
+            <Box sx={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(3, 1fr)',
+              gap: 2,
+              height: '100%',
+              p: 1
+            }}>
+              {['7', '8', '9', '4', '5', '6', '1', '2', '3', '.', '0', 'DEL'].map((key) => (
+                <Button
+                  key={key}
+                  fullWidth
+                  disableElevation
+                  variant="text"
+                  onClick={() => handleKeyPress(key)}
+                  sx={key === 'DEL' ? { ...keyStyle, color: 'error.main', bgcolor: alpha(theme.palette.error.main, 0.1), boxShadow: 'none', border: `1px solid ${alpha(theme.palette.error.main, 0.3)}` } : keyStyle}
+                >
+                  {key === 'DEL' ? <BackspaceIcon /> : key}
+                </Button>
+              ))}
+            </Box>
+          </Card>
+        </Grid>
+      </Grid>
+    </Container>
+  )
+}

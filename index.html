@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="tr">
+
+<head>
+  <meta charset="UTF-8" />
+
+  <!-- Sekme İkonu (Favicon) -->
+  <!-- Buraya kendi logonuzun yolunu verebilirsiniz veya geçici olarak bu emoji ikonunu kullanabilirsiniz -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+  <!-- Google Analytics 4 (GA4) -->
+  <!-- Kendi Ölçüm Kimliğinizi G-XXXXXXXXXX yerine yazın -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
+
+  <!-- PWA Manifest (Mobil Uygulama Özelliği) -->
+  <link rel="manifest" href="/manifest.json" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Sekme Başlığı -->
+  <title>Hesap Uzmanı | Tüm Hesaplamalar Tek Yerde</title>
+  <meta name="description"
+    content="Finans, sağlık, matematik, tarih ve birim çevirme işlemlerinizi saniyeler içinde yapın. Hesap Uzmanı ile kredi, VKE, yaş ve daha fazlasını ücretsiz hesaplayın." />
+  <meta name="keywords"
+    content="hesaplama, hesap makinesi, kredi hesaplama, vke hesaplama, yaş hesaplama, birim çevirici, online araçlar" />
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="module" src="/src/main.jsx"></script>
+</body>
+
+</html>
