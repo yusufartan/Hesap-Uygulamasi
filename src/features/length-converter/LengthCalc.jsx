@@ -191,6 +191,11 @@ export default function LengthCalc() {
       <Helmet>
         <title>{t('length')} | {t('appTitle')}</title>
         <meta name="description" content={t('lengthDesc')} />
+        <link rel="canonical" href="https://www.hesapmerkez.com/length" />
+        <meta property="og:title" content={`${t('length')} | ${t('appTitle')}`} />
+        <meta property="og:description" content={t('lengthDesc')} />
+        <meta property="og:url" content="https://www.hesapmerkez.com/length" />
+        <meta property="og:type" content="website" />
       </Helmet>
       <Box sx={{ mb: 4, textAlign: 'center', position: 'relative' }}>
         <Typography 

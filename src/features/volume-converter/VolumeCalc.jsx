@@ -161,10 +161,10 @@ export default function VolumeCalc() {
         <title>{t('volume')} | {t('appTitle')}</title>
         <meta name="description" content={t('volumeDesc')} />
         <meta name="keywords" content="hacim çevirici, litre hesaplama, galon çevirme, metreküp hesaplama, sıvı ölçüleri, birim dönüştürücü" />
-        <link rel="canonical" href="https://site-adresi.com/volume" />
+        <link rel="canonical" href="https://www.hesapmerkez.com/volume" />
         <meta property="og:title" content={`${t('volume')} | ${t('appTitle')}`} />
         <meta property="og:description" content={t('volumeDesc')} />
-        <meta property="og:url" content="https://site-adresi.com/volume" />
+        <meta property="og:url" content="https://www.hesapmerkez.com/volume" />
         <meta property="og:type" content="website" />
       </Helmet>
       <Box sx={{ mb: 4, textAlign: 'center', position: 'relative' }}>

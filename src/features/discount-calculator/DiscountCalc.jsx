@@ -122,6 +122,11 @@ export default function DiscountCalc() {
       <Helmet>
         <title>{t('discount')} | {t('appTitle')}</title>
         <meta name="description" content={t('discountDesc')} />
+        <link rel="canonical" href="https://www.hesapmerkez.com/discount" />
+        <meta property="og:title" content={`${t('discount')} | ${t('appTitle')}`} />
+        <meta property="og:description" content={t('discountDesc')} />
+        <meta property="og:url" content="https://www.hesapmerkez.com/discount" />
+        <meta property="og:type" content="website" />
       </Helmet>
       <Box sx={{ mb: 5, textAlign: 'center', position: 'relative' }}>
         <Typography 

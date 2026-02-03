@@ -99,6 +99,11 @@ export default function FinanceCalc() {
       <Helmet>
         <title>{t('finance')} | {t('appTitle')}</title>
         <meta name="description" content={t('financeDesc')} />
+        <link rel="canonical" href="https://www.hesapmerkez.com/finance" />
+        <meta property="og:title" content={`${t('finance')} | ${t('appTitle')}`} />
+        <meta property="og:description" content={t('financeDesc')} />
+        <meta property="og:url" content="https://www.hesapmerkez.com/finance" />
+        <meta property="og:type" content="website" />
       </Helmet>
       
       {/* Header */}

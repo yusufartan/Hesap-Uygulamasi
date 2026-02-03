@@ -161,10 +161,10 @@ export default function TimeCalc() {
         <title>{t('time')} | {t('appTitle')}</title>
         <meta name="description" content={t('timeDesc')} />
         <meta name="keywords" content="zaman çevirici, saat dakika hesaplama, saniye çevirme, süre hesaplama, gün hesaplama, zaman birimleri" />
-        <link rel="canonical" href="https://site-adresi.com/time" />
+        <link rel="canonical" href="https://www.hesapmerkez.com/time" />
         <meta property="og:title" content={`${t('time')} | ${t('appTitle')}`} />
         <meta property="og:description" content={t('timeDesc')} />
-        <meta property="og:url" content="https://site-adresi.com/time" />
+        <meta property="og:url" content="https://www.hesapmerkez.com/time" />
         <meta property="og:type" content="website" />
       </Helmet>
       <Box sx={{ mb: 4, textAlign: 'center', position: 'relative' }}>

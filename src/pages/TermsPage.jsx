@@ -13,10 +13,10 @@ export default function TermsPage() {
         <title>{t('terms')} | {t('appTitle')}</title>
         <meta name="description" content={t('termsMetaDesc')} />
         <meta name="keywords" content={t('termsKeywords')} />
-        <link rel="canonical" href="https://site-adresi.com/terms" />
+        <link rel="canonical" href="https://www.hesapmerkez.com/terms" />
         <meta property="og:title" content={`${t('terms')} | ${t('appTitle')}`} />
         <meta property="og:description" content={t('termsMetaDesc')} />
-        <meta property="og:url" content="https://site-adresi.com/terms" />
+        <meta property="og:url" content="https://www.hesapmerkez.com/terms" />
         <meta property="og:type" content="website" />
       </Helmet>
 

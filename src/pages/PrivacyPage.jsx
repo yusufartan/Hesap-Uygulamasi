@@ -12,10 +12,10 @@ export default function PrivacyPage() {
       <Helmet>
         <title>{t('privacy')} | {t('appTitle')}</title>
         <meta name="description" content={t('privacy')} />
-        <link rel="canonical" href="https://site-adresi.com/privacy" />
+        <link rel="canonical" href="https://www.hesapmerkez.com/privacy" />
         <meta property="og:title" content={`${t('privacy')} | ${t('appTitle')}`} />
         <meta property="og:description" content={t('privacy')} />
-        <meta property="og:url" content="https://site-adresi.com/privacy" />
+        <meta property="og:url" content="https://www.hesapmerkez.com/privacy" />
         <meta property="og:type" content="website" />
       </Helmet>
       

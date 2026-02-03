@@ -13,7 +13,7 @@ export default function AboutPage() {
       <Helmet>
         <title>{t('about')} | {t('appTitle')}</title>
         <meta name="description" content={t('footerDesc')} />
-        <link rel="canonical" href="https://site-adresi.com/about" />
+        <link rel="canonical" href="https://www.hesapmerkez.com/about" />
       </Helmet>
 
       <Box sx={{ textAlign: 'center', mb: 6 }}>

@@ -38,10 +38,10 @@ export default function ContactPage() {
         <title>{t('contact')} | {t('appTitle')}</title>
         <meta name="description" content={t('contactMetaDesc')} />
         <meta name="keywords" content="iletişim, destek, hesap uzmanı iletişim, öneri formu" />
-        <link rel="canonical" href="https://site-adresi.com/contact" />
+        <link rel="canonical" href="https://www.hesapmerkez.com/contact" />
         <meta property="og:title" content={`${t('contact')} | ${t('appTitle')}`} />
         <meta property="og:description" content={t('contactMetaDesc')} />
-        <meta property="og:url" content="https://site-adresi.com/contact" />
+        <meta property="og:url" content="https://www.hesapmerkez.com/contact" />
         <meta property="og:type" content="website" />
       </Helmet>
 

@@ -82,10 +82,10 @@ export default function AgeCalc() {
     <Helmet>
       <title>{t('age')} | {t('appTitle')}</title>
       <meta name="description" content={t('ageDesc')} />
-      <link rel="canonical" href="https://site-adresi.com/age" />
+      <link rel="canonical" href="https://www.hesapmerkez.com/age" />
       <meta property="og:title" content={`${t('age')} | ${t('appTitle')}`} />
       <meta property="og:description" content={t('ageDesc')} />
-      <meta property="og:url" content="https://site-adresi.com/age" />
+      <meta property="og:url" content="https://www.hesapmerkez.com/age" />
       <meta property="og:type" content="website" />
     </Helmet>
     <Container maxWidth="lg" sx={{ py: { xs: 2, md: 4 } }}>

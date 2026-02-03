@@ -177,6 +177,11 @@ export default function MassCalc() {
       <Helmet>
         <title>{t('mass')} | {t('appTitle')}</title>
         <meta name="description" content={t('massDesc')} />
+        <link rel="canonical" href="https://www.hesapmerkez.com/mass" />
+        <meta property="og:title" content={`${t('mass')} | ${t('appTitle')}`} />
+        <meta property="og:description" content={t('massDesc')} />
+        <meta property="og:url" content="https://www.hesapmerkez.com/mass" />
+        <meta property="og:type" content="website" />
       </Helmet>
       <Box sx={{ mb: 4, textAlign: 'center', position: 'relative' }}>
         <Typography 

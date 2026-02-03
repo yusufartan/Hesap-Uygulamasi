@@ -159,10 +159,10 @@ export default function SpeedCalc() {
         <title>{t('speed')} | {t('appTitle')}</title>
         <meta name="description" content={t('speedDesc')} />
         <meta name="keywords" content="hız çevirici, sürat hesaplama, km h çevirme, mph hesaplama, knot deniz mili, fizik hız birimleri" />
-        <link rel="canonical" href="https://site-adresi.com/speed" />
+        <link rel="canonical" href="https://www.hesapmerkez.com/speed" />
         <meta property="og:title" content={`${t('speed')} | ${t('appTitle')}`} />
         <meta property="og:description" content={t('speedDesc')} />
-        <meta property="og:url" content="https://site-adresi.com/speed" />
+        <meta property="og:url" content="https://www.hesapmerkez.com/speed" />
         <meta property="og:type" content="website" />
       </Helmet>
       <Box sx={{ mb: 4, textAlign: 'center', position: 'relative' }}>

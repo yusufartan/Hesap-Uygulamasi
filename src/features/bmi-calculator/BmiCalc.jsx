@@ -84,6 +84,11 @@ export default function BmiCalc() {
       <Helmet>
         <title>{t('bmi')} | {t('appTitle')}</title>
         <meta name="description" content={t('bmiDesc')} />
+        <link rel="canonical" href="https://www.hesapmerkez.com/bmi" />
+        <meta property="og:title" content={`${t('bmi')} | ${t('appTitle')}`} />
+        <meta property="og:description" content={t('bmiDesc')} />
+        <meta property="og:url" content="https://www.hesapmerkez.com/bmi" />
+        <meta property="og:type" content="website" />
       </Helmet>
       <Box sx={{ mb: 5, textAlign: 'center', position: 'relative' }}>
         <Typography 

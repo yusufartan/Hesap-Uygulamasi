@@ -169,10 +169,10 @@ export default function NumeralCalc() {
         <title>{t('numeral')} | {t('appTitle')}</title>
         <meta name="description" content={t('numeralDesc')} />
         <meta name="keywords" content="sayı sistemleri, binary çevirici, hex hesaplama, onluk taban, ikilik taban, decimal to binary, taban aritmetiği" />
-        <link rel="canonical" href="https://site-adresi.com/numeral" />
+        <link rel="canonical" href="https://www.hesapmerkez.com/numeral" />
         <meta property="og:title" content={`${t('numeral')} | ${t('appTitle')}`} />
         <meta property="og:description" content={t('numeralDesc')} />
-        <meta property="og:url" content="https://site-adresi.com/numeral" />
+        <meta property="og:url" content="https://www.hesapmerkez.com/numeral" />
         <meta property="og:type" content="website" />
       </Helmet>
       <Box sx={{ mb: 4, textAlign: 'center', position: 'relative' }}>

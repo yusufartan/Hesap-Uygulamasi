@@ -136,10 +136,10 @@ export default function TempCalc() {
         <title>{t('temp')} | {t('appTitle')}</title>
         <meta name="description" content={t('tempDesc')} />
         <meta name="keywords" content="sıcaklık çevirici, derece hesaplama, celsius fahrenheit çevirme, kelvin hesaplama, termometre dönüşümü" />
-        <link rel="canonical" href="https://site-adresi.com/temp" />
+        <link rel="canonical" href="https://www.hesapmerkez.com/temp" />
         <meta property="og:title" content={`${t('temp')} | ${t('appTitle')}`} />
         <meta property="og:description" content={t('tempDesc')} />
-        <meta property="og:url" content="https://site-adresi.com/temp" />
+        <meta property="og:url" content="https://www.hesapmerkez.com/temp" />
         <meta property="og:type" content="website" />
       </Helmet>
       <Box sx={{ mb: 4, textAlign: 'center', position: 'relative' }}>

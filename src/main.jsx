@@ -10,7 +10,7 @@ import App from './App.jsx'
 
 // Sentry Başlatma (DSN adresini kendi projenizden almalısınız)
 Sentry.init({
-  dsn: "https://examplePublicKey@o0.ingest.sentry.io/0", // BURAYA KENDİ SENTRY DSN ADRESİNİZİ YAZIN
+  dsn: "https://35c4995b7851e846c43193992b64f58c@o4510824461107200.ingest.de.sentry.io/4510824477491280",
   integrations: [
     Sentry.browserTracingIntegration(),
     Sentry.replayIntegration(),

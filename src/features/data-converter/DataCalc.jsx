@@ -144,6 +144,11 @@ export default function DataCalc() {
       <Helmet>
         <title>{t('data')} | {t('appTitle')}</title>
         <meta name="description" content={t('dataDesc')} />
+        <link rel="canonical" href="https://www.hesapmerkez.com/data" />
+        <meta property="og:title" content={`${t('data')} | ${t('appTitle')}`} />
+        <meta property="og:description" content={t('dataDesc')} />
+        <meta property="og:url" content="https://www.hesapmerkez.com/data" />
+        <meta property="og:type" content="website" />
       </Helmet>
       <Box sx={{ mb: 5, textAlign: 'center', position: 'relative' }}>
         <Typography

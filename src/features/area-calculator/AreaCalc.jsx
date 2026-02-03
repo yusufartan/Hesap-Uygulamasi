@@ -126,10 +126,10 @@ export default function AreaCalc() {
         <title>{t('area')} | {t('appTitle')}</title>
         <meta name="description" content={t('areaDesc')} />
         <meta name="keywords" content="alan çevirici, metrekare hesaplama, dönüm hesaplama, hektar çevirme, arsa ölçümü, arazi birimleri, m2 hesaplama" />
-        <link rel="canonical" href="https://site-adresi.com/area" />
+        <link rel="canonical" href="https://www.hesapmerkez.com/area" />
         <meta property="og:title" content={`${t('area')} | ${t('appTitle')}`} />
         <meta property="og:description" content={t('areaDesc')} />
-        <meta property="og:url" content="https://site-adresi.com/area" />
+        <meta property="og:url" content="https://www.hesapmerkez.com/area" />
         <meta property="og:type" content="website" />
       </Helmet>
       <Box sx={{ mb: 5, textAlign: 'center', position: 'relative' }}>
