@@ -37,8 +37,8 @@ Projeyi yerel ortamınızda çalıştırmak için:
 
 1.  **Depoyu klonlayın:**
     ```bash
-    git clone https://github.com/yusufartan/Calculator-App.git
-    cd Calculator-App
+    git clone https://github.com/yusufartan/Hesap-Uygulamasi.git
+    cd Hesap-Uygulamasi
     ```
 
 2.  **Bağımlılıkları yükleyin:**
