@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import { Box, Container, Grid, TextField, Typography, Card, MenuItem, Select, Button, IconButton, useTheme, alpha, CircularProgress, Alert, Snackbar } from '@mui/material'
-import BackspaceIcon from '@mui/icons-material/Backspace'
+import { Box, Container, Grid, TextField, Typography, Card, MenuItem, Select, Button, IconButton, Tooltip, useTheme, alpha, CircularProgress, Alert, Snackbar } from '@mui/material'
 import DeleteIcon from '@mui/icons-material/Delete'
+import KeyboardIcon from '@mui/icons-material/Keyboard'
+import KeyboardHideIcon from '@mui/icons-material/KeyboardHide'
 import SwapVertIcon from '@mui/icons-material/SwapVert'
+import Numpad from '../../components/Numpad/Numpad'
 import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange'
 import { Helmet } from 'react-helmet-async'
 import { fetchCurrencies, convertCurrency } from './currencyUtils'
@@ -22,6 +24,7 @@ export default function CurrencyCalc() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
   const [focusedInput, setFocusedInput] = useState(1) // 1: Miktar girişi
+  const [showNumpad, setShowNumpad] = useState(false)
 
   // LocalStorage Kayıt
   useEffect(() => {
@@ -111,18 +114,6 @@ export default function CurrencyCalc() {
     transition: 'transform 0.3s ease',
   }
 
-  const keyStyle = {
-    height: { xs: 64, sm: 80, md: 90 },
-    borderRadius: { xs: 2, md: 4 },
-    fontSize: '2rem',
-    fontWeight: 600,
-    color: theme.palette.text.primary,
-    bgcolor: theme.palette.mode === 'dark' ? alpha(theme.palette.background.paper, 0.8) : '#fff',
-    border: `1px solid ${alpha(theme.palette.divider, 0.1)}`,
-    boxShadow: theme.palette.mode === 'dark' ? '0 4px 0 0 rgba(0,0,0,0.5)' : '0 4px 0 0 #e0e0e0',
-    '&:hover': { bgcolor: alpha(theme.palette.primary.main, 0.1) }
-  }
-
   return (
     <Container maxWidth="lg" sx={{ py: { xs: 2, md: 4 } }}>
       <Helmet>
@@ -150,9 +141,13 @@ export default function CurrencyCalc() {
 
       <Grid container spacing={3} alignItems="stretch">
         {/* Sol Taraf: Girişler */}
-        <Grid item xs={12} md={7}>
-          <Card elevation={0} sx={{ ...cardStyle, display: 'flex', flexDirection: 'column', gap: 3, justifyContent: 'center' }}>
-            
+        <Grid size={{ xs: 12, md: showNumpad ? 7 : 12 }}>
+          <Card elevation={0} sx={{ ...cardStyle, position: 'relative', display: 'flex', flexDirection: 'column', gap: 3, justifyContent: 'center' }}>
+            <Tooltip title={showNumpad ? t('hideKeyboard') : t('showKeyboard')}>
+              <IconButton onClick={() => setShowNumpad((v) => !v)} size="small" sx={{ position: 'absolute', top: 8, right: 8, bgcolor: alpha(theme.palette.primary.main, 0.08), '&:hover': { bgcolor: alpha(theme.palette.primary.main, 0.15) } }}>
+                {showNumpad ? <KeyboardHideIcon fontSize="small" /> : <KeyboardIcon fontSize="small" />}
+              </IconButton>
+            </Tooltip>
             {/* Giriş Miktarı ve Birimi */}
             <Box sx={{ p: 2, borderRadius: 4, bgcolor: alpha(theme.palette.background.default, 0.5), border: `1px solid ${alpha(theme.palette.divider, 0.1)}` }}>
               <Typography variant="caption" color="text.secondary" sx={{ ml: 1 }}>{t('amountAndUnit')}</Typography>
@@ -198,23 +193,12 @@ export default function CurrencyCalc() {
           </Card>
         </Grid>
 
-        {/* Sağ Taraf: Numpad */}
-        <Grid item xs={12} md={5}>
-          <Card elevation={0} sx={{ ...cardStyle, bgcolor: theme.palette.mode === 'dark' ? alpha(theme.palette.background.paper, 0.4) : alpha('#fff', 0.6) }}>
-            <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 2, height: '100%' }}>
-              {['7', '8', '9', '4', '5', '6', '1', '2', '3', '.', '0', 'DEL'].map((key) => (
-                <Button
-                  key={key}
-                  variant="text"
-                  onClick={() => handleKeyPress(key)}
-                  sx={key === 'DEL' ? { ...keyStyle, color: 'error.main', bgcolor: alpha(theme.palette.error.main, 0.1) } : keyStyle}
-                >
-                  {key === 'DEL' ? <BackspaceIcon /> : key}
-                </Button>
-              ))}
-            </Box>
-          </Card>
-        </Grid>
+        {/* Sağ Taraf: Numpad (gizli varsayılan) */}
+        {showNumpad && (
+          <Grid size={{ xs: 12, md: 5 }}>
+            <Numpad layout="simple" onKeyPress={handleKeyPress} />
+          </Grid>
+        )}
       </Grid>
 
       <Snackbar open={!!error} autoHideDuration={6000} onClose={() => setError(null)}>

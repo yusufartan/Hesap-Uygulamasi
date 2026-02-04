@@ -17,6 +17,16 @@ export const translations = {
     temp: 'Sıcaklık Çevirici',
     time: 'Zaman Çevirici',
     volume: 'Hacim Çevirici',
+    calculator: 'Hesap Makinesi',
+    'all-tools': 'Tüm Araçlar',
+
+    // Kategori başlıkları (sidebar)
+    categoryGenel: 'Genel',
+    categoryFinance: 'Finans Araçları',
+    categoryHealth: 'Sağlık',
+    categoryTime: 'Zaman Araçları',
+    categoryUnitConverters: 'Birim Çeviriciler',
+    categoryMathData: 'Matematik & Veri',
 
     // Menü Açıklamaları (Dashboard Kartları İçin)
     ageDesc: 'Doğum tarihinize göre yaşınızı ve sonraki doğum gününüzü hesaplayın.',
@@ -34,6 +44,14 @@ export const translations = {
     tempDesc: 'Celsius, Fahrenheit ve Kelvin sıcaklık birimlerini dönüştürün.',
     timeDesc: 'Saniye, dakika, saat ve gün gibi zaman birimlerini hesaplayın.',
     volumeDesc: 'Litre, galon, metreküp gibi hacim ölçülerini birbirine çevirin.',
+    calculatorDesc: 'Basit dört işlem: toplama, çıkarma, çarpma ve bölme.',
+    calculatorShortDesc: 'Basit dört işlem (+, −, ×, ÷)',
+    calcError: 'Hata',
+    calculatorProMode: 'Pro Mod',
+    calculatorBasicMode: 'Basit Mod',
+    switchToPro: 'Pro moda geç',
+    switchToBasic: 'Basit moda geç',
+    clearEntry: 'CE',
 
     // Dashboard (Ana Sayfa)
     toolsAndCalculators: 'ARAÇLAR & HESAPLAYICILAR',
@@ -43,6 +61,8 @@ export const translations = {
     openTool: 'Aracı Aç',
 
     // Genel Butonlar ve İfadeler
+    showKeyboard: 'Klavye göster',
+    hideKeyboard: 'Klavye gizle',
     reset: 'Sıfırla',
     calculate: 'Hesapla',
     convert: 'Çevir',
@@ -152,6 +172,7 @@ export const translations = {
     currencyHeroDesc: 'Anlık piyasa verileriyle para birimlerini dönüştürün.',
 
     // Sidebar
+    menu: 'Menü',
     search: 'Ara...',
     calculatorTools: 'Hesaplayıcı',
     tools: 'Araçlar',
@@ -196,6 +217,16 @@ export const translations = {
     temp: 'Temp Converter',
     time: 'Time Converter',
     volume: 'Volume Converter',
+    calculator: 'Calculator',
+    'all-tools': 'All Tools',
+
+    // Category titles (sidebar)
+    categoryGenel: 'General',
+    categoryFinance: 'Finance Tools',
+    categoryHealth: 'Health',
+    categoryTime: 'Time Tools',
+    categoryUnitConverters: 'Unit Converters',
+    categoryMathData: 'Math & Data',
 
     // Menu Descriptions
     ageDesc: 'Calculate your age and next birthday based on your birth date.',
@@ -213,6 +244,14 @@ export const translations = {
     tempDesc: 'Convert between Celsius, Fahrenheit, and Kelvin temperature units.',
     timeDesc: 'Calculate time units like seconds, minutes, hours, and days.',
     volumeDesc: 'Convert volume measures like liters, gallons, and cubic meters.',
+    calculatorDesc: 'Basic arithmetic: addition, subtraction, multiplication, and division.',
+    calculatorShortDesc: 'Basic operations (+, −, ×, ÷)',
+    calcError: 'Error',
+    calculatorProMode: 'Pro Mode',
+    calculatorBasicMode: 'Basic Mode',
+    switchToPro: 'Switch to Pro',
+    switchToBasic: 'Switch to Basic',
+    clearEntry: 'CE',
 
     // Dashboard
     toolsAndCalculators: 'TOOLS & CALCULATORS',
@@ -222,6 +261,8 @@ export const translations = {
     openTool: 'Open Tool',
 
     // General Buttons & Terms
+    showKeyboard: 'Show keyboard',
+    hideKeyboard: 'Hide keyboard',
     reset: 'Reset',
     calculate: 'Calculate',
     convert: 'Convert',
@@ -331,6 +372,7 @@ export const translations = {
     currencyHeroDesc: 'Convert currencies with real-time market data.',
 
     // Sidebar
+    menu: 'Menu',
     search: 'Search...',
     calculatorTools: 'Calculator',
     tools: 'Tools',

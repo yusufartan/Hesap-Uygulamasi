@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import { Box, Container, Grid, TextField, Typography, Card, Button, useTheme, alpha, InputAdornment } from '@mui/material'
-import BackspaceIcon from '@mui/icons-material/Backspace'
+import { Box, Container, Grid, TextField, Typography, Card, Button, IconButton, Tooltip, useTheme, alpha, InputAdornment } from '@mui/material'
 import DeleteIcon from '@mui/icons-material/Delete'
+import KeyboardIcon from '@mui/icons-material/Keyboard'
+import KeyboardHideIcon from '@mui/icons-material/KeyboardHide'
 import LocalOfferIcon from '@mui/icons-material/LocalOffer'
+import Numpad from '../../components/Numpad/Numpad'
 import { Helmet } from 'react-helmet-async'
 import { calculateDiscountResults } from './discountUtils'
 import { useTranslation } from '../../hooks/useTranslation'
@@ -16,6 +18,7 @@ export default function DiscountCalc() {
   const [rate, setRate] = useState(() => localStorage.getItem('discount_rate') || '')
   const [activeField, setActiveField] = useState('price') // 'price' | 'rate'
   const [result, setResult] = useState({ finalPrice: '0', savedAmount: '0' })
+  const [showNumpad, setShowNumpad] = useState(false)
 
   // Hesaplama Effect'i
   useEffect(() => {
@@ -96,27 +99,6 @@ export default function DiscountCalc() {
     height: '100%',
   }
 
-  const keyStyle = {
-    height: { xs: 64, sm: 80, md: 90 },
-    borderRadius: { xs: 2, md: 4 },
-    fontSize: '2rem',
-    fontWeight: 600,
-    color: theme.palette.text.primary,
-    bgcolor: theme.palette.mode === 'dark' ? alpha(theme.palette.background.paper, 0.8) : '#fff',
-    border: `1px solid ${alpha(theme.palette.divider, 0.1)}`,
-    boxShadow: theme.palette.mode === 'dark' ? '0 4px 0 0 rgba(0,0,0,0.5)' : '0 4px 0 0 #e0e0e0',
-    transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
-    '&:hover': {
-      bgcolor: alpha(theme.palette.primary.main, 0.1),
-      color: theme.palette.primary.main,
-      transform: 'translateY(-4px)',
-      boxShadow: `0 12px 20px ${alpha(theme.palette.primary.main, 0.2)}`
-    },
-    '&:active': {
-      transform: 'translateY(0)'
-    }
-  }
-
   return (
     <Container maxWidth="lg" sx={{ py: { xs: 2, md: 4 } }}>
       <Helmet>
@@ -160,9 +142,17 @@ export default function DiscountCalc() {
 
       <Grid container spacing={3} alignItems="stretch">
         {/* Sol Taraf: Girişler ve Sonuç */}
-        <Grid size={{ xs: 12, md: 6 }}>
-          <Card elevation={0} sx={{ ...cardStyle, display: 'flex', flexDirection: 'column', gap: 4, justifyContent: 'center' }}>
-            
+        <Grid size={{ xs: 12, md: showNumpad ? 6 : 12 }}>
+          <Card elevation={0} sx={{ ...cardStyle, position: 'relative', display: 'flex', flexDirection: 'column', gap: 4, justifyContent: 'center' }}>
+            <Tooltip title={showNumpad ? t('hideKeyboard') : t('showKeyboard')}>
+              <IconButton
+                onClick={() => setShowNumpad((v) => !v)}
+                size="small"
+                sx={{ position: 'absolute', top: 8, right: 8, bgcolor: alpha(theme.palette.primary.main, 0.08), '&:hover': { bgcolor: alpha(theme.palette.primary.main, 0.15) } }}
+              >
+                {showNumpad ? <KeyboardHideIcon fontSize="small" /> : <KeyboardIcon fontSize="small" />}
+              </IconButton>
+            </Tooltip>
             {/* Orijinal Fiyat */}
             <Box onClick={() => setActiveField('price')} sx={{ cursor: 'pointer' }}>
               <Typography variant="caption" sx={{ color: activeField === 'price' ? orangeColor : 'text.secondary', fontWeight: 'bold', ml: 1 }}>
@@ -241,32 +231,12 @@ export default function DiscountCalc() {
           </Card>
         </Grid>
 
-        {/* Sağ Taraf: Özel Numpad */}
-        <Grid size={{ xs: 12, md: 6 }}>
-          <Card elevation={0} sx={{ ...cardStyle, display: 'flex', flexDirection: 'column', height: '100%', justifyContent: 'center', bgcolor: theme.palette.mode === 'dark' ? alpha(theme.palette.background.paper, 0.4) : alpha('#fff', 0.6) }}>
-            <Box sx={{
-              width: '100%',
-              maxWidth: 420,
-              mx: 'auto',
-              display: 'grid',
-              gridTemplateColumns: 'repeat(3, 1fr)',
-              gap: 3
-            }}>
-              {['7', '8', '9', '4', '5', '6', '1', '2', '3', '.', '0', 'DEL'].map((key) => (
-                <Button
-                  key={key}
-                  fullWidth
-                  disableElevation
-                  variant="text"
-                  onClick={() => handleKeyPress(key)}
-                  sx={key === 'DEL' ? { ...keyStyle, color: 'error.main', bgcolor: alpha(theme.palette.error.main, 0.1), boxShadow: 'none', border: `1px solid ${alpha(theme.palette.error.main, 0.3)}` } : keyStyle}
-                >
-                  {key === 'DEL' ? <BackspaceIcon /> : key}
-                </Button>
-              ))}
-            </Box>
-          </Card>
-        </Grid>
+        {/* Sağ Taraf: Numpad (gizli varsayılan) */}
+        {showNumpad && (
+          <Grid size={{ xs: 12, md: 6 }}>
+            <Numpad layout="simple" onKeyPress={handleKeyPress} />
+          </Grid>
+        )}
       </Grid>
     </Container>
   )

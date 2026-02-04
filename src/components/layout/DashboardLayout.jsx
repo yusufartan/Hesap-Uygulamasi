@@ -1,20 +1,33 @@
 // Dashboard Layout
 import React from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
-import Sidebar, { DrawerHeader } from './Sidebar'
+import { useDispatch } from 'react-redux'
+import { useTheme } from '@mui/material/styles'
+import Sidebar, { DrawerHeader, mobileNavbarHeight } from './Sidebar'
 import Footer from '../Footer'
 import ErrorBoundary from '../ErrorBoundary'
 import LanguageSwitcher from '../LanguageSwitcher'
 import CustomBreadcrumbs from '../CustomBreadcrumbs'
+import SEOUpdater from '../SEOUpdater'
+import { toggleTheme } from '../../features/theme/themeSlice'
+import { useTranslation } from '../../hooks/useTranslation'
 import Fab from '@mui/material/Fab'
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'
-import Zoom from '@mui/material/Zoom'
-
 import Box from '@mui/material/Box'
+import IconButton from '@mui/material/IconButton'
+import Switch from '@mui/material/Switch'
+import Tooltip from '@mui/material/Tooltip'
+import Typography from '@mui/material/Typography'
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'
+import DarkModeIcon from '@mui/icons-material/DarkMode'
+import LightModeIcon from '@mui/icons-material/LightMode'
+import Zoom from '@mui/material/Zoom'
 import CircularProgress from '@mui/material/CircularProgress'
 
 export default function DashboardLayout() {
   const location = useLocation()
+  const theme = useTheme()
+  const dispatch = useDispatch()
+  const { t } = useTranslation()
   const [showScrollTop, setShowScrollTop] = React.useState(false)
   const mainRef = React.useRef(null)
   
@@ -42,28 +55,51 @@ export default function DashboardLayout() {
   }
 
   return (
-    <Box sx={{ display: 'flex', height: '100vh' }}>
+    <Box sx={{ display: 'block', height: '100vh', position: 'relative' }}>
+      <SEOUpdater />
       <Sidebar open={open} toggleDrawer={toggleDrawer} />
-      <Box 
-        component="main" 
+      <Box
+        component="main"
         ref={mainRef}
         onScroll={handleScroll}
-        onClick={() => { if (open) setOpen(false) }} 
-        sx={{ flexGrow: 1, height: '100vh', overflow: 'auto', display: 'flex', flexDirection: 'column', ml: (theme) => ({ xs: `calc(${theme.spacing(9)} + 1px)`, sm: `calc(${theme.spacing(11)} + 1px)` }) }}
+        onClick={() => open && toggleDrawer()}
+        sx={{
+          position: 'relative',
+          width: '100%',
+          height: '100vh',
+          overflow: 'auto',
+          display: 'flex',
+          flexDirection: 'column',
+          zIndex: 0,
+          pt: { xs: `${mobileNavbarHeight}px`, md: 0 },
+        }}
       >
         <DrawerHeader />
-        
-        {/* SAĞ ÜST DİL DEĞİŞTİRİCİ */}
-        <Box sx={{ position: 'absolute', top: 16, right: 24, zIndex: 1200 }}>
+
+        {/* SAĞ ÜST: Tema toggle (sol) + Dil değiştirici (sağ) */}
+        <Box sx={{ position: 'absolute', top: { xs: 8, sm: 16 }, right: { xs: 12, sm: 24 }, zIndex: 1200, display: 'flex', alignItems: 'center', gap: 1 }}>
+          <Tooltip title={theme.palette.mode === 'dark' ? t('lightMode') : t('darkMode')}>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+              {theme.palette.mode === 'dark' ? <DarkModeIcon fontSize="small" /> : <LightModeIcon fontSize="small" />}
+              <Switch
+                checked={theme.palette.mode === 'dark'}
+                onChange={() => dispatch(toggleTheme())}
+                size="small"
+                color="primary"
+              />
+            </Box>
+          </Tooltip>
           <LanguageSwitcher />
         </Box>
 
-        <Box sx={{ flexGrow: 1, p: 3 }}>
-          <CustomBreadcrumbs />
-          {/* Hata Kalkanı: Sadece içerik alanı çökerse burası devreye girer, Menü sabit kalır */}
-          <ErrorBoundary>
-            <React.Suspense fallback={<Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}><CircularProgress /></Box>}><Outlet /></React.Suspense>
-          </ErrorBoundary>
+        <Box sx={{ flexGrow: 1, p: { xs: 2, sm: 3 }, display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
+          <Box sx={{ width: '100%', maxWidth: '1200px', mx: 'auto' }}>
+            <CustomBreadcrumbs />
+            {/* Hata Kalkanı: Sadece içerik alanı çökerse burası devreye girer */}
+            <ErrorBoundary>
+              <React.Suspense fallback={<Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}><CircularProgress /></Box>}><Outlet key={location.pathname} /></React.Suspense>
+            </ErrorBoundary>
+          </Box>
         </Box>
         <Footer />
         

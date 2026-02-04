@@ -5,8 +5,8 @@ export const useTranslation = () => {
   const language = useSelector((state) => state.language.currentLanguage)
 
   const t = (key) => {
-    // Seçili dildeki karşılığı bul, yoksa key'in kendisini döndür
-    return translations[language][key] || key
+    const lang = translations[language] || translations.tr || {}
+    return lang[key] ?? key
   }
 
   return { t, language }

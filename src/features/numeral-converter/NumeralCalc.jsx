@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import { Box, Container, Grid, TextField, Typography, Card, MenuItem, Select, Button, IconButton, useTheme, alpha } from '@mui/material'
-import BackspaceIcon from '@mui/icons-material/Backspace'
+import { Box, Container, Grid, TextField, Typography, Card, MenuItem, Select, Button, IconButton, Tooltip, useTheme, alpha } from '@mui/material'
 import DeleteIcon from '@mui/icons-material/Delete'
+import KeyboardIcon from '@mui/icons-material/Keyboard'
+import KeyboardHideIcon from '@mui/icons-material/KeyboardHide'
 import SwapVertIcon from '@mui/icons-material/SwapVert'
+import Numpad from '../../components/Numpad/Numpad'
 import { Helmet } from 'react-helmet-async'
 import { unitOptions, convertNumeral, isValidInput } from './numeralUtils'
 import { useTranslation } from '../../hooks/useTranslation'
@@ -23,6 +25,7 @@ export default function NumeralCalc() {
     return unitOptions.find(u => u.shortName === saved) || unitOptions[0] // Default: Binary
   })
   const [focusedInput, setFocusedInput] = useState(1)
+  const [showNumpad, setShowNumpad] = useState(false)
 
   // Hesaplama Fonksiyonu
   const calculate = (val, u1, u2, setTarget) => {
@@ -132,24 +135,6 @@ export default function NumeralCalc() {
     justifyContent: 'center'
   }
 
-  const btnStyle = {
-    height: { xs: 40, sm: 50, md: 60 }, // Hex tuşları için biraz daha küçük, responsive font size
-    borderRadius: 2,
-    fontSize: { xs: '1rem', md: '1.2rem' },
-    fontWeight: 'bold',
-    color: theme.palette.text.primary,
-    bgcolor: theme.palette.mode === 'dark' ? '#333' : '#e0e0e0',
-    '&:hover': { bgcolor: theme.palette.mode === 'dark' ? '#444' : '#d5d5d5' },
-    '&.Mui-disabled': { opacity: 0.3 }
-  }
-
-  const operatorBtnStyle = {
-    ...btnStyle,
-    bgcolor: theme.palette.mode === 'dark' ? '#424242' : alpha(accentColor, 0.1),
-    color: accentColor,
-    '&:hover': { bgcolor: theme.palette.mode === 'dark' ? '#525252' : alpha(accentColor, 0.2) }
-  }
-
   // Aktif tabana göre tuşun devre dışı olup olmadığını belirle
   const isKeyDisabled = (key) => {
       const activeBase = focusedInput === 1 ? unit1.base : unit2.base
@@ -206,8 +191,13 @@ export default function NumeralCalc() {
 
       <Grid container spacing={3} alignItems="stretch">
         {/* Sol Taraf: Girişler */}
-        <Grid size={{ xs: 12, md: 6 }}>
-          <Card elevation={0} sx={{ ...cardStyle, gap: 3 }}>
+        <Grid size={{ xs: 12, md: showNumpad ? 6 : 12 }}>
+          <Card elevation={0} sx={{ ...cardStyle, position: 'relative', gap: 3 }}>
+            <Tooltip title={showNumpad ? t('hideKeyboard') : t('showKeyboard')}>
+              <IconButton onClick={() => setShowNumpad((v) => !v)} size="small" sx={{ position: 'absolute', top: 8, right: 8, bgcolor: alpha(theme.palette.primary.main, 0.08), '&:hover': { bgcolor: alpha(theme.palette.primary.main, 0.15) } }}>
+                {showNumpad ? <KeyboardHideIcon fontSize="small" /> : <KeyboardIcon fontSize="small" />}
+              </IconButton>
+            </Tooltip>
             
             {/* 1. Alan */}
             <Box sx={{ p: 2, borderRadius: 4, bgcolor: alpha(theme.palette.background.default, 0.5), border: `1px solid ${alpha(theme.palette.divider, 0.1)}` }}>
@@ -307,50 +297,12 @@ export default function NumeralCalc() {
           </Card>
         </Grid>
 
-        {/* Sağ Taraf: Hex Numpad */}
-        <Grid size={{ xs: 12, md: 6 }}>
-          <Card elevation={0} sx={{ ...cardStyle, bgcolor: theme.palette.mode === 'dark' ? alpha(theme.palette.background.paper, 0.4) : alpha('#fff', 0.6) }}>
-            <Box sx={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(4, 1fr)',
-              gap: 1.5,
-              height: '100%',
-              p: 1
-            }}>
-              {/* Hex Harfler */}
-              {['A', 'B', 'C', 'D', 'E', 'F'].map((key) => (
-                  <Button 
-                    key={key} 
-                    onClick={() => handleKeyPress(key)} 
-                    disabled={isKeyDisabled(key)}
-                    sx={btnStyle}
-                  >
-                    {key}
-                  </Button>
-              ))}
-              
-              {/* Boşlukları doldurmak için */}
-              <Box sx={{ gridColumn: 'span 2' }} /> 
-
-              {/* Rakamlar */}
-              {['7', '8', '9', 'C'].map((key) => (
-                 key === 'C' ? 
-                 <Button key={key} onClick={() => handleKeyPress('C')} sx={{ ...operatorBtnStyle, color: accentColor }}>C</Button> :
-                 <Button key={key} onClick={() => handleKeyPress(key)} disabled={isKeyDisabled(key)} sx={btnStyle}>{key}</Button>
-              ))}
-
-              {['4', '5', '6', 'DEL'].map((key) => (
-                 key === 'DEL' ? 
-                 <Button key={key} onClick={() => handleKeyPress('DEL')} sx={{ ...operatorBtnStyle, color: accentColor }}><BackspaceIcon /></Button> :
-                 <Button key={key} onClick={() => handleKeyPress(key)} disabled={isKeyDisabled(key)} sx={btnStyle}>{key}</Button>
-              ))}
-
-              {['1', '2', '3', '0'].map((key) => (
-                 <Button key={key} onClick={() => handleKeyPress(key)} disabled={isKeyDisabled(key)} sx={btnStyle}>{key}</Button>
-              ))}
-            </Box>
-          </Card>
-        </Grid>
+        {/* Sağ Taraf: Hex Numpad (gizli varsayılan) */}
+        {showNumpad && (
+          <Grid size={{ xs: 12, md: 6 }}>
+            <Numpad layout="hex" onKeyPress={handleKeyPress} isKeyDisabled={isKeyDisabled} />
+          </Grid>
+        )}
       </Grid>
     </Container>
   )

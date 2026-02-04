@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react'
-import { Box, Container, Grid, TextField, Typography, Card, MenuItem, Select, Button, IconButton, useTheme, alpha } from '@mui/material'
-import BackspaceIcon from '@mui/icons-material/Backspace'
+import { Box, Container, Grid, TextField, Typography, Card, MenuItem, Select, Button, IconButton, Tooltip, useTheme, alpha } from '@mui/material'
 import DeleteIcon from '@mui/icons-material/Delete'
+import KeyboardIcon from '@mui/icons-material/Keyboard'
+import KeyboardHideIcon from '@mui/icons-material/KeyboardHide'
 import SwapVertIcon from '@mui/icons-material/SwapVert'
+import Numpad from '../../components/Numpad/Numpad'
 import { Helmet } from 'react-helmet-async'
 import { unitOptions, convertData } from './dataUtils'
-import DragHandleIcon from '@mui/icons-material/DragHandle' // For double line icon
 import { useTranslation } from '../../hooks/useTranslation'
 
 export default function DataCalc() {
@@ -26,6 +27,7 @@ export default function DataCalc() {
   })
 
   const [focusedInput, setFocusedInput] = useState(1)
+  const [showNumpad, setShowNumpad] = useState(false)
 
   // Değerleri kaydet
   useEffect(() => {
@@ -108,37 +110,6 @@ export default function DataCalc() {
     transition: 'transform 0.3s ease',
   }
 
-  const keyStyle = {
-    height: { xs: 64, sm: 80, md: 90 },
-    borderRadius: { xs: 2, md: 4 },
-    fontSize: '2rem',
-    fontWeight: 600,
-    color: theme.palette.text.primary,
-    bgcolor: theme.palette.mode === 'dark' ? alpha(theme.palette.background.paper, 0.8) : '#fff',
-    border: `1px solid ${alpha(theme.palette.divider, 0.1)}`,
-    boxShadow: theme.palette.mode === 'dark' ? '0 4px 0 0 rgba(0,0,0,0.5)' : '0 4px 0 0 #e0e0e0',
-    transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
-    '&:hover': {
-      bgcolor: alpha(theme.palette.primary.main, 0.1),
-      transform: 'translateY(-4px)',
-      boxShadow: `0 12px 20px ${alpha(theme.palette.primary.main, 0.2)}`
-    },
-    '&:active': {
-      transform: 'translateY(0)'
-    }
-  }
-
-  const equalsBtnStyle = {
-    ...keyStyle,
-    bgcolor: '#FF8C00',
-    color: '#fff',
-    '&:hover': {
-      bgcolor: '#e67e00',
-      transform: 'translateY(-4px)',
-      boxShadow: `0 12px 20px ${alpha('#FF8C00', 0.4)}`
-    }
-  }
-
   return (
     <Container maxWidth="lg" sx={{ py: { xs: 2, md: 4 } }}>
       <Helmet>
@@ -181,8 +152,13 @@ export default function DataCalc() {
       </Box>
 
       <Grid container spacing={3} alignItems="stretch">
-        <Grid size={{ xs: 12, md: 7 }}>
-          <Card elevation={0} sx={{ ...cardStyle, display: 'flex', flexDirection: 'column', gap: 4, justifyContent: 'center' }}>
+        <Grid size={{ xs: 12, md: showNumpad ? 7 : 12 }}>
+          <Card elevation={0} sx={{ ...cardStyle, position: 'relative', display: 'flex', flexDirection: 'column', gap: 4, justifyContent: 'center' }}>
+            <Tooltip title={showNumpad ? t('hideKeyboard') : t('showKeyboard')}>
+              <IconButton onClick={() => setShowNumpad((v) => !v)} size="small" sx={{ position: 'absolute', top: 8, right: 8, bgcolor: alpha(theme.palette.primary.main, 0.08), '&:hover': { bgcolor: alpha(theme.palette.primary.main, 0.15) } }}>
+                {showNumpad ? <KeyboardHideIcon fontSize="small" /> : <KeyboardIcon fontSize="small" />}
+              </IconButton>
+            </Tooltip>
             
             {/* Input 1 */}
             <Box sx={{ p: 2, borderRadius: 4, bgcolor: alpha(theme.palette.background.default, 0.5), border: `1px solid ${alpha(theme.palette.divider, 0.1)}`, display: 'flex', alignItems: 'center', gap: 2 }}>
@@ -264,44 +240,11 @@ export default function DataCalc() {
           </Card>
         </Grid>
 
-        <Grid size={{ xs: 12, md: 5 }}>
-          <Card elevation={0} sx={{ ...cardStyle, display: 'flex', flexDirection: 'column', height: '100%', justifyContent: 'center', bgcolor: theme.palette.mode === 'dark' ? alpha(theme.palette.background.paper, 0.4) : alpha('#fff', 0.6) }}>
-            <Box sx={{
-              width: '100%',
-              maxWidth: 420,
-              mx: 'auto',
-              display: 'grid',
-              gridTemplateColumns: 'repeat(4, 1fr)',
-              gap: 2
-            }}>
-              {/* Row 1 */}
-              <Button onClick={() => handleKeyPress('AC')} sx={{ ...keyStyle, color: '#FF8C00' }}>C</Button>
-              <Button onClick={() => handleKeyPress('DEL')} sx={{ ...keyStyle, color: '#FF8C00' }}><BackspaceIcon /></Button>
-              <Button onClick={() => handleKeyPress('%')} sx={keyStyle}>%</Button>
-              <Button onClick={() => handleKeyPress('/')} sx={keyStyle}>÷</Button>
-              {/* Row 2 */}
-              <Button onClick={() => handleKeyPress('7')} sx={keyStyle}>7</Button>
-              <Button onClick={() => handleKeyPress('8')} sx={keyStyle}>8</Button>
-              <Button onClick={() => handleKeyPress('9')} sx={keyStyle}>9</Button>
-              <Button onClick={() => handleKeyPress('*')} sx={keyStyle}>×</Button>
-              {/* Row 3 */}
-              <Button onClick={() => handleKeyPress('4')} sx={keyStyle}>4</Button>
-              <Button onClick={() => handleKeyPress('5')} sx={keyStyle}>5</Button>
-              <Button onClick={() => handleKeyPress('6')} sx={keyStyle}>6</Button>
-              <Button onClick={() => handleKeyPress('-')} sx={keyStyle}>-</Button>
-              {/* Row 4 */}
-              <Button onClick={() => handleKeyPress('1')} sx={keyStyle}>1</Button>
-              <Button onClick={() => handleKeyPress('2')} sx={keyStyle}>2</Button>
-              <Button onClick={() => handleKeyPress('3')} sx={keyStyle}>3</Button>
-              <Button onClick={() => handleKeyPress('+')} sx={keyStyle}>+</Button>
-              {/* Row 5 */}
-              <Button onClick={() => handleKeyPress('00')} sx={keyStyle}>00</Button>
-              <Button onClick={() => handleKeyPress('0')} sx={keyStyle}>0</Button>
-              <Button onClick={() => handleKeyPress('.')} sx={keyStyle}>.</Button>
-              <Button onClick={() => handleKeyPress('=')} sx={equalsBtnStyle}><DragHandleIcon /></Button>
-            </Box>
-          </Card>
-        </Grid>
+        {showNumpad && (
+          <Grid size={{ xs: 12, md: 5 }}>
+            <Numpad layout="calculator" onKeyPress={(key) => handleKeyPress(key === 'C' ? 'AC' : key)} />
+          </Grid>
+        )}
       </Grid>
     </Container>
   )

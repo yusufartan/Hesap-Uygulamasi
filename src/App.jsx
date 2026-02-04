@@ -2,6 +2,7 @@ import * as React from 'react'
 import { ThemeProvider } from '@mui/material/styles'
 import { useSelector, useDispatch } from 'react-redux'
 import CssBaseline from '@mui/material/CssBaseline'
+import { Box } from '@mui/material'
 import { Helmet } from 'react-helmet-async'
 
 // Config & Utils
@@ -41,12 +42,14 @@ export default function App() {
         <meta httpEquiv="X-XSS-Protection" content="1; mode=block" />
         {/* Sadece kendi domaininden ve güvenli kaynaklardan script çalıştır */}
         {/* Not: Google Analytics veya Adsense eklersen burayı güncellemen gerekir */}
-        <meta httpEquiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' https://fonts.googleapis.com https://fonts.gstatic.com https://www.googletagmanager.com; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://formspree.io https://api.frankfurter.app https://www.google-analytics.com https://*.ingest.sentry.io; img-src 'self' data: https: https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;" />
+        <meta httpEquiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' https://fonts.googleapis.com https://fonts.gstatic.com https://www.googletagmanager.com; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://formspree.io https://api.frankfurter.app https://www.google-analytics.com https://*.ingest.sentry.io https://*.ingest.de.sentry.io; img-src 'self' data: https: https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;" />
       </Helmet>
       <CssBaseline />
       <ErrorBoundary>
-        <AppRoutes />
-        <CookieConsent />
+        <Box sx={{ display: 'block', minHeight: '100vh', width: '100%' }}>
+          <AppRoutes />
+          <CookieConsent />
+        </Box>
       </ErrorBoundary>
     </ThemeProvider>
   )

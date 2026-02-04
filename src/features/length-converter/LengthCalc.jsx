@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import { Box, Container, Grid, TextField, Typography, Card, MenuItem, Select, Button, IconButton, useTheme, alpha } from '@mui/material'
-import BackspaceIcon from '@mui/icons-material/Backspace'
+import { Box, Container, Grid, TextField, Typography, Card, MenuItem, Select, Button, IconButton, Tooltip, useTheme, alpha } from '@mui/material'
 import DeleteIcon from '@mui/icons-material/Delete'
-import DragHandleIcon from '@mui/icons-material/DragHandle'
+import KeyboardIcon from '@mui/icons-material/Keyboard'
+import KeyboardHideIcon from '@mui/icons-material/KeyboardHide'
 import SwapVertIcon from '@mui/icons-material/SwapVert'
+import Numpad from '../../components/Numpad/Numpad'
 import { Helmet } from 'react-helmet-async'
 import { unitOptions, convertLength, safeEvaluate } from './lengthUtils'
 import { useTranslation } from '../../hooks/useTranslation'
@@ -24,6 +25,7 @@ export default function LengthCalc() {
     return unitOptions.find(u => u.shortName === saved) || unitOptions[3] // Default: Santimetre
   })
   const [focusedInput, setFocusedInput] = useState(1)
+  const [showNumpad, setShowNumpad] = useState(false)
 
   // Hesaplama Fonksiyonu
   const calculate = (val, u1, u2, setTarget) => {
@@ -145,45 +147,17 @@ export default function LengthCalc() {
     calculate(newVal, u1, u2, otherSetVal)
   }
 
-  // Stiller
-  const accentColor = '#ff9800'
-  const darkBg = '#1e1e1e' // Koyu arka plan
-  const cardBg = '#252525' // Kart rengi
-
+  const accentColor = theme.palette.primary.main
   const cardStyle = {
     p: { xs: 2, md: 3 },
     borderRadius: 4,
-    bgcolor: theme.palette.mode === 'dark' ? cardBg : '#fff',
+    bgcolor: theme.palette.mode === 'dark' ? '#252525' : '#fff',
     color: theme.palette.mode === 'dark' ? '#fff' : 'text.primary',
     boxShadow: theme.shadows[4],
     height: '100%',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center'
-  }
-
-  const btnStyle = {
-    height: { xs: 50, sm: 60, md: 70 }, // responsive font size
-    borderRadius: 3,
-    fontSize: { xs: '1.2rem', md: '1.5rem' },
-    fontWeight: 'bold',
-    color: theme.palette.text.primary,
-    bgcolor: theme.palette.mode === 'dark' ? '#333' : '#e0e0e0',
-    '&:hover': { bgcolor: theme.palette.mode === 'dark' ? '#444' : '#d5d5d5' }
-  }
-
-  const operatorBtnStyle = {
-    ...btnStyle,
-    bgcolor: theme.palette.mode === 'dark' ? '#424242' : alpha(accentColor, 0.1),
-    color: accentColor,
-    '&:hover': { bgcolor: theme.palette.mode === 'dark' ? '#525252' : alpha(accentColor, 0.2) }
-  }
-
-  const equalBtnStyle = {
-    ...btnStyle,
-    bgcolor: accentColor,
-    color: '#fff', // White icon
-    '&:hover': { bgcolor: alpha(accentColor, 0.8) }
   }
 
   return (
@@ -228,9 +202,13 @@ export default function LengthCalc() {
 
       <Grid container spacing={3} alignItems="stretch">
         {/* Sol Taraf: Girişler */}
-        <Grid size={{ xs: 12, md: 7 }}>
-          <Card elevation={0} sx={{ ...cardStyle, gap: 3 }}>
-            
+        <Grid size={{ xs: 12, md: showNumpad ? 7 : 12 }}>
+          <Card elevation={0} sx={{ ...cardStyle, position: 'relative', gap: 3 }}>
+            <Tooltip title={showNumpad ? t('hideKeyboard') : t('showKeyboard')}>
+              <IconButton onClick={() => setShowNumpad((v) => !v)} size="small" sx={{ position: 'absolute', top: 8, right: 8, bgcolor: alpha(theme.palette.primary.main, 0.08), '&:hover': { bgcolor: alpha(theme.palette.primary.main, 0.15) } }}>
+                {showNumpad ? <KeyboardHideIcon fontSize="small" /> : <KeyboardIcon fontSize="small" />}
+              </IconButton>
+            </Tooltip>
             {/* 1. Alan */}
             <Box sx={{ p: 2, borderRadius: 4, bgcolor: alpha(theme.palette.background.default, 0.5), border: `1px solid ${alpha(theme.palette.divider, 0.1)}` }}>
               <Typography variant="caption" color="text.secondary" sx={{ ml: 1, mb: 1, display: 'block' }}>{t('inputUnit')}</Typography>
@@ -243,7 +221,7 @@ export default function LengthCalc() {
                 disableUnderline
                 renderValue={(selected) => {
                   const unit = unitOptions.find(u => u.shortName === selected)
-                  return <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, fontWeight: 'bold', color: accentColor }}>{unit?.shortName}</Box>
+                  return <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, fontWeight: 'bold', color: 'primary.main' }}>{unit?.shortName}</Box>
                 }}
                 sx={{ mb: 1, '& .MuiSelect-select': { py: 0.5 } }}
               >
@@ -329,48 +307,12 @@ export default function LengthCalc() {
           </Card>
         </Grid>
 
-        {/* Sağ Taraf: 4x5 Numpad */}
-        <Grid size={{ xs: 12, md: 5 }}>
-          <Card elevation={0} sx={{ ...cardStyle, bgcolor: theme.palette.mode === 'dark' ? alpha(theme.palette.background.paper, 0.4) : alpha('#fff', 0.6) }}>
-            <Box sx={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(4, 1fr)',
-              gap: 2,
-              height: '100%',
-              p: 1
-            }}>
-              {/* Satır 1 */}
-              <Button onClick={() => handleKeyPress('C')} sx={{ ...operatorBtnStyle, color: accentColor }}>C</Button>
-              <Button onClick={() => handleKeyPress('DEL')} sx={{ ...operatorBtnStyle, color: accentColor }}><BackspaceIcon /></Button>
-              <Button onClick={() => handleKeyPress('%')} sx={operatorBtnStyle}>%</Button>
-              <Button onClick={() => handleKeyPress('/')} sx={operatorBtnStyle}>÷</Button>
-
-              {/* Satır 2 */}
-              <Button onClick={() => handleKeyPress('7')} sx={btnStyle}>7</Button>
-              <Button onClick={() => handleKeyPress('8')} sx={btnStyle}>8</Button>
-              <Button onClick={() => handleKeyPress('9')} sx={btnStyle}>9</Button>
-              <Button onClick={() => handleKeyPress('*')} sx={operatorBtnStyle}>×</Button>
-
-              {/* Satır 3 */}
-              <Button onClick={() => handleKeyPress('4')} sx={btnStyle}>4</Button>
-              <Button onClick={() => handleKeyPress('5')} sx={btnStyle}>5</Button>
-              <Button onClick={() => handleKeyPress('6')} sx={btnStyle}>6</Button>
-              <Button onClick={() => handleKeyPress('-')} sx={operatorBtnStyle}>-</Button>
-
-              {/* Satır 4 */}
-              <Button onClick={() => handleKeyPress('1')} sx={btnStyle}>1</Button>
-              <Button onClick={() => handleKeyPress('2')} sx={btnStyle}>2</Button>
-              <Button onClick={() => handleKeyPress('3')} sx={btnStyle}>3</Button>
-              <Button onClick={() => handleKeyPress('+')} sx={operatorBtnStyle}>+</Button>
-
-              {/* Satır 5 */}
-              <Button onClick={() => handleKeyPress('00')} sx={btnStyle}>00</Button>
-              <Button onClick={() => handleKeyPress('0')} sx={btnStyle}>0</Button>
-              <Button onClick={() => handleKeyPress('.')} sx={btnStyle}>.</Button>
-              <Button onClick={() => handleKeyPress('=')} sx={equalBtnStyle}><DragHandleIcon /></Button>
-            </Box>
-          </Card>
-        </Grid>
+        {/* Sağ Taraf: Numpad (gizli varsayılan) */}
+        {showNumpad && (
+          <Grid size={{ xs: 12, md: 5 }}>
+            <Numpad layout="calculator" onKeyPress={handleKeyPress} />
+          </Grid>
+        )}
       </Grid>
     </Container>
   )

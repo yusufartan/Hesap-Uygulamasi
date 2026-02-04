@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react'
-import { Box, Container, Grid, TextField, Typography, Card, Button, useTheme, alpha, InputAdornment, ToggleButton, ToggleButtonGroup, Dialog, DialogContent, List, ListItem, ListItemButton, ListItemText } from '@mui/material'
+import { Box, Container, Grid, TextField, Typography, Card, Button, IconButton, Tooltip, useTheme, alpha, InputAdornment, ToggleButton, ToggleButtonGroup, Dialog, DialogContent, List, ListItem, ListItemButton, ListItemText } from '@mui/material'
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney' // Para birimi ikonu
 import PercentIcon from '@mui/icons-material/Percent'
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth'
 import CalculateIcon from '@mui/icons-material/Calculate'
 import DeleteIcon from '@mui/icons-material/Delete'
-import BackspaceIcon from '@mui/icons-material/Backspace'
+import KeyboardIcon from '@mui/icons-material/Keyboard'
+import KeyboardHideIcon from '@mui/icons-material/KeyboardHide'
+import Numpad from '../../components/Numpad/Numpad'
 import { Helmet } from 'react-helmet-async'
 import { calculateLoan, calculateInvestment } from './financeUtils.js'
 import { useTranslation } from '../../hooks/useTranslation'
@@ -39,6 +41,7 @@ export default function FinanceCalc() {
   
   const [activeField, setActiveField] = useState('amount') // 'amount' | 'rate' | 'term'
   const [result, setResult] = useState(null)
+  const [showNumpad, setShowNumpad] = useState(false)
 
   // LocalStorage Kayıt
   useEffect(() => {
@@ -121,9 +124,13 @@ export default function FinanceCalc() {
 
       <Grid container spacing={3} alignItems="stretch">
         {/* Sol Taraf: Girişler */}
-        <Grid size={{ xs: 12, md: 7 }}> {/* Card padding responsive */}
-          <Card elevation={0} sx={{ p: { xs: 2, md: 4 }, borderRadius: 5, bgcolor: theme.palette.mode === 'dark' ? alpha(theme.palette.background.paper, 0.6) : 'rgba(255, 255, 255, 0.9)', backdropFilter: 'blur(20px)', border: `1px solid ${alpha(theme.palette.divider, 0.1)}`, boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.07)', height: '100%', display: 'flex', flexDirection: 'column', gap: 3 }}>
-            
+        <Grid size={{ xs: 12, md: showNumpad ? 7 : 12 }}> {/* Card padding responsive */}
+          <Card elevation={0} sx={{ p: { xs: 2, md: 4 }, borderRadius: 5, position: 'relative', bgcolor: theme.palette.mode === 'dark' ? alpha(theme.palette.background.paper, 0.6) : 'rgba(255, 255, 255, 0.9)', backdropFilter: 'blur(20px)', border: `1px solid ${alpha(theme.palette.divider, 0.1)}`, boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.07)', height: '100%', display: 'flex', flexDirection: 'column', gap: 3 }}>
+            <Tooltip title={showNumpad ? t('hideKeyboard') : t('showKeyboard')}>
+              <IconButton onClick={() => setShowNumpad((v) => !v)} size="small" sx={{ position: 'absolute', top: 8, right: 8, bgcolor: alpha(theme.palette.primary.main, 0.08), '&:hover': { bgcolor: alpha(theme.palette.primary.main, 0.15) } }}>
+                {showNumpad ? <KeyboardHideIcon fontSize="small" /> : <KeyboardIcon fontSize="small" />}
+              </IconButton>
+            </Tooltip>
             {/* Ana Mod Seçimi */}
             <ToggleButtonGroup
               value={mode}
@@ -262,11 +269,11 @@ export default function FinanceCalc() {
                   {mode === 'loan' ? result.monthlyPayment : result.totalValue}
                 </Typography>
                 <Grid container spacing={2} sx={{ mt: 1 }}>
-                  <Grid item xs={6}>
+                  <Grid size={{ xs: 6 }}>
                     <Typography variant="caption" sx={{ opacity: 0.5, display: 'block' }}>{t('totalInterest')}</Typography>
                     <Typography variant="body1" fontWeight="bold">{result.totalInterest}</Typography>
                   </Grid>
-                  <Grid item xs={6}>
+                  <Grid size={{ xs: 6 }}>
                     <Typography variant="caption" sx={{ opacity: 0.5, display: 'block' }}>{mode === 'loan' ? t('totalPayment') : t('totalInvested')}</Typography>
                     <Typography variant="body1" fontWeight="bold">{mode === 'loan' ? result.totalPayment : result.totalInvested}</Typography>
                   </Grid>
@@ -276,47 +283,28 @@ export default function FinanceCalc() {
           </Card>
         </Grid>
 
-        {/* Sağ Taraf: Numpad */}
-        <Grid size={{ xs: 12, md: 5 }}>
-          <Card elevation={0} sx={{ p: { xs: 2, md: 4 }, borderRadius: 5, bgcolor: theme.palette.mode === 'dark' ? alpha(theme.palette.background.paper, 0.6) : 'rgba(255, 255, 255, 0.9)', backdropFilter: 'blur(20px)', border: `1px solid ${alpha(theme.palette.divider, 0.1)}`, boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.07)', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-            <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 2, height: '100%' }}>
-              {['1', '2', '3', '4', '5', '6', '7', '8', '9', '.', '0', 'DEL'].map((key) => (
-                <Button
-                  key={key}
-                  onClick={() => {
-                    let currentVal, setVal
-                    if (activeField === 'amount') { currentVal = amount; setVal = setAmount }
-                    else { currentVal = rate; setVal = setRate }
-
-                    const rawVal = activeField === 'amount' ? unformatNumber(currentVal) : currentVal
-
-                    if (key === 'DEL') {
-                      const newVal = rawVal.toString().slice(0, -1)
-                      setVal(activeField === 'amount' ? formatNumber(newVal) : newVal)
-                    } else if (key === '.') {
-                      if (!rawVal.toString().includes('.')) {
-                        setVal(activeField === 'amount' ? formatNumber(rawVal + '.') : rawVal + '.')
-                      }
-                    } else {
-                      const newVal = rawVal.toString() + key
-                      setVal(activeField === 'amount' ? formatNumber(newVal) : newVal)
-                    }
-                  }}
-                  sx={{
-                    borderRadius: 3,
-                    fontSize: { xs: '1.2rem', md: '1.5rem' },
-                    fontWeight: 'bold',
-                    bgcolor: theme.palette.mode === 'dark' ? alpha('#fff', 0.05) : '#f0f0f0',
-                    color: key === 'DEL' ? theme.palette.error.main : 'text.primary',
-                    '&:hover': { bgcolor: theme.palette.mode === 'dark' ? alpha('#fff', 0.1) : '#e0e0e0' }
-                  }}
-                >
-                  {key === 'DEL' ? <BackspaceIcon /> : key}
-                </Button>
-              ))}
-            </Box>
-          </Card>
-        </Grid>
+        {/* Sağ Taraf: Numpad (gizli varsayılan) */}
+        {showNumpad && (
+          <Grid size={{ xs: 12, md: 5 }}>
+            <Numpad
+              layout="simple"
+              onKeyPress={(key) => {
+                let currentVal, setVal
+                if (activeField === 'amount') { currentVal = amount; setVal = setAmount }
+                else { currentVal = rate; setVal = setRate }
+                const rawVal = activeField === 'amount' ? unformatNumber(currentVal) : currentVal
+                if (key === 'DEL') {
+                  const newVal = rawVal.toString().slice(0, -1)
+                  setVal(activeField === 'amount' ? formatNumber(newVal) : newVal)
+                } else if (key === '.') {
+                  if (!rawVal.toString().includes('.')) setVal(activeField === 'amount' ? formatNumber(rawVal + '.') : rawVal + '.')
+                } else {
+                  setVal(activeField === 'amount' ? formatNumber(rawVal.toString() + key) : rawVal.toString() + key)
+                }
+              }}
+            />
+          </Grid>
+        )}
       </Grid>
 
       {/* Custom Duration Picker Dialog */}

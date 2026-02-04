@@ -48,7 +48,19 @@ export default function ContactPage() {
       <Grid container spacing={4}>
         <Grid size={{ xs: 12 }}>
           <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', mb: 2 }}>
-            <Typography variant="h3" fontWeight="800" gutterBottom sx={{ background: `linear-gradient(135deg, ${theme.palette.primary.main}, ${theme.palette.secondary?.main || '#ff4081'})`, backgroundClip: 'text', textFillColor: 'transparent', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+            <Typography 
+              variant="h3" 
+              fontWeight="800" 
+              gutterBottom 
+              sx={{ 
+                background: `linear-gradient(135deg, ${theme.palette.primary.main}, ${theme.palette.secondary?.main || '#ff4081'})`, 
+                backgroundClip: 'text', 
+                textFillColor: 'transparent', 
+                WebkitBackgroundClip: 'text', 
+                WebkitTextFillColor: 'transparent',
+                fontSize: { xs: '1.8rem', md: '3rem' } // Responsive font
+              }}
+            >
               {t('contactUs')}
             </Typography>
             <Typography variant="body1" color="text.secondary" paragraph>

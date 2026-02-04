@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import { Box, Container, Grid, TextField, Typography, Card, MenuItem, Select, Button, IconButton, useTheme, alpha } from '@mui/material'
-import BackspaceIcon from '@mui/icons-material/Backspace'
+import { Box, Container, Grid, TextField, Typography, Card, MenuItem, Select, Button, IconButton, Tooltip, useTheme, alpha } from '@mui/material'
 import DeleteIcon from '@mui/icons-material/Delete'
+import KeyboardIcon from '@mui/icons-material/Keyboard'
+import KeyboardHideIcon from '@mui/icons-material/KeyboardHide'
 import SwapVertIcon from '@mui/icons-material/SwapVert'
+import Numpad from '../../components/Numpad/Numpad'
 import { Helmet } from 'react-helmet-async'
 import { unitOptions, convertVolume, safeEvaluate } from './volumeUtils'
 import { useTranslation } from '../../hooks/useTranslation'
@@ -35,6 +37,7 @@ export default function VolumeCalc() {
     return unitOptions.find(u => u.shortName === saved) || unitOptions[1] // Default: Mililitre
   })
   const [focusedInput, setFocusedInput] = useState(1)
+  const [showNumpad, setShowNumpad] = useState(false)
 
   // Hesaplama Fonksiyonu
   const calculate = (val, u1, u2, setTarget) => {
@@ -151,10 +154,6 @@ export default function VolumeCalc() {
   const cardBg = '#252525'
 
   const cardStyle = { p: 3, borderRadius: 4, bgcolor: theme.palette.mode === 'dark' ? cardBg : '#fff', color: theme.palette.mode === 'dark' ? '#fff' : 'text.primary', boxShadow: theme.shadows[4], height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }
-  const btnStyle = { height: { xs: 50, sm: 60, md: 70 }, borderRadius: 3, fontSize: '1.5rem', fontWeight: 'bold', color: theme.palette.text.primary, bgcolor: theme.palette.mode === 'dark' ? '#333' : '#e0e0e0', '&:hover': { bgcolor: theme.palette.mode === 'dark' ? '#444' : '#d5d5d5' } }
-  const operatorBtnStyle = { ...btnStyle, bgcolor: theme.palette.mode === 'dark' ? '#424242' : alpha(accentColor, 0.1), color: accentColor, '&:hover': { bgcolor: theme.palette.mode === 'dark' ? '#525252' : alpha(accentColor, 0.2) } }
-  const equalBtnStyle = { ...btnStyle, bgcolor: accentColor, color: '#fff', '&:hover': { bgcolor: alpha(accentColor, 0.8) } }
-
   return (
     <Container maxWidth="lg" sx={{ py: { xs: 2, md: 4 } }}>
       <Helmet>
@@ -173,8 +172,13 @@ export default function VolumeCalc() {
         <Button variant="text" color="error" startIcon={<DeleteIcon />} onClick={handleClear} sx={{ position: { md: 'absolute' }, right: 0, top: '50%', transform: { md: 'translateY(-50%)' }, mt: { xs: 2, md: 0 } }}>{t('reset')}</Button>
       </Box>
       <Grid container spacing={3} alignItems="stretch">
-        <Grid size={{ xs: 12, md: 7 }}>
-          <Card elevation={0} sx={{ ...cardStyle, gap: 3 }}>
+        <Grid size={{ xs: 12, md: showNumpad ? 7 : 12 }}>
+          <Card elevation={0} sx={{ ...cardStyle, position: 'relative', gap: 3 }}>
+            <Tooltip title={showNumpad ? t('hideKeyboard') : t('showKeyboard')}>
+              <IconButton onClick={() => setShowNumpad((v) => !v)} size="small" sx={{ position: 'absolute', top: 8, right: 8, bgcolor: alpha(theme.palette.primary.main, 0.08), '&:hover': { bgcolor: alpha(theme.palette.primary.main, 0.15) } }}>
+                {showNumpad ? <KeyboardHideIcon fontSize="small" /> : <KeyboardIcon fontSize="small" />}
+              </IconButton>
+            </Tooltip>
             <Box sx={{ p: 2, borderRadius: 4, bgcolor: alpha(theme.palette.background.default, 0.5), border: `1px solid ${alpha(theme.palette.divider, 0.1)}` }}>
               <Typography variant="caption" color="text.secondary" sx={{ ml: 1, mb: 1, display: 'block' }}>{t('inputUnit')}</Typography>
               <Select value={unit1.shortName} onChange={handleUnit1Change} fullWidth displayEmpty variant="standard" disableUnderline renderValue={(selected) => { const unit = unitOptions.find(u => u.shortName === selected); return <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, fontWeight: 'bold', color: accentColor }}>{unit?.shortName}</Box> }} sx={{ mb: 1, '& .MuiSelect-select': { py: 0.5 } }}>{unitOptions.map((u) => (<MenuItem key={u.shortName} value={u.shortName}><Box sx={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}><span>{u.longName}</span><Typography variant="caption" color="text.secondary">{u.shortName}</Typography></Box></MenuItem>))}</Select>
@@ -188,17 +192,11 @@ export default function VolumeCalc() {
             </Box>
           </Card>
         </Grid>
-        <Grid size={{ xs: 12, md: 5 }}>
-          <Card elevation={0} sx={{ ...cardStyle, bgcolor: theme.palette.mode === 'dark' ? alpha(theme.palette.background.paper, 0.4) : alpha('#fff', 0.6) }}>
-            <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 2, height: '100%', p: 1 }}>
-              <Button onClick={() => handleKeyPress('C')} sx={{ ...operatorBtnStyle, color: accentColor }}>C</Button><Button onClick={() => handleKeyPress('DEL')} sx={{ ...operatorBtnStyle, color: accentColor }}><BackspaceIcon /></Button><Button onClick={() => handleKeyPress('%')} sx={operatorBtnStyle}>%</Button><Button onClick={() => handleKeyPress('/')} sx={operatorBtnStyle}>÷</Button>
-              <Button onClick={() => handleKeyPress('7')} sx={btnStyle}>7</Button><Button onClick={() => handleKeyPress('8')} sx={btnStyle}>8</Button><Button onClick={() => handleKeyPress('9')} sx={btnStyle}>9</Button><Button onClick={() => handleKeyPress('*')} sx={operatorBtnStyle}>×</Button>
-              <Button onClick={() => handleKeyPress('4')} sx={btnStyle}>4</Button><Button onClick={() => handleKeyPress('5')} sx={btnStyle}>5</Button><Button onClick={() => handleKeyPress('6')} sx={btnStyle}>6</Button><Button onClick={() => handleKeyPress('-')} sx={operatorBtnStyle}>-</Button>
-              <Button onClick={() => handleKeyPress('1')} sx={btnStyle}>1</Button><Button onClick={() => handleKeyPress('2')} sx={btnStyle}>2</Button><Button onClick={() => handleKeyPress('3')} sx={btnStyle}>3</Button><Button onClick={() => handleKeyPress('+')} sx={operatorBtnStyle}>+</Button>
-              <Button onClick={() => handleKeyPress('00')} sx={btnStyle}>00</Button><Button onClick={() => handleKeyPress('0')} sx={btnStyle}>0</Button><Button onClick={() => handleKeyPress('.')} sx={btnStyle}>.</Button><Button onClick={() => handleKeyPress('=')} sx={equalBtnStyle}>=</Button>
-            </Box>
-          </Card>
-        </Grid>
+        {showNumpad && (
+          <Grid size={{ xs: 12, md: 5 }}>
+            <Numpad layout="calculator" onKeyPress={handleKeyPress} />
+          </Grid>
+        )}
       </Grid>
     </Container>
   )
