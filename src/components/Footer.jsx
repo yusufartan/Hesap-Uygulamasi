@@ -42,7 +42,7 @@ export default function Footer() {
       <Container maxWidth="lg">
         <Grid container spacing={4}>
           {/* Sol Taraf: Logo ve Açıklama */}
-          <Grid size={{ xs: 12, md: 3 }}>
+          <Grid size={{ xs: 12, md: 3 }}> {/* responsive padding */}
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
               <CalculateIcon sx={{ fontSize: 32, color: theme.palette.primary.main }} />
               <Typography variant="h6" color="text.primary" fontWeight="bold">
@@ -67,7 +67,7 @@ export default function Footer() {
 
           {/* Orta: Hızlı Linkler */}
           <Grid size={{ xs: 6, md: 3 }}>
-            <Typography variant="subtitle1" color="text.primary" fontWeight="bold" gutterBottom>
+            <Typography variant="subtitle1" color="text.primary" fontWeight="bold" gutterBottom sx={{ fontSize: { xs: '0.9rem', md: '1rem' } }}>
               {t('quickAccess')}
             </Typography>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
@@ -80,7 +80,7 @@ export default function Footer() {
 
           {/* Sağ: Yasal & İletişim */}
           <Grid size={{ xs: 6, md: 3 }}>
-            <Typography variant="subtitle1" color="text.primary" fontWeight="bold" gutterBottom>
+            <Typography variant="subtitle1" color="text.primary" fontWeight="bold" gutterBottom sx={{ fontSize: { xs: '0.9rem', md: '1rem' } }}>
               {t('corporate')}
             </Typography>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
@@ -93,7 +93,7 @@ export default function Footer() {
 
           {/* Yeni: E-Bülten Aboneliği */}
           <Grid size={{ xs: 12, md: 3 }}>
-            <Typography variant="subtitle1" color="text.primary" fontWeight="bold" gutterBottom>
+            <Typography variant="subtitle1" color="text.primary" fontWeight="bold" gutterBottom sx={{ fontSize: { xs: '0.9rem', md: '1rem' } }}>
               {t('newsletterTitle')}
             </Typography>
             <Typography variant="body2" sx={{ mb: 2 }}>

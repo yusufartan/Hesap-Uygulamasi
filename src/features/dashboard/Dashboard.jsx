@@ -26,7 +26,7 @@ export default function Dashboard({ onNavigate, menuItems }) {
           <Typography variant="h2" component="h1" fontWeight="800" sx={{ fontSize: { xs: '2rem', sm: '3rem', md: '3.75rem' }, mb: { xs: 1, md: 2 }, background: theme.palette.mode === 'dark' ? `linear-gradient(90deg, #fff 0%, ${alpha('#fff', 0.7)} 100%)` : `linear-gradient(90deg, ${theme.palette.text.primary} 0%, ${theme.palette.text.secondary} 100%)`, backgroundClip: 'text', textFillColor: 'transparent', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', letterSpacing: '-0.02em' }}>
             {t('accelerateYour')}<br /><Box component="span" sx={{ color: 'primary.main', WebkitTextFillColor: 'initial' }}>{t('calculations')}</Box>
           </Typography>
-          <Typography variant="h6" color="text.secondary" sx={{ fontWeight: 400, maxWidth: 600, lineHeight: 1.6 }}>{t('dashboardHeroDesc')}</Typography>
+          <Typography variant="h6" color="text.secondary" sx={{ fontWeight: 400, maxWidth: 600, lineHeight: 1.6, fontSize: { xs: '1rem', md: '1.25rem' } }}>{t('dashboardHeroDesc')}</Typography>
         </Box>
 
         {/* --- GRID YAPISI (GÜNCELLENDİ) --- */}

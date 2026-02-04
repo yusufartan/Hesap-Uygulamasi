@@ -58,7 +58,7 @@ export default function BmiCalc() {
 
   // AreaCalc ile ortak kart stili
   const cardStyle = {
-    p: 4,
+    p: { xs: 2, md: 4 },
     borderRadius: 5,
     bgcolor: theme.palette.mode === 'dark' ? alpha(theme.palette.background.paper, 0.6) : 'rgba(255, 255, 255, 0.9)',
     backdropFilter: 'blur(20px)',
@@ -138,7 +138,7 @@ export default function BmiCalc() {
                 helperText={errors.age}
                 InputProps={{
                   disableUnderline: true,
-                  sx: { fontSize: '2rem', fontWeight: 700, color: 'text.primary' }
+                  sx: { fontSize: { xs: '1.5rem', md: '2rem' }, fontWeight: 700, color: 'text.primary' }
                 }}
               />
             </Box>
@@ -187,7 +187,7 @@ export default function BmiCalc() {
                 helperText={errors.height}
                 InputProps={{
                   disableUnderline: true,
-                  sx: { fontSize: '2rem', fontWeight: 700, color: 'text.primary' }
+                  sx: { fontSize: { xs: '1.5rem', md: '2rem' }, fontWeight: 700, color: 'text.primary' }
                 }}
               />
             </Box>
@@ -205,7 +205,7 @@ export default function BmiCalc() {
                 helperText={errors.weight}
                 InputProps={{
                   disableUnderline: true,
-                  sx: { fontSize: '2rem', fontWeight: 700, color: 'text.primary' }
+                  sx: { fontSize: { xs: '1.5rem', md: '2rem' }, fontWeight: 700, color: 'text.primary' }
                 }}
               />
             </Box>
@@ -216,9 +216,9 @@ export default function BmiCalc() {
               onClick={handleCalculate}
               startIcon={<CalculateIcon />}
               sx={{ 
-                py: 2,
+                py: { xs: 1.5, md: 2 },
                 borderRadius: 4,
-                fontSize: '1.1rem',
+                fontSize: { xs: '1rem', md: '1.1rem' },
                 fontWeight: 'bold',
                 textTransform: 'none',
                 boxShadow: `0 8px 20px ${alpha(theme.palette.primary.main, 0.3)}`
@@ -243,11 +243,11 @@ export default function BmiCalc() {
             }}>
               {result ? (
                 <Box sx={{ width: '100%', textAlign: 'center' }}>
-                  <Typography variant="h6" color="text.secondary" gutterBottom>{t('bmiResult')}</Typography>
-                  <Typography variant="h1" fontWeight="800" sx={{ color: result.color, mb: 1, fontSize: '5rem' }}>
+                  <Typography variant="h6" color="text.secondary" gutterBottom sx={{ fontSize: { xs: '1rem', md: '1.25rem' } }}>{t('bmiResult')}</Typography>
+                  <Typography variant="h1" fontWeight="800" sx={{ color: result.color, mb: 1, fontSize: { xs: '3.5rem', sm: '4rem', md: '5rem' } }}>
                     {result.value}
                   </Typography>
-                  <Typography variant="h4" fontWeight="600" sx={{ color: result.color, mb: 2 }}>
+                  <Typography variant="h4" fontWeight="600" sx={{ color: result.color, mb: 2, fontSize: { xs: '1.5rem', md: '2.125rem' } }}>
                     {t(result.status === 'Zayıf' ? 'underweight' : result.status === 'Normal' ? 'normal' : result.status === 'Kilolu' ? 'overweight' : 'obese')}
                   </Typography>
 

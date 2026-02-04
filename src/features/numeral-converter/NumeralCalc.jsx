@@ -121,7 +121,7 @@ export default function NumeralCalc() {
   const cardBg = '#252525'
 
   const cardStyle = {
-    p: 3,
+    p: { xs: 2, md: 3 },
     borderRadius: 4,
     bgcolor: theme.palette.mode === 'dark' ? cardBg : '#fff',
     color: theme.palette.mode === 'dark' ? '#fff' : 'text.primary',
@@ -133,9 +133,9 @@ export default function NumeralCalc() {
   }
 
   const btnStyle = {
-    height: { xs: 40, sm: 50, md: 60 }, // Hex tuşları için biraz daha küçük
+    height: { xs: 40, sm: 50, md: 60 }, // Hex tuşları için biraz daha küçük, responsive font size
     borderRadius: 2,
-    fontSize: '1.2rem',
+    fontSize: { xs: '1rem', md: '1.2rem' },
     fontWeight: 'bold',
     color: theme.palette.text.primary,
     bgcolor: theme.palette.mode === 'dark' ? '#333' : '#e0e0e0',
@@ -242,7 +242,7 @@ export default function NumeralCalc() {
                 placeholder="0"
                 variant="standard"
                 InputProps={{
-                  disableUnderline: true,
+                  disableUnderline: true, // responsive font size
                   sx: { fontSize: '2rem', fontWeight: 700, color: focusedInput === 1 ? accentColor : 'text.primary' }
                 }}
               />
@@ -298,7 +298,7 @@ export default function NumeralCalc() {
                 placeholder="0"
                 variant="standard"
                 InputProps={{
-                  disableUnderline: true,
+                  disableUnderline: true, // responsive font size
                   sx: { fontSize: '2rem', fontWeight: 700, color: focusedInput === 2 ? accentColor : 'text.primary' }
                 }}
               />

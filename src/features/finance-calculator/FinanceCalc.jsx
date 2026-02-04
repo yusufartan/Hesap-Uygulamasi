@@ -121,8 +121,8 @@ export default function FinanceCalc() {
 
       <Grid container spacing={3} alignItems="stretch">
         {/* Sol Taraf: Girişler */}
-        <Grid size={{ xs: 12, md: 7 }}>
-          <Card elevation={0} sx={{ p: 4, borderRadius: 5, bgcolor: theme.palette.mode === 'dark' ? alpha(theme.palette.background.paper, 0.6) : 'rgba(255, 255, 255, 0.9)', backdropFilter: 'blur(20px)', border: `1px solid ${alpha(theme.palette.divider, 0.1)}`, boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.07)', height: '100%', display: 'flex', flexDirection: 'column', gap: 3 }}>
+        <Grid size={{ xs: 12, md: 7 }}> {/* Card padding responsive */}
+          <Card elevation={0} sx={{ p: { xs: 2, md: 4 }, borderRadius: 5, bgcolor: theme.palette.mode === 'dark' ? alpha(theme.palette.background.paper, 0.6) : 'rgba(255, 255, 255, 0.9)', backdropFilter: 'blur(20px)', border: `1px solid ${alpha(theme.palette.divider, 0.1)}`, boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.07)', height: '100%', display: 'flex', flexDirection: 'column', gap: 3 }}>
             
             {/* Ana Mod Seçimi */}
             <ToggleButtonGroup
@@ -198,7 +198,7 @@ export default function FinanceCalc() {
                 InputProps={{
                   disableUnderline: true,
                   startAdornment: <InputAdornment position="start"><AttachMoneyIcon sx={{ color: activeField === 'amount' ? '#FF8C00' : 'text.disabled' }} /></InputAdornment>,
-                  sx: { fontSize: '2rem', fontWeight: 'bold', color: activeField === 'amount' ? '#FF8C00' : 'text.primary' }
+                  sx: { fontSize: { xs: '1.5rem', md: '2rem' }, fontWeight: 'bold', color: activeField === 'amount' ? '#FF8C00' : 'text.primary' }
                 }}
               />
             </Box>
@@ -215,17 +215,17 @@ export default function FinanceCalc() {
                   placeholder="0"
                   variant="standard"
                   InputProps={{
-                    disableUnderline: true,
+                    disableUnderline: true, // responsive font size
                     endAdornment: <InputAdornment position="end"><PercentIcon fontSize="small" /></InputAdornment>,
-                    sx: { fontSize: '1.5rem', fontWeight: 'bold' }
+                    sx: { fontSize: { xs: '1.2rem', md: '1.5rem' }, fontWeight: 'bold' }
                   }}
                 />
               </Box>
 
-              <Box onClick={() => setOpenPicker(true)} sx={{ flex: 1, cursor: 'pointer', p: 2, borderRadius: 3, bgcolor: alpha(theme.palette.background.default, 0.5), display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+              <Box onClick={() => setOpenPicker(true)} sx={{ flex: 1, cursor: 'pointer', p: 2, borderRadius: 3, bgcolor: alpha(theme.palette.background.default, 0.5), display: 'flex', flexDirection: 'column', justifyContent: 'center' }}> {/* responsive font size */}
                 <Typography variant="caption" color="text.secondary" fontWeight="bold">{t('duration')}</Typography>
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                  <Typography variant="h5" fontWeight="bold">{years} {t('years')} {months} {t('months')}</Typography>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}> {/* responsive font size */}
+                  <Typography variant="h5" fontWeight="bold" sx={{ fontSize: { xs: '1.2rem', md: '1.5rem' } }}>{years} {t('years')} {months} {t('months')}</Typography>
                   <CalendarMonthIcon fontSize="small" color="action" sx={{ ml: 'auto' }} />
                 </Box>
               </Box>
@@ -239,12 +239,12 @@ export default function FinanceCalc() {
               onClick={handleCalculate}
               startIcon={<CalculateIcon />}
               sx={{ 
-                mt: 1, 
+                mt: 1, // responsive font size
                 bgcolor: '#FF8C00', 
-                color: '#fff', 
+                color: '#fff', // responsive font size
                 borderRadius: 3, 
                 height: 56,
-                fontSize: '1.1rem',
+                fontSize: { xs: '1rem', md: '1.1rem' },
                 fontWeight: 'bold',
                 '&:hover': { bgcolor: '#e67e00' }
               }}
@@ -258,7 +258,7 @@ export default function FinanceCalc() {
                 <Typography variant="body2" sx={{ opacity: 0.7 }}>
                   {mode === 'loan' ? t('monthlyPayment') : t('totalValue')}
                 </Typography>
-                <Typography variant="h3" fontWeight="bold" sx={{ color: '#FF8C00', my: 1 }}>
+                <Typography variant="h3" fontWeight="bold" sx={{ color: '#FF8C00', my: 1, fontSize: { xs: '2rem', sm: '2.5rem', md: '3rem' } }}>
                   {mode === 'loan' ? result.monthlyPayment : result.totalValue}
                 </Typography>
                 <Grid container spacing={2} sx={{ mt: 1 }}>
@@ -278,7 +278,7 @@ export default function FinanceCalc() {
 
         {/* Sağ Taraf: Numpad */}
         <Grid size={{ xs: 12, md: 5 }}>
-          <Card elevation={0} sx={{ p: 4, borderRadius: 5, bgcolor: theme.palette.mode === 'dark' ? alpha(theme.palette.background.paper, 0.6) : 'rgba(255, 255, 255, 0.9)', backdropFilter: 'blur(20px)', border: `1px solid ${alpha(theme.palette.divider, 0.1)}`, height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+          <Card elevation={0} sx={{ p: { xs: 2, md: 4 }, borderRadius: 5, bgcolor: theme.palette.mode === 'dark' ? alpha(theme.palette.background.paper, 0.6) : 'rgba(255, 255, 255, 0.9)', backdropFilter: 'blur(20px)', border: `1px solid ${alpha(theme.palette.divider, 0.1)}`, boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.07)', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
             <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 2, height: '100%' }}>
               {['1', '2', '3', '4', '5', '6', '7', '8', '9', '.', '0', 'DEL'].map((key) => (
                 <Button
@@ -304,7 +304,7 @@ export default function FinanceCalc() {
                   }}
                   sx={{
                     borderRadius: 3,
-                    fontSize: '1.5rem',
+                    fontSize: { xs: '1.2rem', md: '1.5rem' },
                     fontWeight: 'bold',
                     bgcolor: theme.palette.mode === 'dark' ? alpha('#fff', 0.05) : '#f0f0f0',
                     color: key === 'DEL' ? theme.palette.error.main : 'text.primary',
@@ -321,7 +321,7 @@ export default function FinanceCalc() {
 
       {/* Custom Duration Picker Dialog */}
       <Dialog open={openPicker} onClose={() => setOpenPicker(false)} maxWidth="xs" fullWidth>
-        <DialogContent sx={{ display: 'flex', justifyContent: 'center', gap: 4, height: 300 }}>
+        <DialogContent sx={{ display: 'flex', justifyContent: 'center', gap: 4, height: { xs: 250, md: 300 } }}>
           <Box sx={{ width: 100, overflow: 'auto' }}>
             <Typography align="center" fontWeight="bold" gutterBottom>{t('years')}</Typography>
             <List>
@@ -330,7 +330,7 @@ export default function FinanceCalc() {
                   <ListItemButton 
                     selected={years === y} 
                     onClick={() => setYears(y)}
-                    sx={{ justifyContent: 'center', borderRadius: 2, '&.Mui-selected': { color: '#FF8C00', bgcolor: alpha('#FF8C00', 0.1) } }}
+                    sx={{ justifyContent: 'center', borderRadius: 2, '&.Mui-selected': { color: '#FF8C00', bgcolor: alpha('#FF8C00', 0.1) }, '& .MuiListItemText-primary': { fontSize: { xs: '0.9rem', md: '1rem' } } }}
                   >
                     <ListItemText primary={y} primaryTypographyProps={{ align: 'center', fontWeight: years === y ? 'bold' : 'normal' }} />
                   </ListItemButton>
@@ -346,7 +346,7 @@ export default function FinanceCalc() {
                   <ListItemButton 
                     selected={months === m} 
                     onClick={() => setMonths(m)}
-                    sx={{ justifyContent: 'center', borderRadius: 2, '&.Mui-selected': { color: '#FF8C00', bgcolor: alpha('#FF8C00', 0.1) } }}
+                    sx={{ justifyContent: 'center', borderRadius: 2, '&.Mui-selected': { color: '#FF8C00', bgcolor: alpha('#FF8C00', 0.1) }, '& .MuiListItemText-primary': { fontSize: { xs: '0.9rem', md: '1rem' } } }}
                   >
                     <ListItemText primary={m} primaryTypographyProps={{ align: 'center', fontWeight: months === m ? 'bold' : 'normal' }} />
                   </ListItemButton>

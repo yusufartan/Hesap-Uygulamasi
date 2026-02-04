@@ -89,7 +89,7 @@ export default function AreaCalc() {
 
   // Ortak Kart Stili
   const cardStyle = {
-    p: 4,
+    p: { xs: 2, md: 4 },
     borderRadius: 5,
     bgcolor: theme.palette.mode === 'dark' ? alpha(theme.palette.background.paper, 0.6) : 'rgba(255, 255, 255, 0.9)',
     backdropFilter: 'blur(20px)',
@@ -101,7 +101,7 @@ export default function AreaCalc() {
 
   const keyStyle = {
     height: { xs: 64, sm: 80, md: 90 },
-    borderRadius: 4,
+    borderRadius: { xs: 2, md: 4 },
     fontSize: '2rem',
     fontWeight: 600,
     color: theme.palette.text.primary,
@@ -170,7 +170,7 @@ export default function AreaCalc() {
             {/* 1. Alan */}
             <Box sx={{ p: 2, borderRadius: 4, bgcolor: alpha(theme.palette.background.default, 0.5), border: `1px solid ${alpha(theme.palette.divider, 0.1)}` }}>
               <Typography variant="caption" color="text.secondary" sx={{ ml: 1, mb: 1, display: 'block' }}>{t('inputUnit')}</Typography>
-              <Select
+              <Select // responsive font size
                 value={unit1.shortName}
                 onChange={(e) => handleUnit1Change(e.target.value)}
                 fullWidth
@@ -179,7 +179,7 @@ export default function AreaCalc() {
                 disableUnderline
                 renderValue={(selected) => {
                   const unit = unitOptions.find(u => u.shortName === selected)
-                  return <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, fontWeight: 'bold', color: 'primary.main' }}>{unit?.shortName}</Box>
+                  return <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, fontWeight: 'bold', color: 'primary.main', fontSize: { xs: '1rem', md: '1.1rem' } }}>{unit?.shortName}</Box>
                 }}
                 sx={{ mb: 1, '& .MuiSelect-select': { py: 0.5 } }}
               >
@@ -200,7 +200,7 @@ export default function AreaCalc() {
                 placeholder={t('enterValue')}
                 variant="standard"
                 InputProps={{
-                  disableUnderline: true,
+                  disableUnderline: true, // responsive font size
                   sx: { fontSize: '2rem', fontWeight: 700, color: focusedInput === 1 ? 'primary.main' : 'text.primary' }
                 }}
               />
@@ -226,7 +226,7 @@ export default function AreaCalc() {
             {/* 2. Alan */}
             <Box sx={{ p: 2, borderRadius: 4, bgcolor: alpha(theme.palette.background.default, 0.5), border: `1px solid ${alpha(theme.palette.divider, 0.1)}` }}>
               <Typography variant="caption" color="text.secondary" sx={{ ml: 1, mb: 1, display: 'block' }}>{t('outputUnit')}</Typography>
-              <Select
+              <Select // responsive font size
                 value={unit2.shortName}
                 onChange={(e) => handleUnit2Change(e.target.value)}
                 fullWidth
@@ -235,7 +235,7 @@ export default function AreaCalc() {
                 disableUnderline
                 renderValue={(selected) => {
                   const unit = unitOptions.find(u => u.shortName === selected)
-                  return <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, fontWeight: 'bold', color: 'secondary.main' }}>{unit?.shortName}</Box>
+                  return <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, fontWeight: 'bold', color: 'secondary.main', fontSize: { xs: '1rem', md: '1.1rem' } }}>{unit?.shortName}</Box>
                 }}
                 sx={{ mb: 1, '& .MuiSelect-select': { py: 0.5 } }}
               >
@@ -256,7 +256,7 @@ export default function AreaCalc() {
                 placeholder={t('resultPlaceholder')}
                 variant="standard"
                 InputProps={{
-                  disableUnderline: true,
+                  disableUnderline: true, // responsive font size
                   sx: { fontSize: '2rem', fontWeight: 700, color: focusedInput === 2 ? 'primary.main' : 'text.primary' }
                 }}
               />

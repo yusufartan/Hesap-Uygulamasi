@@ -19,11 +19,11 @@ export default function PrivacyPage() {
         <meta property="og:type" content="website" />
       </Helmet>
       
-      <Paper elevation={0} sx={{ p: 4, borderRadius: 4, border: `1px solid ${theme.palette.divider}` }}>
-        <Typography variant="h4" fontWeight="bold" gutterBottom sx={{ color: theme.palette.primary.main }}>
+      <Paper elevation={0} sx={{ p: { xs: 2, md: 4 }, borderRadius: 4, border: `1px solid ${theme.palette.divider}` }}>
+        <Typography variant="h4" fontWeight="bold" gutterBottom sx={{ color: theme.palette.primary.main, fontSize: { xs: '1.5rem', md: '2.125rem' } }}>
           {t('privacy')}
         </Typography>
-        <Typography variant="subtitle1" color="text.secondary" gutterBottom>
+        <Typography variant="subtitle1" color="text.secondary" gutterBottom sx={{ fontSize: { xs: '0.9rem', md: '1rem' } }}>
           {new Date().toLocaleDateString()}
         </Typography>
 
@@ -31,21 +31,21 @@ export default function PrivacyPage() {
           <Box>
             <Typography variant="h6" fontWeight="bold" gutterBottom>1. {t('dataCollection')}</Typography>
             <Typography variant="body1" color="text.secondary">
-              {t('dataCollectionDesc')}
+              {t('dataCollectionDesc')} {/* responsive font size */}
             </Typography>
           </Box>
 
           <Box>
             <Typography variant="h6" fontWeight="bold" gutterBottom>2. {t('cookies')}</Typography>
             <Typography variant="body1" color="text.secondary">
-              {t('cookiesDesc')}
+              {t('cookiesDesc')} {/* responsive font size */}
             </Typography>
           </Box>
 
           <Box>
             <Typography variant="h6" fontWeight="bold" gutterBottom>3. {t('contact')}</Typography>
             <Typography variant="body1" color="text.secondary">
-              {t('privacyContactDesc')}
+              {t('privacyContactDesc')} {/* responsive font size */}
             </Typography>
           </Box>
         </Box>

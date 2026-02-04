@@ -87,7 +87,7 @@ export default function DiscountCalc() {
   const darkGrey = '#333'
 
   const cardStyle = {
-    p: 4,
+    p: { xs: 2, md: 4 },
     borderRadius: 5,
     bgcolor: theme.palette.mode === 'dark' ? alpha(theme.palette.background.paper, 0.6) : 'rgba(255, 255, 255, 0.9)',
     backdropFilter: 'blur(20px)',
@@ -98,7 +98,7 @@ export default function DiscountCalc() {
 
   const keyStyle = {
     height: { xs: 64, sm: 80, md: 90 },
-    borderRadius: 4,
+    borderRadius: { xs: 2, md: 4 },
     fontSize: '2rem',
     fontWeight: 600,
     color: theme.palette.text.primary,
@@ -179,7 +179,7 @@ export default function DiscountCalc() {
                   disableUnderline: true,
                   startAdornment: <InputAdornment position="start"><LocalOfferIcon sx={{ color: activeField === 'price' ? orangeColor : 'text.disabled' }} /></InputAdornment>,
                   sx: { 
-                    fontSize: '2.5rem', 
+                    fontSize: { xs: '1.8rem', md: '2.5rem' }, 
                     fontWeight: 700, 
                     color: activeField === 'price' ? orangeColor : 'text.primary',
                     bgcolor: alpha(theme.palette.background.default, 0.5),
@@ -207,7 +207,7 @@ export default function DiscountCalc() {
                   disableUnderline: true,
                   endAdornment: <InputAdornment position="end"><Typography variant="h5" color="text.secondary">%</Typography></InputAdornment>,
                   sx: { 
-                    fontSize: '2rem', 
+                    fontSize: { xs: '1.5rem', md: '2rem' }, 
                     fontWeight: 700, 
                     color: activeField === 'rate' ? 'primary.main' : 'text.primary',
                     bgcolor: alpha(theme.palette.background.default, 0.5),
@@ -222,15 +222,15 @@ export default function DiscountCalc() {
             {/* Sonuç Alanı */}
             <Box sx={{ 
               mt: 2, 
-              p: 3, 
+              p: { xs: 2, md: 3 }, 
               borderRadius: 4, 
               bgcolor: theme.palette.mode === 'dark' ? '#263238' : alpha(theme.palette.primary.main, 0.1),
               color: theme.palette.mode === 'dark' ? '#fff' : theme.palette.text.primary,
               textAlign: 'center',
               boxShadow: theme.shadows[4]
             }}>
-              <Typography variant="body2" sx={{ opacity: 0.7, mb: 1 }}>{t('finalPrice')}</Typography>
-              <Typography variant="h2" fontWeight="800" sx={{ color: theme.palette.mode === 'dark' ? '#fff' : theme.palette.primary.main }}>
+              <Typography variant="body2" sx={{ opacity: 0.7, mb: 1, fontSize: { xs: '0.8rem', md: '0.875rem' } }}>{t('finalPrice')}</Typography>
+              <Typography variant="h2" fontWeight="800" sx={{ color: theme.palette.mode === 'dark' ? '#fff' : theme.palette.primary.main, fontSize: { xs: '2rem', sm: '2.5rem', md: '3.75rem' } }}>
                 {result.finalPrice}
               </Typography>
               <Typography variant="body2" sx={{ mt: 1, opacity: 0.6, fontSize: '0.9rem' }}>

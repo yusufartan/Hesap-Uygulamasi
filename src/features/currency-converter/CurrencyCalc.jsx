@@ -101,7 +101,7 @@ export default function CurrencyCalc() {
 
   // Stiller
   const cardStyle = {
-    p: 4,
+    p: { xs: 2, md: 4 },
     borderRadius: 5,
     bgcolor: theme.palette.mode === 'dark' ? alpha(theme.palette.background.paper, 0.6) : 'rgba(255, 255, 255, 0.9)',
     backdropFilter: 'blur(20px)',
@@ -113,7 +113,7 @@ export default function CurrencyCalc() {
 
   const keyStyle = {
     height: { xs: 64, sm: 80, md: 90 },
-    borderRadius: 4,
+    borderRadius: { xs: 2, md: 4 },
     fontSize: '2rem',
     fontWeight: 600,
     color: theme.palette.text.primary,
@@ -129,10 +129,10 @@ export default function CurrencyCalc() {
         <title>Döviz Çevirici - Canlı Kur Hesaplama | Hesap Uzmanı</title>
         <meta name="description" content="Güncel döviz kurları ile Dolar, Euro, Sterlin ve diğer para birimlerini anında birbirine dönüştürün." />
         <meta name="keywords" content="döviz çevirici, dolar hesaplama, euro tl çeviri, kur hesaplama, para birimi dönüştürücü" />
-        <link rel="canonical" href="https://site-adresi.com/currency" />
+        <link rel="canonical" href="https://www.hesapmerkez.com/currency" />
         <meta property="og:title" content="Döviz Çevirici - Canlı Kur Hesaplama | Hesap Uzmanı" />
         <meta property="og:description" content="Güncel döviz kurları ile Dolar, Euro, Sterlin ve diğer para birimlerini anında birbirine dönüştürün." />
-        <meta property="og:url" content="https://site-adresi.com/currency" />
+        <meta property="og:url" content="https://www.hesapmerkez.com/currency" />
         <meta property="og:type" content="website" />
       </Helmet>
 
@@ -156,8 +156,8 @@ export default function CurrencyCalc() {
             {/* Giriş Miktarı ve Birimi */}
             <Box sx={{ p: 2, borderRadius: 4, bgcolor: alpha(theme.palette.background.default, 0.5), border: `1px solid ${alpha(theme.palette.divider, 0.1)}` }}>
               <Typography variant="caption" color="text.secondary" sx={{ ml: 1 }}>{t('amountAndUnit')}</Typography>
-              <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
-                <TextField fullWidth value={amount} onChange={handleInputChange} placeholder="0" variant="standard" InputProps={{ disableUnderline: true, sx: { fontSize: '2rem', fontWeight: 700, color: 'primary.main' } }} />
+              <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}> {/* responsive font size */}
+                <TextField fullWidth value={amount} onChange={handleInputChange} placeholder="0" variant="standard" InputProps={{ disableUnderline: true, sx: { fontSize: { xs: '1.5rem', md: '2rem' }, fontWeight: 700, color: 'primary.main' } }} />
                 <Select value={fromCurrency} onChange={(e) => setFromCurrency(e.target.value)} variant="standard" disableUnderline sx={{ minWidth: 80, fontWeight: 'bold' }}>
                   {currencies.map((c) => <MenuItem key={c.code} value={c.code}>{c.code}</MenuItem>)}
                 </Select>
@@ -173,7 +173,7 @@ export default function CurrencyCalc() {
             {/* Hedef Birim ve Sonuç */}
             <Box sx={{ p: 2, borderRadius: 4, bgcolor: alpha(theme.palette.background.default, 0.5), border: `1px solid ${alpha(theme.palette.divider, 0.1)}` }}>
               <Typography variant="caption" color="text.secondary" sx={{ ml: 1 }}>{t('targetUnit')}</Typography>
-              <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
+              <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}> {/* responsive font size */}
                 <Typography variant="h3" sx={{ flexGrow: 1, fontWeight: 700, color: result ? 'text.primary' : 'text.disabled' }}>
                   {result ? result.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 4 }) : '0.00'}
                 </Typography>
@@ -190,7 +190,7 @@ export default function CurrencyCalc() {
               onClick={handleCalculate} 
               disabled={loading || !amount}
               startIcon={loading ? <CircularProgress size={20} color="inherit" /> : <CurrencyExchangeIcon />}
-              sx={{ py: 2, borderRadius: 3, fontSize: '1.1rem', fontWeight: 'bold' }}
+              sx={{ py: { xs: 1.5, md: 2 }, borderRadius: 3, fontSize: { xs: '1rem', md: '1.1rem' }, fontWeight: 'bold' }}
             >
               {loading ? t('converting') : t('convert')}
             </Button>

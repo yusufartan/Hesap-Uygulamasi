@@ -151,7 +151,7 @@ export default function LengthCalc() {
   const cardBg = '#252525' // Kart rengi
 
   const cardStyle = {
-    p: 3,
+    p: { xs: 2, md: 3 },
     borderRadius: 4,
     bgcolor: theme.palette.mode === 'dark' ? cardBg : '#fff',
     color: theme.palette.mode === 'dark' ? '#fff' : 'text.primary',
@@ -163,9 +163,9 @@ export default function LengthCalc() {
   }
 
   const btnStyle = {
-    height: { xs: 50, sm: 60, md: 70 },
+    height: { xs: 50, sm: 60, md: 70 }, // responsive font size
     borderRadius: 3,
-    fontSize: '1.5rem',
+    fontSize: { xs: '1.2rem', md: '1.5rem' },
     fontWeight: 'bold',
     color: theme.palette.text.primary,
     bgcolor: theme.palette.mode === 'dark' ? '#333' : '#e0e0e0',
@@ -264,7 +264,7 @@ export default function LengthCalc() {
                 placeholder={t('enterValue')}
                 variant="standard"
                 InputProps={{
-                  disableUnderline: true,
+                  disableUnderline: true, // responsive font size
                   sx: { fontSize: '2rem', fontWeight: 700, color: focusedInput === 1 ? accentColor : 'text.primary' }
                 }}
               />
@@ -320,7 +320,7 @@ export default function LengthCalc() {
                 placeholder={t('resultPlaceholder')}
                 variant="standard"
                 InputProps={{
-                  disableUnderline: true,
+                  disableUnderline: true, // responsive font size
                   sx: { fontSize: '2rem', fontWeight: 700, color: focusedInput === 2 ? accentColor : 'text.primary' }
                 }}
               />

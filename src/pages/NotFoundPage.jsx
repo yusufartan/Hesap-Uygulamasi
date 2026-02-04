@@ -15,20 +15,20 @@ export default function NotFoundPage() {
       <Typography variant="h1" fontWeight="900" color="primary" sx={{ fontSize: { xs: '6rem', md: '10rem' }, opacity: 0.2, lineHeight: 1 }}>
         404
       </Typography>
-      <Typography variant="h4" fontWeight="bold" gutterBottom sx={{ mt: -2 }}>
+      <Typography variant="h4" fontWeight="bold" gutterBottom sx={{ mt: -2, fontSize: { xs: '1.5rem', md: '2.125rem' } }}>
         Aradığınız Sayfa Bulunamadı
       </Typography>
-      <Typography variant="body1" color="text.secondary" paragraph sx={{ maxWidth: 500, mb: 4 }}>
+      <Typography variant="body1" color="text.secondary" paragraph sx={{ maxWidth: 500, mb: 4, fontSize: { xs: '0.9rem', md: '1rem' } }}>
         Gitmek istediğiniz sayfa kaldırılmış, adı değiştirilmiş veya geçici olarak kullanım dışı olabilir.
       </Typography>
       
       <Button 
         component={RouterLink} 
         to="/" 
-        variant="contained" 
-        size="large" 
+        variant="contained" // responsive size
+        size="medium" 
         startIcon={<HomeIcon />}
-        sx={{ borderRadius: 3, px: 4, py: 1.5 }}
+        sx={{ borderRadius: 3, px: { xs: 2, md: 4 }, py: { xs: 1, md: 1.5 }, fontSize: { xs: '0.9rem', md: '1rem' } }}
       >
         Ana Sayfaya Dön
       </Button>

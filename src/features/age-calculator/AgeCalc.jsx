@@ -68,7 +68,7 @@ export default function AgeCalc() {
 
   // Ortak Kart Stili
   const cardStyle = {
-    p: 3,
+    p: { xs: 2, md: 3 },
     borderRadius: 4,
     height: '100%',
     bgcolor: theme.palette.mode === 'dark' ? alpha(theme.palette.background.paper, 0.6) : '#fff',

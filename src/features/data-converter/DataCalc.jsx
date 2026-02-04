@@ -98,7 +98,7 @@ export default function DataCalc() {
 
   // Stiller
   const cardStyle = {
-    p: 4,
+    p: { xs: 2, md: 4 },
     borderRadius: 5,
     bgcolor: theme.palette.mode === 'dark' ? alpha(theme.palette.background.paper, 0.6) : 'rgba(255, 255, 255, 0.9)',
     backdropFilter: 'blur(20px)',
@@ -110,7 +110,7 @@ export default function DataCalc() {
 
   const keyStyle = {
     height: { xs: 64, sm: 80, md: 90 },
-    borderRadius: 4,
+    borderRadius: { xs: 2, md: 4 },
     fontSize: '2rem',
     fontWeight: 600,
     color: theme.palette.text.primary,
@@ -190,8 +190,8 @@ export default function DataCalc() {
                 value={unit1.shortName}
                 onChange={(e) => handleUnit1Change(e.target.value)}
                 variant="standard"
-                disableUnderline
-                sx={{ width: '200px', '& .MuiSelect-select': { fontWeight: 'bold', color: '#FF8C00' } }}
+                disableUnderline // width: '200px' yerine responsive değerler
+                sx={{ width: { xs: '120px', sm: '150px', md: '200px' }, '& .MuiSelect-select': { fontWeight: 'bold', color: '#FF8C00' } }}
               >
                 {unitOptions.map((option) => (
                   <MenuItem key={option.shortName} value={option.shortName}>
@@ -208,7 +208,7 @@ export default function DataCalc() {
                 variant="standard"
                 InputProps={{
                   disableUnderline: true,
-                  sx: { fontSize: '2rem', fontWeight: 700, color: focusedInput === 1 ? '#FF8C00' : 'text.primary', textAlign: 'right' }
+                  sx: { fontSize: { xs: '1.5rem', md: '2rem' }, fontWeight: 700, color: focusedInput === 1 ? '#FF8C00' : 'text.primary', textAlign: 'right' }
                 }}
                 sx={{ '& input': { textAlign: 'right' } }}
               />
@@ -237,8 +237,8 @@ export default function DataCalc() {
                 value={unit2.shortName}
                 onChange={(e) => handleUnit2Change(e.target.value)}
                 variant="standard"
-                disableUnderline
-                sx={{ width: '200px', '& .MuiSelect-select': { fontWeight: 'bold', color: '#FF8C00' } }}
+                disableUnderline // width: '200px' yerine responsive değerler
+                sx={{ width: { xs: '120px', sm: '150px', md: '200px' }, '& .MuiSelect-select': { fontWeight: 'bold', color: '#FF8C00' } }}
               >
                 {unitOptions.map((option) => (
                   <MenuItem key={option.shortName} value={option.shortName}>
@@ -255,7 +255,7 @@ export default function DataCalc() {
                 variant="standard"
                 InputProps={{
                   disableUnderline: true,
-                  sx: { fontSize: '2rem', fontWeight: 700, color: focusedInput === 2 ? '#FF8C00' : 'text.primary', textAlign: 'right' }
+                  sx: { fontSize: { xs: '1.5rem', md: '2rem' }, fontWeight: 700, color: focusedInput === 2 ? '#FF8C00' : 'text.primary', textAlign: 'right' }
                 }}
                 sx={{ '& input': { textAlign: 'right' } }}
               />

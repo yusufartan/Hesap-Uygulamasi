@@ -53,7 +53,7 @@ export default function DateCalc() {
 
   // Ortak Kart Stili
   const cardStyle = {
-    p: 4,
+    p: { xs: 2, md: 4 },
     borderRadius: 5,
     bgcolor: theme.palette.mode === 'dark' ? alpha(theme.palette.background.paper, 0.6) : 'rgba(255, 255, 255, 0.9)',
     backdropFilter: 'blur(20px)',
@@ -132,7 +132,7 @@ export default function DateCalc() {
               {/* Sonuç Paneli (Fark) */}
               <Box sx={{ 
                 bgcolor: theme.palette.mode === 'dark' ? '#263238' : alpha(theme.palette.primary.main, 0.05),
-                borderRadius: '15px', 
+                borderRadius: 3, 
                 p: 4, 
                 textAlign: 'center',
                 boxShadow: theme.shadows[4],

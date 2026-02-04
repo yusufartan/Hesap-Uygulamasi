@@ -87,7 +87,7 @@ export default function ContactPage() {
                     <ValidationError prefix="Message" field="message" errors={state.errors} />
                   </Grid>
                   <Grid size={{ xs: 12 }}>
-                    <Button type="submit" variant="contained" size="large" endIcon={<SendIcon />} disabled={state.submitting} sx={{ borderRadius: 3, px: 4, py: 1.5, fontWeight: 'bold' }}>
+                    <Button type="submit" variant="contained" size="large" endIcon={<SendIcon />} disabled={state.submitting} sx={{ borderRadius: 3, px: { xs: 2, md: 4 }, py: { xs: 1, md: 1.5 }, fontWeight: 'bold', fontSize: { xs: '0.9rem', md: '1rem' } }}>
                       {state.submitting ? t('sending') : t('send')}
                     </Button>
                   </Grid>
