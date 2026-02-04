@@ -76,8 +76,8 @@ export default function DashboardLayout() {
       >
         <DrawerHeader />
 
-        {/* SAĞ ÜST: Tema toggle (sol) + Dil değiştirici (sağ) */}
-        <Box sx={{ position: 'absolute', top: { xs: 8, sm: 16 }, right: { xs: 12, sm: 24 }, zIndex: 1200, display: 'flex', alignItems: 'center', gap: 1 }}>
+        {/* SAĞ ÜST: Tema toggle + Dil değiştirici — mobilde navbar altında görünsün */}
+        <Box sx={{ position: 'absolute', top: { xs: `${mobileNavbarHeight + 8}px`, md: 2 }, right: { xs: 12, sm: 24 }, zIndex: 1200, display: 'flex', alignItems: 'center', gap: 1 }}>
           <Tooltip title={theme.palette.mode === 'dark' ? t('lightMode') : t('darkMode')}>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
               {theme.palette.mode === 'dark' ? <DarkModeIcon fontSize="small" /> : <LightModeIcon fontSize="small" />}
