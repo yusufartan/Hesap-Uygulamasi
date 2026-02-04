@@ -3,6 +3,7 @@ import { styled, useTheme } from '@mui/material/styles'
 import { useLocation, Link } from 'react-router-dom'
 import { toolsConfig } from '../../config/toolsConfig'
 import { useTranslation } from '../../hooks/useTranslation'
+import { mobileNavbarHeight as mobileNavHeight } from './Navbar'
 
 import Box from '@mui/material/Box'
 import MuiDrawer from '@mui/material/Drawer'
@@ -152,6 +153,8 @@ export default function Sidebar({ open, toggleDrawer }) {
   }))
   const listRef = React.useRef(null)
   const categoryJustOpenedRef = React.useRef(null)
+  const searchInputRef = React.useRef(null)
+  const focusSearchAfterOpenRef = React.useRef(false)
 
   const currentPath = location.pathname
   const activeItemId = React.useMemo(() => {
@@ -163,6 +166,14 @@ export default function Sidebar({ open, toggleDrawer }) {
     const savedScroll = localStorage.getItem('navbarScroll')
     if (listRef.current && savedScroll) listRef.current.scrollTop = parseInt(savedScroll, 10)
   }, [])
+
+  // Sidebar arama simgesiyle açıldıysa açıldıktan sonra arama alanına focus ver
+  React.useEffect(() => {
+    if (!open || !focusSearchAfterOpenRef.current) return
+    focusSearchAfterOpenRef.current = false
+    const t = setTimeout(() => searchInputRef.current?.focus(), 320)
+    return () => clearTimeout(t)
+  }, [open])
 
   const handleScroll = () => {
     if (listRef.current) localStorage.setItem('navbarScroll', String(listRef.current.scrollTop))
@@ -233,73 +244,35 @@ export default function Sidebar({ open, toggleDrawer }) {
   /** Mobilde menü her zaman geniş; masaüstünde open state'e bağlı */
   const menuExpanded = isMobile ? true : open
 
-  // Mobil: Üst navbar + hamburger ile açılan üstten inen menü (ekranın 3/4'ü)
+  // Mobil: Sadece dropdown (navbar Navbar.jsx'te; dropdown navbar altında, arama yok)
   if (isMobile) {
     return (
-      <>
-        <Box
-          sx={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            right: 0,
-            height: mobileNavbarHeight,
+      <MuiDrawer
+        anchor="top"
+        open={open}
+        onClose={toggleDrawer}
+        sx={{ zIndex: 1200 }}
+        PaperProps={{
+          sx: {
+            height: '75vh',
+            maxHeight: '75vh',
+            overflow: 'hidden',
             display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            px: 2,
-            bgcolor: 'background.paper',
-            borderBottom: `1px solid ${theme.palette.divider}`,
-            zIndex: 1300,
-          }}
-        >
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            <Box sx={{ width: 36, height: 36, bgcolor: 'primary.main', borderRadius: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white' }}>
-              <CalculateIcon fontSize="small" />
-            </Box>
-            <Typography variant="subtitle1" fontWeight="bold" noWrap sx={{ maxWidth: 160 }}>
-              {t('calculatorTools')}
-            </Typography>
-          </Box>
-          <IconButton onClick={toggleDrawer} aria-label="menu" color="inherit" size="large">
-            <MenuIcon />
+            flexDirection: 'column',
+            mt: `${mobileNavHeight}px`,
+            borderBottomLeftRadius: 12,
+            borderBottomRightRadius: 12,
+          },
+        }}
+      >
+        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', p: 2, borderBottom: 1, borderColor: 'divider' }}>
+          <Typography variant="h6">{t('menu') || 'Menü'}</Typography>
+          <IconButton onClick={toggleDrawer} aria-label="close">
+            <CloseIcon />
           </IconButton>
         </Box>
-        <MuiDrawer
-          anchor="top"
-          open={open}
-          onClose={toggleDrawer}
-          sx={{ zIndex: 1200 }}
-          PaperProps={{
-            sx: {
-              height: '75vh',
-              maxHeight: '75vh',
-              overflow: 'hidden',
-              display: 'flex',
-              flexDirection: 'column',
-              mt: 0,
-              borderBottomLeftRadius: 12,
-              borderBottomRightRadius: 12,
-            },
-          }}
-        >
-          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', p: 2, borderBottom: 1, borderColor: 'divider' }}>
-            <Typography variant="h6">{t('menu') || 'Menü'}</Typography>
-            <IconButton onClick={toggleDrawer} aria-label="close">
-              <CloseIcon />
-            </IconButton>
-          </Box>
-          <Divider />
-          <Search sx={{ mx: 2, mt: 1 }}>
-            <SearchIconWrapper><SearchIcon /></SearchIconWrapper>
-            <StyledInputBase
-              placeholder={t('search')}
-              inputProps={{ 'aria-label': 'search' }}
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-          </Search>
-          <List ref={listRef} onScroll={handleScroll} sx={{ flexGrow: 1, px: 1, overflowY: 'auto' }}>
+        <Divider />
+        <List ref={listRef} onScroll={handleScroll} sx={{ flexGrow: 1, px: 1, overflowY: 'auto' }}>
             {filteredBySearch !== null ? (
               filteredBySearch.map((item) => {
                 const isSelected = activeItemId === item.id
@@ -389,7 +362,6 @@ export default function Sidebar({ open, toggleDrawer }) {
             )}
           </List>
         </MuiDrawer>
-      </>
     )
   }
 
@@ -433,11 +405,11 @@ export default function Sidebar({ open, toggleDrawer }) {
         <IconButton
           onClick={toggleDrawer}
           sx={{
-            bgcolor: 'error.main',
+            bgcolor: 'primary.main',
             color: 'white',
-            '&:hover': { bgcolor: 'error.dark' },
+            '&:hover': { bgcolor: 'primary.dark' },
             position: open ? 'relative' : 'absolute',
-            left: open ? 'auto' : { xs: '20px', sm: '28px' },
+            left: open ? 'auto' : { xs: '10px', sm: '14px' },
             transform: open ? 'none' : 'rotate(180deg)',
             transition: 'all 0.3s ease',
             width: 32,
@@ -450,19 +422,26 @@ export default function Sidebar({ open, toggleDrawer }) {
       <Divider sx={{ my: 1, opacity: 0.5 }} />
         <Tooltip title={!menuExpanded ? t('search') : ''} placement="right">
         <Search
-          onClick={() => !menuExpanded && toggleDrawer()}
+          onClick={() => {
+            if (!menuExpanded) {
+              focusSearchAfterOpenRef.current = true
+              toggleDrawer()
+            }
+          }}
           sx={{
             mx: menuExpanded ? 2 : 'auto',
             width: menuExpanded ? 'auto' : 48,
             justifyContent: menuExpanded ? 'flex-start' : 'center',
             px: menuExpanded ? 0 : 0,
             cursor: !menuExpanded ? 'pointer' : 'default',
+            mt: menuExpanded ? 0 : 1.5,
           }}
         >
           <SearchIconWrapper sx={{ px: menuExpanded ? 2 : 1.5 }}>
             <SearchIcon />
           </SearchIconWrapper>
           <StyledInputBase
+            inputRef={searchInputRef}
             placeholder={t('search')}
             inputProps={{ 'aria-label': 'search' }}
             value={searchQuery}
