@@ -19,7 +19,7 @@ function findToolByPath(pathname) {
 
 export default function SEOUpdater() {
   const location = useLocation()
-  const { t } = useTranslation()
+  const { t, getToolTitle, getToolDescription } = useTranslation()
   const pathname = location.pathname
 
   const found = React.useMemo(() => findToolByPath(pathname), [pathname])
@@ -29,18 +29,19 @@ export default function SEOUpdater() {
     if (pathname === '/' || pathname === '') {
       title = HOME_TITLE
     } else if (found?.item) {
-      const toolName = t(found.item.id) || found.item.title
+      const toolName = getToolTitle(found.item.id)
       title = `${toolName} - ${SITE_NAME}`
     }
     document.title = title
-  }, [pathname, found, t])
+  }, [pathname, found, getToolTitle])
 
   React.useEffect(() => {
     const metaDesc = document.querySelector('meta[name="description"]')
-    if (metaDesc && found?.item?.description) {
-      metaDesc.setAttribute('content', found.item.description)
+    if (metaDesc && found?.item) {
+      const desc = getToolDescription(found.item.id)
+      if (desc) metaDesc.setAttribute('content', desc)
     }
-  }, [pathname, found])
+  }, [pathname, found, getToolDescription])
 
   return null
 }

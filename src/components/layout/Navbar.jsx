@@ -1,13 +1,13 @@
 import React, { useState, useMemo, useEffect } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import { useTheme } from '@mui/material/styles'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
+import { useTheme, alpha } from '@mui/material/styles'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import IconButton from '@mui/material/IconButton'
 import InputBase from '@mui/material/InputBase'
-import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
+import Paper from '@mui/material/Paper'
 import Popover from '@mui/material/Popover'
 import ToggleButton from '@mui/material/ToggleButton'
 import Tooltip from '@mui/material/Tooltip'
@@ -29,15 +29,6 @@ const genelCategory = toolsConfig.find((c) => c.id === 'genel')
 const generalItems = genelCategory ? genelCategory.items : []
 const allItems = toolsConfig.flatMap((cat) => cat.items.map((item) => ({ ...item, categoryId: cat.id })))
 
-const CATEGORY_TITLE_KEYS = {
-  genel: 'categoryGenel',
-  finance: 'categoryFinance',
-  health: 'categoryHealth',
-  time: 'categoryTime',
-  'unit-converters': 'categoryUnitConverters',
-  'math-data': 'categoryMathData',
-}
-
 /** Masaüstü navbar yüksekliği */
 export const desktopNavbarHeight = 64
 /** Masaüstü ikincil kategori çubuğu yüksekliği */
@@ -47,34 +38,21 @@ export const mobileNavbarHeight = 56 + 52
 
 export default function Navbar({ mobileMenuOpen, onMenuClick, rightOffset = 0 }) {
   const theme = useTheme()
+  const location = useLocation()
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const { t } = useTranslation()
+  const { t, getToolTitle, getCategoryTitle } = useTranslation()
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
   const isDesktop = useMediaQuery(theme.breakpoints.up('lg'))
 
   const [searchQuery, setSearchQuery] = useState('')
   const [searchFocused, setSearchFocused] = useState(false)
   const [searchPopoverAnchor, setSearchPopoverAnchor] = useState(null)
-  const [categoryMenuAnchor, setCategoryMenuAnchor] = useState(null)
-  const [categoryMenuId, setCategoryMenuId] = useState(null)
+  const [activeMenuId, setActiveMenuId] = useState(null)
 
-  const openCategoryMenu = (e, catId) => {
-    setCategoryMenuAnchor(e.currentTarget)
-    setCategoryMenuId(catId)
-  }
-  const closeCategoryMenu = () => {
-    setCategoryMenuAnchor(null)
-    setCategoryMenuId(null)
-  }
-  const categoryForMenu = categoryMenuId ? toolsConfig.find((c) => c.id === categoryMenuId) : null
-
-  // Ekran daralıp tablet/mobil moda geçince açık kategori menüsünü kapat (anchor DOM'dan kalkmasın diye)
+  // Ekran daralıp tablet/mobil moda geçince açık kategori menüsünü kapat
   useEffect(() => {
-    if (!isDesktop) {
-      setCategoryMenuAnchor(null)
-      setCategoryMenuId(null)
-    }
+    if (!isDesktop) setActiveMenuId(null)
   }, [isDesktop])
 
   const searchResults = useMemo(() => {
@@ -82,10 +60,9 @@ export default function Navbar({ mobileMenuOpen, onMenuClick, rightOffset = 0 })
     const q = searchQuery.toLowerCase()
     return allItems.filter(
       (item) =>
-        t(item.id).toLowerCase().includes(q) ||
-        (item.title && item.title.toLowerCase().includes(q))
+        getToolTitle(item.id).toLowerCase().includes(q)
     )
-  }, [searchQuery, t])
+  }, [searchQuery, getToolTitle])
 
   const handleSearchSelect = (path) => {
     navigate(path)
@@ -213,7 +190,7 @@ export default function Navbar({ mobileMenuOpen, onMenuClick, rightOffset = 0 })
                   }}
                 >
                   {item.icon}
-                  <span>{t(item.id) || item.title}</span>
+                  <span>{getToolTitle(item.id)}</span>
                 </Box>
               ))}
             </Box>
@@ -241,6 +218,9 @@ export default function Navbar({ mobileMenuOpen, onMenuClick, rightOffset = 0 })
         gap: 2,
         bgcolor: 'background.paper',
         borderBottom: `1px solid ${theme.palette.divider}`,
+        boxShadow: theme.palette.mode === 'dark'
+          ? `0 1px 0 0 ${alpha(theme.palette.common.white, 0.06)}`
+          : '0 1px 3px rgba(0,0,0,0.06)',
       }}
     >
       <Link to="/" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none', color: 'inherit', flexShrink: 0 }}>
@@ -314,7 +294,7 @@ export default function Navbar({ mobileMenuOpen, onMenuClick, rightOffset = 0 })
                   }}
                 >
                   {item.icon}
-                  <span>{t(item.id) || item.title}</span>
+                  <span>{getToolTitle(item.id)}</span>
                 </Box>
               ))}
             </Box>
@@ -396,7 +376,7 @@ export default function Navbar({ mobileMenuOpen, onMenuClick, rightOffset = 0 })
                     }}
                   >
                     {item.icon}
-                    <span>{t(item.id) || item.title}</span>
+                    <span>{getToolTitle(item.id)}</span>
                   </Box>
                 ))
               ) : (
@@ -411,26 +391,36 @@ export default function Navbar({ mobileMenuOpen, onMenuClick, rightOffset = 0 })
         </>
       )}
 
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-        {generalItems.map((item) => (
-          <Box
-            key={item.id}
-            component={Link}
-            to={item.path}
-            sx={{
-              px: 1.5,
-              py: 0.75,
-              borderRadius: 1,
-              textDecoration: 'none',
-              color: 'text.primary',
-              fontSize: '0.9rem',
-              fontWeight: 500,
-              '&:hover': { bgcolor: 'action.hover' },
-            }}
-          >
-            {t(item.id) || item.title}
-          </Box>
-        ))}
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+        {generalItems.map((item) => {
+          const isActive = location.pathname === item.path || (item.path !== '/' && location.pathname.startsWith(item.path))
+          return (
+            <Box
+              key={item.id}
+              component={Link}
+              to={item.path}
+              sx={{
+                px: 2,
+                py: 1,
+                borderRadius: 2,
+                textDecoration: 'none',
+                color: isActive ? 'primary.main' : 'text.primary',
+                fontSize: '0.9rem',
+                fontWeight: isActive ? 600 : 500,
+                bgcolor: isActive ? alpha(theme.palette.primary.main, theme.palette.mode === 'dark' ? 0.2 : 0.1) : 'transparent',
+                transition: 'color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease',
+                '&:hover': {
+                  bgcolor: isActive
+                    ? alpha(theme.palette.primary.main, theme.palette.mode === 'dark' ? 0.28 : 0.16)
+                    : alpha(theme.palette.primary.main, theme.palette.mode === 'dark' ? 0.12 : 0.08),
+                  color: 'primary.main',
+                },
+              }}
+            >
+              {getToolTitle(item.id)}
+            </Box>
+          )
+        })}
       </Box>
 
       <Box sx={{ flexGrow: 1, minWidth: 16 }} />
@@ -462,18 +452,22 @@ export default function Navbar({ mobileMenuOpen, onMenuClick, rightOffset = 0 })
 
     {isDesktop && (
       <Box
+        onMouseLeave={() => setActiveMenuId(null)}
         sx={{
           position: 'fixed',
           top: desktopNavbarHeight,
           left: 0,
           right: 0,
-          height: secondaryBarHeight,
           zIndex: 1090,
           display: 'flex',
-          alignItems: 'center',
-          pl: 4,
-          pr: 2,
+          alignItems: 'flex-start',
+          justifyContent: 'center',
           gap: 0.5,
+          pl: 4,
+          pr: 4,
+          pt: 0,
+          pb: 0,
+          minHeight: secondaryBarHeight,
           bgcolor: theme.palette.mode === 'dark' ? 'action.hover' : 'grey.100',
           borderBottom: `1px solid ${theme.palette.divider}`,
         }}
@@ -481,45 +475,73 @@ export default function Navbar({ mobileMenuOpen, onMenuClick, rightOffset = 0 })
         {toolsConfig
           .filter((c) => c.id !== 'genel')
           .map((cat) => (
-            <Button
+            <Box
               key={cat.id}
-              onClick={(e) => openCategoryMenu(e, cat.id)}
-              endIcon={<ExpandMoreIcon />}
+              onMouseEnter={() => setActiveMenuId(cat.id)}
               sx={{
-                color: 'text.primary',
-                textTransform: 'none',
-                fontWeight: 500,
-                fontSize: '0.9rem',
+                position: 'relative',
+                display: 'flex',
+                alignItems: 'center',
+                height: secondaryBarHeight,
               }}
             >
-              {t(CATEGORY_TITLE_KEYS[cat.id] ?? cat.id)}
-            </Button>
+              <Button
+                onClick={(e) => {
+                  e.preventDefault()
+                  e.stopPropagation()
+                  setActiveMenuId(activeMenuId === cat.id ? null : cat.id)
+                }}
+                endIcon={<ExpandMoreIcon />}
+                sx={{
+                  color: activeMenuId === cat.id ? 'primary.main' : 'text.primary',
+                  textTransform: 'none',
+                  fontWeight: 500,
+                  fontSize: '0.9rem',
+                  borderRadius: 1.5,
+                  px: 1.5,
+                  py: 0.75,
+                  transition: 'background-color 0.2s ease, color 0.2s ease',
+                  '&:hover': {
+                    bgcolor: theme.palette.mode === 'dark' ? 'action.selected' : 'grey.200',
+                    color: 'primary.main',
+                  },
+                }}
+              >
+                {getCategoryTitle(cat.id)}
+              </Button>
+              {activeMenuId === cat.id && (
+                <Paper
+                  elevation={8}
+                  sx={{
+                    position: 'absolute',
+                    top: '100%',
+                    left: 0,
+                    minWidth: 200,
+                    mt: 0,
+                    py: 0.5,
+                    overflow: 'hidden',
+                    zIndex: 1200,
+                  }}
+                >
+                  {cat.items.map((item) => (
+                    <MenuItem
+                      key={item.id}
+                      component={Link}
+                      to={item.path}
+                      onClick={() => setActiveMenuId(null)}
+                    >
+                      {item.icon}
+                      <Box component="span" sx={{ ml: 1.5 }}>
+                        {getToolTitle(item.id)}
+                      </Box>
+                    </MenuItem>
+                  ))}
+                </Paper>
+              )}
+            </Box>
           ))}
       </Box>
     )}
-
-    <Menu
-      anchorEl={isDesktop ? categoryMenuAnchor : null}
-      open={isDesktop && Boolean(categoryMenuAnchor)}
-      onClose={closeCategoryMenu}
-      anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
-      transformOrigin={{ vertical: 'top', horizontal: 'left' }}
-      slotProps={{ paper: { sx: { minWidth: 200, mt: 1 } } }}
-    >
-      {categoryForMenu?.items.map((item) => (
-        <MenuItem
-          key={item.id}
-          component={Link}
-          to={item.path}
-          onClick={closeCategoryMenu}
-        >
-          {item.icon}
-          <Box component="span" sx={{ ml: 1.5 }}>
-            {t(item.id) || item.title}
-          </Box>
-        </MenuItem>
-      ))}
-    </Menu>
     </>
   )
 }

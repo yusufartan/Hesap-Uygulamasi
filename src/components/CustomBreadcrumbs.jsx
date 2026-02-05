@@ -25,7 +25,7 @@ function findToolByPath(path) {
 
 export default function CustomBreadcrumbs() {
   const location = useLocation()
-  const { t } = useTranslation()
+  const { t, getToolTitle, getCategoryTitle } = useTranslation()
   const pathname = location.pathname
   const pathSegment = pathname.replace(/^\//, '') || ''
 
@@ -64,11 +64,11 @@ export default function CustomBreadcrumbs() {
           <>
             {/* 2. Adım: Kategori başlığı */}
             <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 500 }}>
-              {found.category.title}
+              {getCategoryTitle(found.category.id)}
             </Typography>
             {/* 3. Adım: Araç başlığı (aktif sayfa) */}
             <Typography variant="body2" color="text.primary" fontWeight="600" sx={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-              {t(found.item.id) || found.item.title}
+              {getToolTitle(found.item.id)}
             </Typography>
           </>
         ) : (

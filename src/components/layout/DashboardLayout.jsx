@@ -35,6 +35,22 @@ export default function DashboardLayout() {
     setMobileMenuOpen(false)
   }, [location])
 
+  // Sayfa değiştiğinde scroll: hash varsa ilgili kategoriye, yoksa en üste
+  React.useEffect(() => {
+    if (!mainRef.current) return
+    if (location.hash) {
+      const id = location.hash.slice(1)
+      const el = document.getElementById(id)
+      if (el) {
+        const t = setTimeout(() => {
+          el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        }, 80)
+        return () => clearTimeout(t)
+      }
+    }
+    mainRef.current.scrollTo(0, 0)
+  }, [location.pathname, location.hash])
+
   // Breakpoint değişince tek menü kaynağı: mobilde dropdown, tablette sidebar, masaüstünde ikincil bar. Diğerleri kapalı.
   React.useEffect(() => {
     if (!isMobile) setMobileMenuOpen(false)
@@ -80,7 +96,10 @@ export default function DashboardLayout() {
         component="main"
         ref={mainRef}
         onScroll={handleScroll}
-        onClick={() => mobileMenuOpen && toggleMobileMenu()}
+        onClick={() => {
+          if (mobileMenuOpen) toggleMobileMenu()
+          if (sidebarOpen) toggleSidebar()
+        }}
         sx={{
           position: 'relative',
           width: '100%',

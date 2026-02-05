@@ -9,7 +9,7 @@ import {
   useTheme,
   Divider,
 } from '@mui/material'
-import { Link as RouterLink } from 'react-router-dom'
+import { Link as RouterLink, useLocation } from 'react-router-dom'
 import GitHubIcon from '@mui/icons-material/GitHub'
 import TwitterIcon from '@mui/icons-material/Twitter'
 import LinkedInIcon from '@mui/icons-material/LinkedIn'
@@ -31,7 +31,15 @@ function getPopularTools(config, n) {
 
 export default function Footer() {
   const theme = useTheme()
-  const { t } = useTranslation()
+  const location = useLocation()
+  const { t, getToolTitle, getCategoryTitle } = useTranslation()
+
+  const handleCategoryClick = (e, categoryId) => {
+    if (location.pathname === '/tools' && location.hash === `#${categoryId}`) {
+      e.preventDefault()
+      document.getElementById(categoryId)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }
+  }
   const popularTools = React.useMemo(
     () => getPopularTools(toolsConfig, POPULAR_TOOLS_COUNT),
     []
@@ -141,10 +149,11 @@ export default function Footer() {
                 <Link
                   key={category.id}
                   component={RouterLink}
-                  to="/"
+                  to={`/tools#${category.id}`}
+                  onClick={(e) => handleCategoryClick(e, category.id)}
                   sx={linkSx}
                 >
-                  {category.title}
+                  {getCategoryTitle(category.id)}
                 </Link>
               ))}
             </Box>
@@ -166,7 +175,7 @@ export default function Footer() {
                   to={item.path}
                   sx={linkSx}
                 >
-                  {t(item.id) || item.title}
+                  {getToolTitle(item.id)}
                 </Link>
               ))}
             </Box>

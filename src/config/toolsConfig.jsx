@@ -19,176 +19,63 @@ import AttachMoneyIcon from '@mui/icons-material/AttachMoney'
 import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange'
 
 /**
- * Araç konfigürasyonu — menuItems.jsx ve AppRoutes.jsx ile senkron.
- * Başlık ve path değerleri menuItems.jsx'ten birebir alınmıştır.
+ * Araç konfigürasyonu — Profesyonel i18n: Sadece id, path, icon.
+ * Başlık ve açıklama translation JSON'dan (tools.{id}.title, tools.{id}.description) gelir.
+ * Yeni araç eklerken: buraya { id, path, icon } ekle, locales/*.json'a tools.{id} ekle.
  */
 export const toolsConfig = [
   {
     id: 'genel',
-    title: 'Genel',
     icon: <HomeIcon />,
     items: [
-      {
-        id: 'dashboard',
-        title: 'Ana Sayfa',
-        description: 'Tüm hesaplama araçlarına genel bakış ve hızlı erişim.',
-        path: '/',
-        icon: <HomeIcon />,
-      },
-      {
-        id: 'calculator',
-        title: 'Hesap Makinesi',
-        description: 'Basit dört işlem: toplama, çıkarma, çarpma ve bölme.',
-        path: '/calculator',
-        icon: <CalculateIcon />,
-      },
-      {
-        id: 'all-tools',
-        title: 'Tüm Araçlar',
-        description: 'Tüm hesaplama araçlarının listesini görüntüleyin.',
-        path: '/tools',
-        icon: <AppsIcon />,
-      },
+      { id: 'dashboard', path: '/', icon: <HomeIcon /> },
+      { id: 'calculator', path: '/calculator', icon: <CalculateIcon /> },
+      { id: 'all-tools', path: '/tools', icon: <AppsIcon /> },
     ],
   },
   {
     id: 'finance',
-    title: 'Finans Araçları',
     icon: <AttachMoneyIcon />,
     items: [
-      {
-        id: 'discount',
-        title: 'İndirim',
-        description: 'İndirim oranına göre yeni fiyatı ve kazancınızı hesaplayın.',
-        path: '/discount',
-        icon: <LocalOfferIcon />,
-      },
-      {
-        id: 'finance',
-        title: 'Finans',
-        description: 'Kredi taksitlerini veya yatırım getirilerini planlayın.',
-        path: '/finance',
-        icon: <AttachMoneyIcon />,
-      },
-      {
-        id: 'currency',
-        title: 'Döviz',
-        description: 'Güncel döviz kurları ile anında çeviri yapın.',
-        path: '/currency',
-        icon: <CurrencyExchangeIcon />,
-      },
+      { id: 'discount', path: '/discount', icon: <LocalOfferIcon /> },
+      { id: 'finance', path: '/finance', icon: <AttachMoneyIcon /> },
+      { id: 'currency', path: '/currency', icon: <CurrencyExchangeIcon /> },
     ],
   },
   {
     id: 'health',
-    title: 'Sağlık',
     icon: <MonitorWeightIcon />,
     items: [
-      {
-        id: 'bmi',
-        title: 'VKE',
-        description: 'Boy ve kilonuza göre Vücut Kitle İndeksinizi (BMI) öğrenin.',
-        path: '/bmi',
-        icon: <MonitorWeightIcon />,
-      },
+      { id: 'bmi', path: '/bmi', icon: <MonitorWeightIcon /> },
     ],
   },
   {
     id: 'time',
-    title: 'Zaman Araçları',
     icon: <AccessTimeIcon />,
     items: [
-      {
-        id: 'age',
-        title: 'Yaş',
-        description: 'Doğum tarihinize göre yaşınızı ve sonraki doğum gününüzü hesaplayın.',
-        path: '/age',
-        icon: <CakeIcon />,
-      },
-      {
-        id: 'date',
-        title: 'Tarih',
-        description: 'İki tarih arasındaki gün, ay ve yıl farkını kolayca hesaplayın.',
-        path: '/date',
-        icon: <CalendarMonthIcon />,
-      },
-      {
-        id: 'time',
-        title: 'Zaman',
-        description: 'Saniye, dakika, saat ve gün gibi zaman birimlerini hesaplayın.',
-        path: '/time',
-        icon: <AccessTimeIcon />,
-      },
+      { id: 'age', path: '/age', icon: <CakeIcon /> },
+      { id: 'date', path: '/date', icon: <CalendarMonthIcon /> },
+      { id: 'time', path: '/time', icon: <AccessTimeIcon /> },
     ],
   },
   {
     id: 'unit-converters',
-    title: 'Birim Çeviriciler',
     icon: <StraightenIcon />,
     items: [
-      {
-        id: 'length',
-        title: 'Uzunluk',
-        description: 'Metre, mil, inç gibi uzunluk ölçü birimlerini dönüştürün.',
-        path: '/length',
-        icon: <StraightenIcon />,
-      },
-      {
-        id: 'area',
-        title: 'Alan',
-        description: 'Metrekare, hektar, dönüm gibi alan birimlerini birbirine dönüştürün.',
-        path: '/area',
-        icon: <AspectRatioIcon />,
-      },
-      {
-        id: 'volume',
-        title: 'Hacim',
-        description: 'Litre, galon, metreküp gibi hacim ölçülerini birbirine çevirin.',
-        path: '/volume',
-        icon: <ViewInArIcon />,
-      },
-      {
-        id: 'mass',
-        title: 'Kütle',
-        description: 'Kilogram, pound, ons gibi kütle birimleri arasında işlem yapın.',
-        path: '/mass',
-        icon: <ScaleIcon />,
-      },
-      {
-        id: 'speed',
-        title: 'Hız',
-        description: 'Km/s, mph, knot gibi hız birimlerini birbirine çevirin.',
-        path: '/speed',
-        icon: <SpeedIcon />,
-      },
-      {
-        id: 'temp',
-        title: 'Sıcaklık',
-        description: 'Celsius, Fahrenheit ve Kelvin sıcaklık birimlerini dönüştürün.',
-        path: '/temp',
-        icon: <ThermostatIcon />,
-      },
+      { id: 'length', path: '/length', icon: <StraightenIcon /> },
+      { id: 'area', path: '/area', icon: <AspectRatioIcon /> },
+      { id: 'volume', path: '/volume', icon: <ViewInArIcon /> },
+      { id: 'mass', path: '/mass', icon: <ScaleIcon /> },
+      { id: 'speed', path: '/speed', icon: <SpeedIcon /> },
+      { id: 'temp', path: '/temp', icon: <ThermostatIcon /> },
     ],
   },
   {
     id: 'math-data',
-    title: 'Matematik & Veri',
     icon: <MemoryIcon />,
     items: [
-      {
-        id: 'data',
-        title: 'Veri',
-        description: 'Bit, Byte ve diğer dijital veri birimleri arasında çeviri yapın.',
-        path: '/data',
-        icon: <StorageIcon />,
-      },
-      {
-        id: 'numeral',
-        title: 'Numeral Sistem',
-        description: 'Binary, Octal, Decimal ve Hexadecimal sayı sistemlerini dönüştürün.',
-        path: '/numeral',
-        icon: <MemoryIcon />,
-      },
+      { id: 'data', path: '/data', icon: <StorageIcon /> },
+      { id: 'numeral', path: '/numeral', icon: <MemoryIcon /> },
     ],
   },
 ]

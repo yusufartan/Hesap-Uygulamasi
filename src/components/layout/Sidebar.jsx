@@ -92,19 +92,10 @@ const allItems = toolsConfig.flatMap((category) =>
   category.items.map((item) => ({ ...item, categoryId: category.id }))
 )
 
-const CATEGORY_TITLE_KEYS = {
-  genel: 'categoryGenel',
-  finance: 'categoryFinance',
-  health: 'categoryHealth',
-  time: 'categoryTime',
-  'unit-converters': 'categoryUnitConverters',
-  'math-data': 'categoryMathData',
-}
-
 export default function Sidebar({ mobileMenuOpen, toggleMobileMenu, sidebarOpen, toggleSidebar }) {
   const theme = useTheme()
   const location = useLocation()
-  const { t } = useTranslation()
+  const { t, getToolTitle, getCategoryTitle } = useTranslation()
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
   const isDesktop = useMediaQuery(theme.breakpoints.up('lg'))
 
@@ -238,24 +229,30 @@ export default function Sidebar({ mobileMenuOpen, toggleMobileMenu, sidebarOpen,
                       <ListItemButton
                         data-category-id={category.id}
                         onClick={() => handleCategoryClick(category.id)}
-                        sx={{ minHeight: 48, px: 2.5, borderRadius: 2, '&:hover': { bgcolor: 'action.hover' } }}
+                        sx={{
+                          minHeight: 48,
+                          px: 2.5,
+                          borderRadius: 2,
+                          '&:hover': { bgcolor: 'action.hover' },
+                          color: isCategoryOpen ? 'primary.main' : 'text.secondary',
+                        }}
                       >
-                        <ListItemIcon sx={{ minWidth: 0, mr: 2, justifyContent: 'center', color: 'text.secondary' }}>
+                        <ListItemIcon sx={{ minWidth: 0, mr: 2, justifyContent: 'center', color: 'inherit' }}>
                           {category.icon}
                         </ListItemIcon>
                         <ListItemText
-                          primary={t(CATEGORY_TITLE_KEYS[category.id]) || category.title}
+                          primary={getCategoryTitle(category.id)}
                           primaryTypographyProps={{
                             sx: {
                               fontWeight: 700,
                               fontSize: '0.75rem',
-                              color: 'text.secondary',
+                              color: 'inherit',
                               letterSpacing: '0.08em',
                               textTransform: 'uppercase',
                             },
                           }}
                         />
-                        {hasItems && (isCategoryOpen ? <ExpandLess sx={{ color: 'primary.main' }} /> : <ExpandMore sx={{ color: 'text.secondary' }} />)}
+                        {hasItems && (isCategoryOpen ? <ExpandLess sx={{ color: 'primary.main' }} /> : <ExpandMore sx={{ color: 'inherit' }} />)}
                       </ListItemButton>
                     </ListItem>
                     <Collapse in={isCategoryOpen} timeout={400} unmountOnExit>
@@ -275,7 +272,7 @@ export default function Sidebar({ mobileMenuOpen, toggleMobileMenu, sidebarOpen,
                                   {item.icon}
                                 </ListItemIcon>
                                 <ListItemText
-                                  primary={t(item.id) || item.title}
+                                  primary={getToolTitle(item.id)}
                                   primaryTypographyProps={{
                                     sx: { color: isSelected ? 'inherit' : (theme) => (theme.palette.mode === 'dark' ? 'grey.300' : 'grey.800') },
                                   }}
@@ -336,10 +333,20 @@ export default function Sidebar({ mobileMenuOpen, toggleMobileMenu, sidebarOpen,
             return (
               <React.Fragment key={category.id}>
                 <ListItem disablePadding sx={{ mb: 0.5 }}>
-                  <ListItemButton data-category-id={category.id} onClick={() => handleCategoryClick(category.id)} sx={{ minHeight: 48, px: 2.5, borderRadius: 2, '&:hover': { bgcolor: 'action.hover' } }}>
-                    <ListItemIcon sx={{ minWidth: 0, mr: 2, justifyContent: 'center', color: 'text.secondary' }}>{category.icon}</ListItemIcon>
-                    <ListItemText primary={t(CATEGORY_TITLE_KEYS[category.id]) || category.title} primaryTypographyProps={{ sx: { fontWeight: 700, fontSize: '0.75rem', color: 'text.secondary', letterSpacing: '0.08em', textTransform: 'uppercase' } }} />
-                    {hasItems && (isCategoryOpen ? <ExpandLess sx={{ color: 'primary.main' }} /> : <ExpandMore sx={{ color: 'text.secondary' }} />)}
+                  <ListItemButton
+                    data-category-id={category.id}
+                    onClick={() => handleCategoryClick(category.id)}
+                    sx={{
+                      minHeight: 48,
+                      px: 2.5,
+                      borderRadius: 2,
+                      '&:hover': { bgcolor: 'action.hover' },
+                      color: isCategoryOpen ? 'primary.main' : 'text.secondary',
+                    }}
+                  >
+                    <ListItemIcon sx={{ minWidth: 0, mr: 2, justifyContent: 'center', color: 'inherit' }}>{category.icon}</ListItemIcon>
+                    <ListItemText primary={getCategoryTitle(category.id)} primaryTypographyProps={{ sx: { fontWeight: 700, fontSize: '0.75rem', color: 'inherit', letterSpacing: '0.08em', textTransform: 'uppercase' } }} />
+                    {hasItems && (isCategoryOpen ? <ExpandLess sx={{ color: 'primary.main' }} /> : <ExpandMore sx={{ color: 'inherit' }} />)}
                   </ListItemButton>
                 </ListItem>
                 <Collapse in={isCategoryOpen} timeout={400} unmountOnExit>
@@ -350,7 +357,7 @@ export default function Sidebar({ mobileMenuOpen, toggleMobileMenu, sidebarOpen,
                         <ListItem key={item.id} disablePadding sx={{ mb: 0.5 }}>
                           <ListItemButton component={Link} to={item.path} onClick={toggleMobileMenu} selected={isSelected} sx={{ minHeight: 44, pl: 4, pr: 2.5, borderRadius: 2, '&.Mui-selected': selectedStyles }}>
                             <ListItemIcon sx={{ minWidth: 0, mr: 2, justifyContent: 'center', color: isSelected ? 'inherit' : 'text.secondary' }}>{item.icon}</ListItemIcon>
-                            <ListItemText primary={t(item.id) || item.title} primaryTypographyProps={{ sx: { color: isSelected ? 'inherit' : (th) => (th.palette.mode === 'dark' ? 'grey.300' : 'grey.800') } }} />
+                            <ListItemText primary={getToolTitle(item.id)} primaryTypographyProps={{ sx: { color: isSelected ? 'inherit' : (th) => (th.palette.mode === 'dark' ? 'grey.300' : 'grey.800') } }} />
                           </ListItemButton>
                         </ListItem>
                       )
@@ -436,7 +443,7 @@ export default function Sidebar({ mobileMenuOpen, toggleMobileMenu, sidebarOpen,
               <React.Fragment key={category.id}>
                 <ListItem disablePadding sx={{ display: 'block' }}>
                     <Tooltip
-                    title={!menuExpanded ? (t(CATEGORY_TITLE_KEYS[category.id]) || category.title) : ''}
+                    title={!menuExpanded ? getCategoryTitle(category.id) : ''}
                     placement="left"
                   >
                     <ListItemButton
@@ -447,6 +454,7 @@ export default function Sidebar({ mobileMenuOpen, toggleMobileMenu, sidebarOpen,
                         justifyContent: menuExpanded ? 'initial' : 'center',
                         px: 2.5,
                         '&:hover': { bgcolor: 'action.hover' },
+                        color: isCategoryOpen ? 'primary.main' : 'text.secondary',
                       }}
                     >
                       <ListItemIcon
@@ -454,25 +462,25 @@ export default function Sidebar({ mobileMenuOpen, toggleMobileMenu, sidebarOpen,
                           minWidth: 0,
                           mr: menuExpanded ? 2 : 'auto',
                           justifyContent: 'center',
-                          color: 'text.secondary',
+                          color: 'inherit',
                         }}
                       >
                         {category.icon}
                       </ListItemIcon>
                       <ListItemText
-                        primary={t(CATEGORY_TITLE_KEYS[category.id]) || category.title}
+                        primary={getCategoryTitle(category.id)}
                         sx={{ opacity: menuExpanded ? 1 : 0 }}
                         primaryTypographyProps={{
                           sx: {
                             fontWeight: 700,
                             fontSize: '0.75rem',
-                            color: 'text.secondary',
+                            color: 'inherit',
                             letterSpacing: '0.08em',
                             textTransform: 'uppercase',
                           },
                         }}
                       />
-                      {showExpand && (isCategoryOpen ? <ExpandLess sx={{ color: 'primary.main' }} /> : <ExpandMore sx={{ color: 'text.secondary' }} />)}
+                      {showExpand && (isCategoryOpen ? <ExpandLess sx={{ color: 'primary.main' }} /> : <ExpandMore sx={{ color: 'inherit' }} />)}
                     </ListItemButton>
                   </Tooltip>
                 </ListItem>
@@ -483,7 +491,7 @@ export default function Sidebar({ mobileMenuOpen, toggleMobileMenu, sidebarOpen,
                         const isSelected = activeItemId === item.id
                         return (
                           <ListItem key={item.id} disablePadding sx={{ display: 'block' }}>
-                            <Tooltip title={!menuExpanded ? (t(item.id) || item.title) : ''} placement="left">
+                            <Tooltip title={!menuExpanded ? getToolTitle(item.id) : ''} placement="left">
                               <ListItemButton
                                 component={Link}
                                 to={item.path}
@@ -507,7 +515,7 @@ export default function Sidebar({ mobileMenuOpen, toggleMobileMenu, sidebarOpen,
                                   {item.icon}
                                 </ListItemIcon>
                                 <ListItemText
-                                  primary={t(item.id) || item.title}
+                                  primary={getToolTitle(item.id)}
                                   sx={{ opacity: menuExpanded ? 1 : 0 }}
                                   primaryTypographyProps={{
                                     sx: { color: isSelected ? 'inherit' : (theme) => (theme.palette.mode === 'dark' ? 'grey.300' : 'grey.800') },

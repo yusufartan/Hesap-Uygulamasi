@@ -19,7 +19,7 @@ const heroTitle = 'Hesaplamalarınızı Hızlandırın'
 const heroSubtitle =
   'Finanstan sağlığa, eğitimden mühendisliğe kadar ihtiyacınız olan tüm araçlar.'
 
-function ToolCard({ item, theme, t }) {
+function ToolCard({ item, theme, t, getToolTitle, getToolDescription }) {
   return (
     <Card
       elevation={0}
@@ -93,7 +93,7 @@ function ToolCard({ item, theme, t }) {
             {item.icon}
           </Box>
           <Typography variant="h6" fontWeight="700" gutterBottom noWrap>
-            {t(item.id) || item.title}
+            {getToolTitle(item.id)}
           </Typography>
           <Typography
             variant="body2"
@@ -107,7 +107,7 @@ function ToolCard({ item, theme, t }) {
               wordBreak: 'break-word',
             }}
           >
-            {t(`${item.id}Desc`) || item.description}
+            {getToolDescription(item.id)}
           </Typography>
         </Box>
         <Box
@@ -141,7 +141,7 @@ function ToolCard({ item, theme, t }) {
 
 export default function Dashboard() {
   const theme = useTheme()
-  const { t } = useTranslation()
+  const { t, getToolTitle, getToolDescription, getCategoryTitle } = useTranslation()
   const categoriesToShow = toolsConfig
 
   return (
@@ -228,7 +228,11 @@ export default function Dashboard() {
               )
               if (items.length === 0) return null
               return (
-                <Box key={category.id} sx={{ mb: 4 }}>
+                <Box
+                  key={category.id}
+                  id={category.id}
+                  sx={{ mb: 4, scrollMarginTop: 120 }}
+                >
                   <Box
                     sx={{
                       display: 'flex',
@@ -252,7 +256,7 @@ export default function Dashboard() {
                         })}
                     </Box>
                     <Typography variant="h6" fontWeight="700">
-                      {category.title}
+                      {getCategoryTitle(category.id)}
                     </Typography>
                   </Box>
                   <Grid container spacing={2}>
@@ -262,7 +266,7 @@ export default function Dashboard() {
                         key={item.id}
                         sx={{ display: 'flex' }}
                       >
-                        <ToolCard item={item} theme={theme} t={t} />
+                        <ToolCard item={item} theme={theme} t={t} getToolTitle={getToolTitle} getToolDescription={getToolDescription} />
                       </Grid>
                     ))}
                   </Grid>
