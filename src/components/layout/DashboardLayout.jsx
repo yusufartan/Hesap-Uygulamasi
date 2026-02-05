@@ -3,8 +3,8 @@ import React from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
 import { useTheme } from '@mui/material/styles'
 import useMediaQuery from '@mui/material/useMediaQuery'
-import Sidebar from './Sidebar'
-import Navbar, { desktopNavbarHeight, mobileNavbarHeight } from './Navbar'
+import Sidebar, { sidebarMiniWidth } from './Sidebar'
+import Navbar, { desktopNavbarHeight, mobileNavbarHeight, secondaryBarHeight } from './Navbar'
 import Footer from '../Footer'
 import ErrorBoundary from '../ErrorBoundary'
 import CustomBreadcrumbs from '../CustomBreadcrumbs'
@@ -19,18 +19,32 @@ export default function DashboardLayout() {
   const location = useLocation()
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
+  const isDesktop = useMediaQuery(theme.breakpoints.up('lg'))
   const [showScrollTop, setShowScrollTop] = React.useState(false)
   const mainRef = React.useRef(null)
   
-  const [open, setOpen] = React.useState(() => {
-    const saved = localStorage.getItem('navbarOpen')
+  const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false)
+  const [sidebarOpen, setSidebarOpen] = React.useState(() => {
+    const saved = localStorage.getItem('sidebarOpen')
     return saved !== null ? saved === 'true' : window.innerWidth > 900
   })
 
-  React.useEffect(() => { localStorage.setItem('navbarOpen', open) }, [open])
-  React.useEffect(() => { if (window.innerWidth < 900) setOpen(false) }, [location])
+  React.useEffect(() => { localStorage.setItem('sidebarOpen', sidebarOpen) }, [sidebarOpen])
+  React.useEffect(() => {
+    if (window.innerWidth < 900) setSidebarOpen(false)
+    setMobileMenuOpen(false)
+  }, [location])
 
-  const toggleDrawer = () => setOpen(!open)
+  // Breakpoint değişince tek menü kaynağı: mobilde dropdown, tablette sidebar, masaüstünde ikincil bar. Diğerleri kapalı.
+  React.useEffect(() => {
+    if (!isMobile) setMobileMenuOpen(false)
+  }, [isMobile])
+  React.useEffect(() => {
+    if (isMobile) setSidebarOpen(false)
+  }, [isMobile])
+
+  const toggleMobileMenu = () => setMobileMenuOpen((o) => !o)
+  const toggleSidebar = () => setSidebarOpen((o) => !o)
 
   // Scroll olayını dinle
   const handleScroll = (event) => {
@@ -45,18 +59,28 @@ export default function DashboardLayout() {
     }
   }
 
-  const navbarHeight = isMobile ? mobileNavbarHeight : desktopNavbarHeight
+  const navbarHeight = isMobile
+    ? mobileNavbarHeight
+    : desktopNavbarHeight + (isDesktop ? secondaryBarHeight : 0)
+
+  const isTablet = !isMobile && !isDesktop
+  const navbarRightOffset = isTablet ? sidebarMiniWidth : 0
 
   return (
     <Box sx={{ display: 'block', height: '100vh', position: 'relative' }}>
       <SEOUpdater />
-      <Navbar open={open} onMenuClick={toggleDrawer} />
-      <Sidebar open={open} toggleDrawer={toggleDrawer} />
+      <Navbar mobileMenuOpen={mobileMenuOpen} onMenuClick={toggleMobileMenu} rightOffset={navbarRightOffset} />
+      <Sidebar
+        mobileMenuOpen={mobileMenuOpen}
+        toggleMobileMenu={toggleMobileMenu}
+        sidebarOpen={sidebarOpen}
+        toggleSidebar={toggleSidebar}
+      />
       <Box
         component="main"
         ref={mainRef}
         onScroll={handleScroll}
-        onClick={() => open && toggleDrawer()}
+        onClick={() => mobileMenuOpen && toggleMobileMenu()}
         sx={{
           position: 'relative',
           width: '100%',

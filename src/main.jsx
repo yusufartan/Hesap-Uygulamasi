@@ -5,6 +5,7 @@ import { BrowserRouter } from 'react-router-dom'
 import { HelmetProvider } from 'react-helmet-async'
 import { store } from './app/store'
 import * as Sentry from "@sentry/react"
+import './i18n'
 import './index.css'
 import App from './App.jsx'
 

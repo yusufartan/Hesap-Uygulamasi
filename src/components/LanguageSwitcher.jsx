@@ -1,23 +1,21 @@
 import React, { useState } from 'react'
 import { IconButton, Menu, MenuItem, Tooltip, Typography, Box } from '@mui/material'
 import LanguageIcon from '@mui/icons-material/Language'
-import { useDispatch, useSelector } from 'react-redux'
-import { setLanguage } from '../features/language/languageSlice'
+import { useTranslation } from 'react-i18next'
 
 export default function LanguageSwitcher() {
+  const { i18n } = useTranslation()
   const [anchorEl, setAnchorEl] = useState(null)
-  const dispatch = useDispatch()
-  const currentLang = useSelector((state) => state.language.currentLanguage)
-  
+  const currentLang = i18n.language?.split('-')[0] || 'tr'
   const open = Boolean(anchorEl)
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget)
   }
 
-  const handleClose = (lang) => {
-    if (lang) {
-      dispatch(setLanguage(lang))
+  const handleClose = (lng) => {
+    if (lng) {
+      i18n.changeLanguage(lng)
     }
     setAnchorEl(null)
   }

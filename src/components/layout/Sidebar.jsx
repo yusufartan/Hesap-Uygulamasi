@@ -3,7 +3,7 @@ import { styled, useTheme } from '@mui/material/styles'
 import { useLocation, Link } from 'react-router-dom'
 import { toolsConfig } from '../../config/toolsConfig'
 import { useTranslation } from '../../hooks/useTranslation'
-import { mobileNavbarHeight as mobileNavHeight } from './Navbar'
+import { mobileNavbarHeight as mobileNavHeight, desktopNavbarHeight } from './Navbar'
 
 import Box from '@mui/material/Box'
 import MuiDrawer from '@mui/material/Drawer'
@@ -16,14 +16,13 @@ import ListItemButton from '@mui/material/ListItemButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 import Collapse from '@mui/material/Collapse'
-import InputBase from '@mui/material/InputBase'
 import Tooltip from '@mui/material/Tooltip'
 import useMediaQuery from '@mui/material/useMediaQuery'
 
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
+import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 import ExpandLess from '@mui/icons-material/ExpandLess'
 import ExpandMore from '@mui/icons-material/ExpandMore'
-import SearchIcon from '@mui/icons-material/Search'
 import CalculateIcon from '@mui/icons-material/Calculate'
 import MenuIcon from '@mui/icons-material/Menu'
 import CloseIcon from '@mui/icons-material/Close'
@@ -51,19 +50,21 @@ export const DrawerHeader = styled('div')(({ theme }) => ({
 const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
   ({ theme, open }) => ({
     position: 'fixed',
-    left: 0,
+    right: 0,
     top: 0,
     bottom: 0,
     width: open ? drawerWidth : sidebarMiniWidth,
     height: '100vh',
-    zIndex: 1200,
+    zIndex: 1300,
     whiteSpace: 'nowrap',
     boxSizing: 'border-box',
     pointerEvents: 'auto',
     flexShrink: 0,
     '& .MuiDrawer-paper': {
       position: 'fixed',
-      left: 0,
+      right: 0,
+      left: 'auto',
+      zIndex: 1300,
       top: 0,
       bottom: 0,
       height: '100vh',
@@ -75,7 +76,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
       }),
       display: 'flex',
       flexDirection: 'column',
-      borderRight: `1px solid ${theme.palette.divider}`,
+      borderLeft: `1px solid ${theme.palette.divider}`,
       boxSizing: 'border-box',
       margin: 0,
       ...(open && {
@@ -86,42 +87,6 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
     },
   })
 )
-
-const Search = styled('div')(({ theme }) => ({
-  position: 'relative',
-  borderRadius: theme.shape.borderRadius,
-  backgroundColor: theme.palette.action.hover,
-  '&:hover': { backgroundColor: theme.palette.action.selected },
-  margin: theme.spacing(0, 2),
-  marginBottom: theme.spacing(2),
-  display: 'flex',
-  alignItems: 'center',
-  transition: theme.transitions.create(['background-color', 'margin'], {
-    duration: theme.transitions.duration.standard,
-  }),
-}))
-
-const SearchIconWrapper = styled('div')(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: '100%',
-  position: 'absolute',
-  pointerEvents: 'none',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  color: theme.palette.text.secondary,
-}))
-
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: 'inherit',
-  width: '100%',
-  '& .MuiInputBase-input': {
-    padding: theme.spacing(1.5, 1, 1.5, 0),
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create('width'),
-    width: '100%',
-  },
-}))
 
 const allItems = toolsConfig.flatMap((category) =>
   category.items.map((item) => ({ ...item, categoryId: category.id }))
@@ -136,13 +101,13 @@ const CATEGORY_TITLE_KEYS = {
   'math-data': 'categoryMathData',
 }
 
-export default function Sidebar({ open, toggleDrawer }) {
+export default function Sidebar({ mobileMenuOpen, toggleMobileMenu, sidebarOpen, toggleSidebar }) {
   const theme = useTheme()
   const location = useLocation()
   const { t } = useTranslation()
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
+  const isDesktop = useMediaQuery(theme.breakpoints.up('lg'))
 
-  const [searchQuery, setSearchQuery] = React.useState('')
   const [openCategories, setOpenCategories] = React.useState(() => ({
     genel: true,
     finance: false,
@@ -153,8 +118,6 @@ export default function Sidebar({ open, toggleDrawer }) {
   }))
   const listRef = React.useRef(null)
   const categoryJustOpenedRef = React.useRef(null)
-  const searchInputRef = React.useRef(null)
-  const focusSearchAfterOpenRef = React.useRef(false)
 
   const currentPath = location.pathname
   const activeItemId = React.useMemo(() => {
@@ -166,14 +129,6 @@ export default function Sidebar({ open, toggleDrawer }) {
     const savedScroll = localStorage.getItem('navbarScroll')
     if (listRef.current && savedScroll) listRef.current.scrollTop = parseInt(savedScroll, 10)
   }, [])
-
-  // Sidebar arama simgesiyle açıldıysa açıldıktan sonra arama alanına focus ver
-  React.useEffect(() => {
-    if (!open || !focusSearchAfterOpenRef.current) return
-    focusSearchAfterOpenRef.current = false
-    const t = setTimeout(() => searchInputRef.current?.focus(), 320)
-    return () => clearTimeout(t)
-  }, [open])
 
   const handleScroll = () => {
     if (listRef.current) localStorage.setItem('navbarScroll', String(listRef.current.scrollTop))
@@ -193,8 +148,8 @@ export default function Sidebar({ open, toggleDrawer }) {
   }
 
   const handleCategoryClick = (categoryId) => {
-    if (!open) {
-      toggleDrawer()
+    if (!sidebarOpen) {
+      toggleSidebar()
       categoryJustOpenedRef.current = categoryId
       const next = {}
       toolsConfig.forEach((cat) => { next[cat.id] = cat.id === categoryId })
@@ -224,16 +179,6 @@ export default function Sidebar({ open, toggleDrawer }) {
     return () => clearTimeout(t)
   }, [openCategories])
 
-  const filteredBySearch = React.useMemo(() => {
-    if (!searchQuery.trim()) return null
-    const q = searchQuery.toLowerCase()
-    return allItems.filter(
-      (item) =>
-        t(item.id).toLowerCase().includes(q) ||
-        (item.title && item.title.toLowerCase().includes(q))
-    )
-  }, [searchQuery, t])
-
   const selectedStyles = {
     backgroundColor: 'primary.main',
     color: '#fff',
@@ -241,74 +186,59 @@ export default function Sidebar({ open, toggleDrawer }) {
     '&:hover': { backgroundColor: 'primary.dark' },
   }
 
-  /** Mobilde menü her zaman geniş; masaüstünde open state'e bağlı */
-  const menuExpanded = isMobile ? true : open
+  /** Mobilde menü her zaman geniş; tablette sidebar open state'e bağlı */
+  const menuExpanded = isMobile ? true : sidebarOpen
+
+  // Masaüstünde sidebar gösterme (sadece tablet/mobil). Hook'lar hep aynı sırada çağrılsın diye tüm hook'lardan sonra return.
+  if (isDesktop) return null
 
   // Mobil: Sadece dropdown (navbar Navbar.jsx'te; dropdown navbar altında, arama yok)
   if (isMobile) {
     return (
       <MuiDrawer
         anchor="top"
-        open={open}
-        onClose={toggleDrawer}
+        open={mobileMenuOpen}
+        onClose={toggleMobileMenu}
         sx={{ zIndex: 1200 }}
         PaperProps={{
-          sx: {
+          sx: (theme) => ({
             height: '75vh',
             maxHeight: '75vh',
             overflow: 'hidden',
             display: 'flex',
             flexDirection: 'column',
-            mt: `${mobileNavHeight}px`,
-            borderBottomLeftRadius: 12,
-            borderBottomRightRadius: 12,
-          },
+            top: mobileNavHeight,
+            left: 12,
+            right: 12,
+            width: 'auto',
+            maxWidth: 420,
+            margin: '0 auto',
+            borderBottomLeftRadius: 24,
+            borderBottomRightRadius: 24,
+            boxShadow: theme.palette.mode === 'dark'
+              ? '0 24px 48px rgba(0,0,0,0.4)'
+              : '0 24px 48px rgba(0,0,0,0.12)',
+          }),
         }}
       >
-        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', p: 2, borderBottom: 1, borderColor: 'divider' }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', px: 2.5, py: 2, borderBottom: 1, borderColor: 'divider' }}>
           <Typography variant="h6">{t('menu') || 'Menü'}</Typography>
-          <IconButton onClick={toggleDrawer} aria-label="close">
+          <IconButton onClick={toggleMobileMenu} aria-label="close">
             <CloseIcon />
           </IconButton>
         </Box>
         <Divider />
-        <List ref={listRef} onScroll={handleScroll} sx={{ flexGrow: 1, px: 1, overflowY: 'auto' }}>
-            {filteredBySearch !== null ? (
-              filteredBySearch.map((item) => {
-                const isSelected = activeItemId === item.id
-                return (
-                  <ListItem key={`${item.categoryId}-${item.id}`} disablePadding>
-                    <ListItemButton
-                      component={Link}
-                      to={item.path}
-                      onClick={toggleDrawer}
-                      selected={isSelected}
-                      sx={{ minHeight: 48, px: 2.5, pl: 3, '&.Mui-selected': selectedStyles }}
-                    >
-                      <ListItemIcon sx={{ minWidth: 0, mr: 2, justifyContent: 'center', color: isSelected ? 'inherit' : 'text.secondary' }}>
-                        {item.icon}
-                      </ListItemIcon>
-                      <ListItemText
-                        primary={t(item.id) || item.title}
-                        primaryTypographyProps={{
-                          sx: { color: isSelected ? 'inherit' : (theme) => (theme.palette.mode === 'dark' ? 'grey.300' : 'grey.800') },
-                        }}
-                      />
-                    </ListItemButton>
-                  </ListItem>
-                )
-              })
-            ) : (
-              toolsConfig.map((category) => {
+        <List ref={listRef} onScroll={handleScroll} sx={{ flexGrow: 1, px: 1.5, py: 1, overflowY: 'auto' }}>
+            {toolsConfig.map((category) => {
                 const isCategoryOpen = openCategories[category.id] ?? false
                 const hasItems = category.items.length > 0
                 return (
                   <React.Fragment key={category.id}>
-                    <ListItem disablePadding>
+                    <ListItem disablePadding sx={{ mb: 0.5 }}>
                       <ListItemButton
                         data-category-id={category.id}
                         onClick={() => handleCategoryClick(category.id)}
-                        sx={{ minHeight: 48, px: 2.5, '&:hover': { bgcolor: 'action.hover' } }}
+                        sx={{ minHeight: 48, px: 2.5, borderRadius: 2, '&:hover': { bgcolor: 'action.hover' } }}
                       >
                         <ListItemIcon sx={{ minWidth: 0, mr: 2, justifyContent: 'center', color: 'text.secondary' }}>
                           {category.icon}
@@ -329,17 +259,17 @@ export default function Sidebar({ open, toggleDrawer }) {
                       </ListItemButton>
                     </ListItem>
                     <Collapse in={isCategoryOpen} timeout={400} unmountOnExit>
-                      <List component="div" disablePadding>
+                      <List component="div" disablePadding sx={{ pl: 1, pb: 0.5 }}>
                         {category.items.map((item) => {
                           const isSelected = activeItemId === item.id
                           return (
-                            <ListItem key={item.id} disablePadding>
+                            <ListItem key={item.id} disablePadding sx={{ mb: 0.5 }}>
                               <ListItemButton
                                 component={Link}
                                 to={item.path}
-                                onClick={toggleDrawer}
+                                onClick={toggleMobileMenu}
                                 selected={isSelected}
-                                sx={{ minHeight: 44, pl: 4, pr: 2.5, '&.Mui-selected': selectedStyles }}
+                                sx={{ minHeight: 44, pl: 4, pr: 2.5, borderRadius: 2, '&.Mui-selected': selectedStyles }}
                               >
                                 <ListItemIcon sx={{ minWidth: 0, mr: 2, justifyContent: 'center', color: isSelected ? 'inherit' : 'text.secondary' }}>
                                   {item.icon}
@@ -358,24 +288,112 @@ export default function Sidebar({ open, toggleDrawer }) {
                     </Collapse>
                   </React.Fragment>
                 )
-              })
-            )}
+              })}
           </List>
         </MuiDrawer>
     )
   }
 
+  // Tablet: Hamburger ile açılan üst dropdown + sağda kalıcı sidebar
+  const topDrawerContent = (
+    <MuiDrawer
+      anchor="top"
+      open={mobileMenuOpen}
+      onClose={toggleMobileMenu}
+      sx={{ zIndex: 1200 }}
+      PaperProps={{
+        sx: (theme) => ({
+          height: '75vh',
+          maxHeight: '75vh',
+          overflow: 'hidden',
+          display: 'flex',
+          flexDirection: 'column',
+          top: desktopNavbarHeight,
+          left: 12,
+          right: 12,
+          width: 'auto',
+          maxWidth: 420,
+          margin: '0 auto',
+          borderBottomLeftRadius: 24,
+          borderBottomRightRadius: 24,
+          boxShadow: theme.palette.mode === 'dark'
+            ? '0 24px 48px rgba(0,0,0,0.4)'
+            : '0 24px 48px rgba(0,0,0,0.12)',
+        }),
+      }}
+    >
+      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', px: 2.5, py: 2, borderBottom: 1, borderColor: 'divider' }}>
+        <Typography variant="h6">{t('menu') || 'Menü'}</Typography>
+        <IconButton onClick={toggleMobileMenu} aria-label="close">
+          <CloseIcon />
+        </IconButton>
+      </Box>
+      <Divider />
+      <List sx={{ flexGrow: 1, px: 1.5, py: 1, overflowY: 'auto' }}>
+        {toolsConfig.map((category) => {
+            const isCategoryOpen = openCategories[category.id] ?? false
+            const hasItems = category.items.length > 0
+            return (
+              <React.Fragment key={category.id}>
+                <ListItem disablePadding sx={{ mb: 0.5 }}>
+                  <ListItemButton data-category-id={category.id} onClick={() => handleCategoryClick(category.id)} sx={{ minHeight: 48, px: 2.5, borderRadius: 2, '&:hover': { bgcolor: 'action.hover' } }}>
+                    <ListItemIcon sx={{ minWidth: 0, mr: 2, justifyContent: 'center', color: 'text.secondary' }}>{category.icon}</ListItemIcon>
+                    <ListItemText primary={t(CATEGORY_TITLE_KEYS[category.id]) || category.title} primaryTypographyProps={{ sx: { fontWeight: 700, fontSize: '0.75rem', color: 'text.secondary', letterSpacing: '0.08em', textTransform: 'uppercase' } }} />
+                    {hasItems && (isCategoryOpen ? <ExpandLess sx={{ color: 'primary.main' }} /> : <ExpandMore sx={{ color: 'text.secondary' }} />)}
+                  </ListItemButton>
+                </ListItem>
+                <Collapse in={isCategoryOpen} timeout={400} unmountOnExit>
+                  <List component="div" disablePadding sx={{ pl: 1, pb: 0.5 }}>
+                    {category.items.map((item) => {
+                      const isSelected = activeItemId === item.id
+                      return (
+                        <ListItem key={item.id} disablePadding sx={{ mb: 0.5 }}>
+                          <ListItemButton component={Link} to={item.path} onClick={toggleMobileMenu} selected={isSelected} sx={{ minHeight: 44, pl: 4, pr: 2.5, borderRadius: 2, '&.Mui-selected': selectedStyles }}>
+                            <ListItemIcon sx={{ minWidth: 0, mr: 2, justifyContent: 'center', color: isSelected ? 'inherit' : 'text.secondary' }}>{item.icon}</ListItemIcon>
+                            <ListItemText primary={t(item.id) || item.title} primaryTypographyProps={{ sx: { color: isSelected ? 'inherit' : (th) => (th.palette.mode === 'dark' ? 'grey.300' : 'grey.800') } }} />
+                          </ListItemButton>
+                        </ListItem>
+                      )
+                    })}
+                  </List>
+                </Collapse>
+              </React.Fragment>
+            )
+          })}
+      </List>
+    </MuiDrawer>
+  )
+
   return (
-    <Drawer variant="permanent" open={open}>
+    <>
+      {mobileMenuOpen && topDrawerContent}
+      <Drawer variant="permanent" open={sidebarOpen}>
       <DrawerHeader>
+        <IconButton
+          onClick={toggleSidebar}
+          sx={{
+            bgcolor: 'primary.main',
+            color: 'white',
+            '&:hover': { bgcolor: 'primary.dark' },
+            position: sidebarOpen ? 'relative' : 'absolute',
+            left: sidebarOpen ? 'auto' : { xs: '10px', sm: '14px' },
+            transition: 'all 0.3s ease',
+            width: 32,
+            height: 32,
+            zIndex: sidebarOpen ? 'auto' : 1,
+          }}
+        >
+          {sidebarOpen ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+        </IconButton>
         <Box
           sx={{
             display: 'flex',
             alignItems: 'center',
             gap: 2,
             overflow: 'hidden',
-            opacity: open ? 1 : 0,
+            opacity: sidebarOpen ? 1 : 0,
             transition: 'opacity 0.2s',
+            pointerEvents: sidebarOpen ? 'auto' : 'none',
           }}
         >
           <Box
@@ -402,101 +420,14 @@ export default function Sidebar({ open, toggleDrawer }) {
             </Typography>
           </Box>
         </Box>
-        <IconButton
-          onClick={toggleDrawer}
-          sx={{
-            bgcolor: 'primary.main',
-            color: 'white',
-            '&:hover': { bgcolor: 'primary.dark' },
-            position: open ? 'relative' : 'absolute',
-            left: open ? 'auto' : { xs: '10px', sm: '14px' },
-            transform: open ? 'none' : 'rotate(180deg)',
-            transition: 'all 0.3s ease',
-            width: 32,
-            height: 32,
-          }}
-        >
-          <ChevronLeftIcon />
-        </IconButton>
       </DrawerHeader>
       <Divider sx={{ my: 1, opacity: 0.5 }} />
-        <Tooltip title={!menuExpanded ? t('search') : ''} placement="right">
-        <Search
-          onClick={() => {
-            if (!menuExpanded) {
-              focusSearchAfterOpenRef.current = true
-              toggleDrawer()
-            }
-          }}
-          sx={{
-            mx: menuExpanded ? 2 : 'auto',
-            width: menuExpanded ? 'auto' : 48,
-            justifyContent: menuExpanded ? 'flex-start' : 'center',
-            px: menuExpanded ? 0 : 0,
-            cursor: !menuExpanded ? 'pointer' : 'default',
-            mt: menuExpanded ? 0 : 1.5,
-          }}
-        >
-          <SearchIconWrapper sx={{ px: menuExpanded ? 2 : 1.5 }}>
-            <SearchIcon />
-          </SearchIconWrapper>
-          <StyledInputBase
-            inputRef={searchInputRef}
-            placeholder={t('search')}
-            inputProps={{ 'aria-label': 'search' }}
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            sx={{ display: menuExpanded ? 'block' : 'none' }}
-          />
-        </Search>
-      </Tooltip>
       <List
         ref={listRef}
         onScroll={handleScroll}
         sx={{ flexGrow: 1, px: 1, overflowY: 'auto', overflowX: 'hidden' }}
       >
-        {filteredBySearch !== null ? (
-          filteredBySearch.map((item) => {
-            const isSelected = activeItemId === item.id
-            return (
-              <ListItem key={`${item.categoryId}-${item.id}`} disablePadding sx={{ display: 'block' }}>
-                <Tooltip title={!menuExpanded ? (t(item.id) || item.title) : ''} placement="right">
-                  <ListItemButton
-                    component={Link}
-                    to={item.path}
-                    selected={isSelected}
-                    sx={{
-                      minHeight: 48,
-                      justifyContent: menuExpanded ? 'initial' : 'center',
-                      px: 2.5,
-                      pl: menuExpanded ? 3 : 2.5,
-                      '&.Mui-selected': selectedStyles,
-                    }}
-                  >
-                    <ListItemIcon
-                      sx={{
-                        minWidth: 0,
-                        mr: menuExpanded ? 2 : 'auto',
-                        justifyContent: 'center',
-                        color: isSelected ? 'inherit' : 'text.secondary',
-                      }}
-                    >
-                      {item.icon}
-                    </ListItemIcon>
-                    <ListItemText
-                      primary={t(item.id) || item.title}
-                      sx={{ opacity: menuExpanded ? 1 : 0 }}
-                      primaryTypographyProps={{
-                        sx: { color: isSelected ? 'inherit' : (theme) => (theme.palette.mode === 'dark' ? 'grey.300' : 'grey.800') },
-                      }}
-                    />
-                  </ListItemButton>
-                </Tooltip>
-              </ListItem>
-            )
-          })
-        ) : (
-          toolsConfig.map((category) => {
+        {toolsConfig.map((category) => {
             const isCategoryOpen = openCategories[category.id] ?? false
             const hasItems = category.items.length > 0
             const showExpand = menuExpanded && hasItems
@@ -506,7 +437,7 @@ export default function Sidebar({ open, toggleDrawer }) {
                 <ListItem disablePadding sx={{ display: 'block' }}>
                     <Tooltip
                     title={!menuExpanded ? (t(CATEGORY_TITLE_KEYS[category.id]) || category.title) : ''}
-                    placement="right"
+                    placement="left"
                   >
                     <ListItemButton
                       data-category-id={category.id}
@@ -552,7 +483,7 @@ export default function Sidebar({ open, toggleDrawer }) {
                         const isSelected = activeItemId === item.id
                         return (
                           <ListItem key={item.id} disablePadding sx={{ display: 'block' }}>
-                            <Tooltip title={!menuExpanded ? (t(item.id) || item.title) : ''} placement="right">
+                            <Tooltip title={!menuExpanded ? (t(item.id) || item.title) : ''} placement="left">
                               <ListItemButton
                                 component={Link}
                                 to={item.path}
@@ -592,9 +523,9 @@ export default function Sidebar({ open, toggleDrawer }) {
                 )}
               </React.Fragment>
             )
-          })
-        )}
+          })}
       </List>
     </Drawer>
+    </>
   )
 }

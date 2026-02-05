@@ -171,9 +171,10 @@ export const translations = {
     targetUnit: 'Hedef Birim',
     currencyHeroDesc: 'Anlık piyasa verileriyle para birimlerini dönüştürün.',
 
-    // Sidebar
+    // Sidebar / Navbar
     menu: 'Menü',
     search: 'Ara...',
+    searchPlaceholder: 'Araç veya hesaplama ara...',
     calculatorTools: 'Hesaplayıcı',
     tools: 'Araçlar',
     darkMode: 'Koyu Mod',
@@ -371,9 +372,10 @@ export const translations = {
     targetUnit: 'Target Unit',
     currencyHeroDesc: 'Convert currencies with real-time market data.',
 
-    // Sidebar
+    // Sidebar / Navbar
     menu: 'Menu',
     search: 'Search...',
+    searchPlaceholder: 'Search for a tool or calculation...',
     calculatorTools: 'Calculator',
     tools: 'Tools',
     darkMode: 'Dark Mode',

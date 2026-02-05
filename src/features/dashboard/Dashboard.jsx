@@ -8,12 +8,8 @@ import {
   useTheme,
   alpha,
   Container,
-  TextField,
-  InputAdornment,
 } from '@mui/material'
-import SearchIcon from '@mui/icons-material/Search'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
-import SearchOffIcon from '@mui/icons-material/SearchOff'
 import { Link } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 import { useTranslation } from '../../hooks/useTranslation'
@@ -22,8 +18,6 @@ import { toolsConfig } from '../../config/toolsConfig'
 const heroTitle = 'Hesaplamalarınızı Hızlandırın'
 const heroSubtitle =
   'Finanstan sağlığa, eğitimden mühendisliğe kadar ihtiyacınız olan tüm araçlar.'
-const searchPlaceholder = 'Hesaplamak istediğiniz aracı arayın...'
-const noResultsText = 'Sonuç bulunamadı'
 
 function ToolCard({ item, theme, t }) {
   return (
@@ -148,26 +142,6 @@ function ToolCard({ item, theme, t }) {
 export default function Dashboard() {
   const theme = useTheme()
   const { t } = useTranslation()
-  const [searchQuery, setSearchQuery] = React.useState('')
-
-  const query = searchQuery.trim().toLowerCase()
-  const hasSearch = query.length > 0
-
-  const filteredBySearch = React.useMemo(() => {
-    if (!hasSearch) return []
-    return toolsConfig.flatMap((category) =>
-      category.items.filter(
-        (item) =>
-          item.id !== 'dashboard' &&
-          item.id !== 'all-tools' &&
-          ((item.title && item.title.toLowerCase().includes(query)) ||
-            (item.description && item.description.toLowerCase().includes(query)) ||
-            (t(item.id) && t(item.id).toLowerCase().includes(query)) ||
-            (t(`${item.id}Desc`) && t(`${item.id}Desc`).toLowerCase().includes(query)))
-      )
-    )
-  }, [query, hasSearch, t])
-
   const categoriesToShow = toolsConfig
 
   return (
@@ -244,76 +218,10 @@ export default function Dashboard() {
           >
             {heroSubtitle}
           </Typography>
-          <TextField
-            fullWidth
-            variant="outlined"
-            placeholder={searchPlaceholder}
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <SearchIcon color="action" />
-                </InputAdornment>
-              ),
-            }}
-            sx={{
-              maxWidth: 560,
-              mx: 'auto',
-              '& .MuiOutlinedInput-root': {
-                borderRadius: 3,
-                bgcolor: theme.palette.mode === 'dark' ? 'action.hover' : 'grey.50',
-                '&:hover': {
-                  bgcolor: theme.palette.mode === 'dark' ? 'action.selected' : 'grey.100',
-                },
-                '&.Mui-focused': {
-                  bgcolor: 'background.paper',
-                  boxShadow: `0 0 0 2px ${alpha(theme.palette.primary.main, 0.2)}`,
-                },
-              },
-            }}
-          />
         </Box>
 
-        {/* ——— İçerik: Kategorili veya Arama Sonuçları ——— */}
-        {hasSearch ? (
-          <>
-            {filteredBySearch.length === 0 ? (
-              <Box
-                sx={{
-                  py: 8,
-                  px: 2,
-                  textAlign: 'center',
-                  color: 'text.secondary',
-                }}
-              >
-                <SearchOffIcon sx={{ fontSize: { xs: 48, sm: 64 }, mb: 2, opacity: 0.5 }} />
-                <Typography variant="h6" gutterBottom>
-                  {noResultsText}
-                </Typography>
-                <Typography variant="body2">
-                  Farklı anahtar kelimelerle tekrar deneyin.
-                </Typography>
-              </Box>
-            ) : (
-              <Box sx={{ mb: 2 }}>
-                <Typography variant="subtitle1" color="text.secondary" gutterBottom>
-                  {filteredBySearch.length} araç bulundu
-                </Typography>
-              </Box>
-            )}
-            {filteredBySearch.length > 0 && (
-              <Grid container spacing={2}>
-                {filteredBySearch.map((item) => (
-                  <Grid size={{ xs: 12, sm: 6, md: 4 }} key={item.id} sx={{ display: 'flex' }}>
-                    <ToolCard item={item} theme={theme} t={t} />
-                  </Grid>
-                ))}
-              </Grid>
-            )}
-          </>
-        ) : (
-          <Box>
+        {/* ——— İçerik: Kategoriler ——— */}
+        <Box>
             {categoriesToShow.map((category) => {
               const items = category.items.filter(
                 (item) => item.id !== 'dashboard' && item.id !== 'all-tools'
@@ -362,7 +270,6 @@ export default function Dashboard() {
               )
             })}
           </Box>
-        )}
       </Container>
     </Box>
   )
