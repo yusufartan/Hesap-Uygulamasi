@@ -17,8 +17,6 @@ import CalculateIcon from '@mui/icons-material/Calculate'
 import { useTranslation } from '../hooks/useTranslation'
 import { toolsConfig } from '../config/toolsConfig'
 
-const FOOTER_SLOGAN =
-  'Hayatınızı kolaylaştıran yüzlerce hesaplama aracı tek bir yerde.'
 const POPULAR_TOOLS_COUNT = 5
 
 // toolsConfig'den dashboard hariç tüm araçları düzleştir, ilk N tanesini al
@@ -100,7 +98,7 @@ export default function Footer() {
               </Typography>
             </Box>
             <Typography variant="body2" sx={{ color: textSecondary, mb: 2, maxWidth: 280 }}>
-              {FOOTER_SLOGAN}
+              {t('footerSlogan')}
             </Typography>
             <Box sx={{ display: 'flex', gap: 0.5 }}>
               <IconButton
@@ -142,7 +140,7 @@ export default function Footer() {
               variant="subtitle2"
               sx={{ color: textPrimary, fontWeight: 700, mb: 2, textTransform: 'uppercase', letterSpacing: 0.5 }}
             >
-              Kategoriler
+              {t('categories')}
             </Typography>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
               {toolsConfig.map((category) => (
@@ -165,7 +163,7 @@ export default function Footer() {
               variant="subtitle2"
               sx={{ color: textPrimary, fontWeight: 700, mb: 2, textTransform: 'uppercase', letterSpacing: 0.5 }}
             >
-              Popüler Hesaplamalar
+              {t('popularCalculations')}
             </Typography>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
               {popularTools.map((item) => (

@@ -382,7 +382,7 @@ export default function Navbar({ mobileMenuOpen, onMenuClick, rightOffset = 0 })
               ) : (
                 searchQuery.trim() && (
                   <Box sx={{ px: 2, py: 2, color: 'text.secondary', fontSize: '0.9rem' }}>
-                    {t('noResults') || 'Sonuç bulunamadı'}
+                    {t('noResults')}
                   </Box>
                 )
               )}

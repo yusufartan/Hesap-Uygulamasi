@@ -15,10 +15,6 @@ import { Helmet } from 'react-helmet-async'
 import { useTranslation } from '../../hooks/useTranslation'
 import { toolsConfig } from '../../config/toolsConfig'
 
-const heroTitle = 'Hesaplamalarınızı Hızlandırın'
-const heroSubtitle =
-  'Finanstan sağlığa, eğitimden mühendisliğe kadar ihtiyacınız olan tüm araçlar.'
-
 function ToolCard({ item, theme, t, getToolTitle, getToolDescription }) {
   return (
     <Card
@@ -203,7 +199,7 @@ export default function Dashboard() {
               color: 'text.primary',
             }}
           >
-            {heroTitle}
+            {t('heroTitle')}
           </Typography>
           <Typography
             variant="body1"
@@ -216,7 +212,7 @@ export default function Dashboard() {
               fontSize: { xs: '0.95rem', md: '1rem' },
             }}
           >
-            {heroSubtitle}
+            {t('heroSubtitle')}
           </Typography>
         </Box>
 
