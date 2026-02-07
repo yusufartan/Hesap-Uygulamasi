@@ -11,6 +11,11 @@
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="apple-touch-icon" href="/HesapMerkezLogo.png" />
 
+  <!-- Font Optimizasyonu: CSS @import yerine buradan yüklüyoruz (Hız Artışı) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
   <!-- Varsayılan SEO (SPA yüklenmeden önce / crawler fallback; Helmet sayfa bazlı günceller) -->
   <title>Ücretsiz Online Hesaplama Araçları | Kredi, VKE, Yaş - Hesap Uzmanı</title>
   <meta name="description"
@@ -18,9 +23,10 @@
   <meta name="keywords"
     content="ücretsiz hesaplama, online hesap makinesi, kredi hesaplama, VKE hesaplama, yaş hesaplama, döviz çevirici, indirim hesaplama, hesaplama araçları" />
   <meta name="robots" content="index, follow" />
-
-  <!-- Google Analytics 4 (GA4) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-YN8YS3BMDX"></script>
+<!-- Google Analytics 4 (GA4)
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-YN8YS3BMDX"></script> -->
+  <!-- Google Analytics 4 (GA4) - 'async' yerine 'defer' ile React yüklenmesini engellemiyoruz -->
+  <script defer src="https://www.googletagmanager.com/gtag/js?id=G-YN8YS3BMDX"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag() { dataLayer.push(arguments); }
