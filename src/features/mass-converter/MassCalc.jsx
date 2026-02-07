@@ -5,7 +5,6 @@ import KeyboardIcon from '@mui/icons-material/Keyboard'
 import KeyboardHideIcon from '@mui/icons-material/KeyboardHide'
 import SwapVertIcon from '@mui/icons-material/SwapVert'
 import Numpad from '../../components/Numpad/Numpad'
-import { Helmet } from 'react-helmet-async'
 import { unitOptions, convertMass, safeEvaluate } from './massUtils'
 import { useTranslation } from '../../hooks/useTranslation'
 
@@ -153,15 +152,6 @@ export default function MassCalc() {
 
   return (
     <Container maxWidth="lg" sx={{ py: { xs: 2, md: 4 } }}>
-      <Helmet>
-        <title>{t('mass')} | {t('appTitle')}</title>
-        <meta name="description" content={t('massDesc')} />
-        <link rel="canonical" href="https://www.hesapmerkez.com/mass" />
-        <meta property="og:title" content={`${t('mass')} | ${t('appTitle')}`} />
-        <meta property="og:description" content={t('massDesc')} />
-        <meta property="og:url" content="https://www.hesapmerkez.com/mass" />
-        <meta property="og:type" content="website" />
-      </Helmet>
       <Box sx={{ mb: 4, textAlign: 'center', position: 'relative' }}>
         <Typography 
           variant="h3" 

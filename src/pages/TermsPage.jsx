@@ -1,6 +1,5 @@
 import React from 'react'
 import { Container, Typography, Box, Paper, useTheme } from '@mui/material'
-import { Helmet } from 'react-helmet-async'
 import { useTranslation } from '../hooks/useTranslation'
 
 export default function TermsPage() {
@@ -9,17 +8,6 @@ export default function TermsPage() {
 
   return (
     <Container maxWidth="md" sx={{ py: 8 }}>
-      <Helmet>
-        <title>{t('terms')} | {t('appTitle')}</title>
-        <meta name="description" content={t('termsMetaDesc')} />
-        <meta name="keywords" content={t('termsKeywords')} />
-        <link rel="canonical" href="https://www.hesapmerkez.com/terms" />
-        <meta property="og:title" content={`${t('terms')} | ${t('appTitle')}`} />
-        <meta property="og:description" content={t('termsMetaDesc')} />
-        <meta property="og:url" content="https://www.hesapmerkez.com/terms" />
-        <meta property="og:type" content="website" />
-      </Helmet>
-
       <Paper elevation={0} sx={{ p: { xs: 2, md: 4 }, borderRadius: 4, border: `1px solid ${theme.palette.divider}` }}>
         <Typography variant="h4" fontWeight="bold" gutterBottom sx={{ color: theme.palette.primary.main, fontSize: { xs: '1.5rem', md: '2.125rem' } }}>
           {t('terms')}

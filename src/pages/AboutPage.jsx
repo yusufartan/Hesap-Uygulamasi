@@ -1,6 +1,5 @@
 import React from 'react'
 import { Container, Typography, Box, Paper, useTheme } from '@mui/material'
-import { Helmet } from 'react-helmet-async'
 import CalculateIcon from '@mui/icons-material/Calculate'
 import { useTranslation } from '../hooks/useTranslation'
 
@@ -10,12 +9,6 @@ export default function AboutPage() {
 
   return (
     <Container maxWidth="md" sx={{ py: 8 }}>
-      <Helmet>
-        <title>{t('about')} | {t('appTitle')}</title>
-        <meta name="description" content={t('footerDesc')} />
-        <link rel="canonical" href="https://www.hesapmerkez.com/about" />
-      </Helmet>
-
       <Box sx={{ textAlign: 'center', mb: 6 }}>
         <CalculateIcon sx={{ fontSize: { xs: 40, md: 60 }, color: theme.palette.primary.main, mb: 2 }} />
         <Typography variant="h3" fontWeight="800" gutterBottom sx={{ fontSize: { xs: '2rem', md: '3rem' } }}>

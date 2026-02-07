@@ -6,7 +6,6 @@ import KeyboardHideIcon from '@mui/icons-material/KeyboardHide'
 import SwapVertIcon from '@mui/icons-material/SwapVert'
 import Numpad from '../../components/Numpad/Numpad'
 import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange'
-import { Helmet } from 'react-helmet-async'
 import { fetchCurrencies, convertCurrency } from './currencyUtils'
 import { useTranslation } from '../../hooks/useTranslation'
 
@@ -116,16 +115,6 @@ export default function CurrencyCalc() {
 
   return (
     <Container maxWidth="lg" sx={{ py: { xs: 2, md: 4 } }}>
-      <Helmet>
-        <title>Döviz Çevirici - Canlı Kur Hesaplama | Hesap Uzmanı</title>
-        <meta name="description" content="Güncel döviz kurları ile Dolar, Euro, Sterlin ve diğer para birimlerini anında birbirine dönüştürün." />
-        <meta name="keywords" content="döviz çevirici, dolar hesaplama, euro tl çeviri, kur hesaplama, para birimi dönüştürücü" />
-        <link rel="canonical" href="https://www.hesapmerkez.com/currency" />
-        <meta property="og:title" content="Döviz Çevirici - Canlı Kur Hesaplama | Hesap Uzmanı" />
-        <meta property="og:description" content="Güncel döviz kurları ile Dolar, Euro, Sterlin ve diğer para birimlerini anında birbirine dönüştürün." />
-        <meta property="og:url" content="https://www.hesapmerkez.com/currency" />
-        <meta property="og:type" content="website" />
-      </Helmet>
 
       <Box sx={{ mb: 5, textAlign: 'center', position: 'relative' }}>
         <Typography variant="h3" fontWeight="800" sx={{ background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.secondary?.main || '#ff4081'} 100%)`, backgroundClip: 'text', textFillColor: 'transparent', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', mb: 1, fontSize: { xs: '2rem', md: '3rem' } }}>

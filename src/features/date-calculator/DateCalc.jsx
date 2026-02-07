@@ -6,7 +6,6 @@ import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import dayjs from 'dayjs'
 import 'dayjs/locale/tr'
-import { Helmet } from 'react-helmet-async'
 import { calculateDateDifference } from './dateUtils'
 import { useTranslation } from '../../hooks/useTranslation'
 import { parseDayMonthYear, dateToDayMonthYear, digitsOnlyDayMonthYear } from '../../utils/dateInputUtils'
@@ -137,15 +136,6 @@ export default function DateCalc() {
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={language}>
-      <Helmet>
-        <title>{t('date')} | {t('appTitle')}</title>
-        <meta name="description" content={t('dateDesc')} />
-        <link rel="canonical" href="https://www.hesapmerkez.com/date" />
-        <meta property="og:title" content={`${t('date')} | ${t('appTitle')}`} />
-        <meta property="og:description" content={t('dateDesc')} />
-        <meta property="og:url" content="https://www.hesapmerkez.com/date" />
-        <meta property="og:type" content="website" />
-      </Helmet>
       <Container maxWidth="lg" sx={{ py: { xs: 2, md: 4 } }}>
         <Box sx={{ mb: 5, textAlign: 'center', position: 'relative' }}>
           <Typography variant="h3" fontWeight="800" sx={{ background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.secondary?.main || '#ff4081'} 100%)`, backgroundClip: 'text', textFillColor: 'transparent', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', mb: 1, fontSize: { xs: '2rem', md: '3rem' } }}>

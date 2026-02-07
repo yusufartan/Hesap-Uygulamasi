@@ -46,7 +46,7 @@ export default function SEOUpdater() {
     const baseUrl =
       typeof window !== 'undefined'
         ? window.location.origin
-        : 'https://hesapuzmani.com'
+        : 'https://www.hesapmerkez.com'
     const canonicalPath = pathname.endsWith('/') && pathname !== '/'
       ? pathname.slice(0, -1)
       : pathname
@@ -170,11 +170,14 @@ export default function SEOUpdater() {
     return items.length > 0 ? [website, ...items] : website
   }, [seo, found, pathname, pageType, t, getToolTitle])
 
+  const isNoIndex = pageType === 'not-found'
+
   return (
     <Helmet>
       <title>{seo.title}</title>
       <meta name="description" content={seo.description} />
       <meta name="keywords" content={seo.keywords} />
+      {isNoIndex && <meta name="robots" content="noindex, nofollow" />}
       <link rel="canonical" href={seo.canonicalUrl} />
 
       {/* Open Graph */}

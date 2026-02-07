@@ -5,7 +5,6 @@ import KeyboardIcon from '@mui/icons-material/Keyboard'
 import KeyboardHideIcon from '@mui/icons-material/KeyboardHide'
 import SwapVertIcon from '@mui/icons-material/SwapVert'
 import Numpad from '../../components/Numpad/Numpad'
-import { Helmet } from 'react-helmet-async'
 import { unitOptions, convertArea } from './areaUtils'
 import { useTranslation } from '../../hooks/useTranslation'
 
@@ -105,16 +104,6 @@ export default function AreaCalc() {
 
   return (
     <Container maxWidth="lg" sx={{ py: { xs: 2, md: 4 } }}>
-      <Helmet>
-        <title>{t('area')} | {t('appTitle')}</title>
-        <meta name="description" content={t('areaDesc')} />
-        <meta name="keywords" content="alan çevirici, metrekare hesaplama, dönüm hesaplama, hektar çevirme, arsa ölçümü, arazi birimleri, m2 hesaplama" />
-        <link rel="canonical" href="https://www.hesapmerkez.com/area" />
-        <meta property="og:title" content={`${t('area')} | ${t('appTitle')}`} />
-        <meta property="og:description" content={t('areaDesc')} />
-        <meta property="og:url" content="https://www.hesapmerkez.com/area" />
-        <meta property="og:type" content="website" />
-      </Helmet>
       <Box sx={{ mb: 5, textAlign: 'center', position: 'relative' }}>
         <Typography
           variant="h3"

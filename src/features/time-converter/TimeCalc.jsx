@@ -5,7 +5,6 @@ import KeyboardIcon from '@mui/icons-material/Keyboard'
 import KeyboardHideIcon from '@mui/icons-material/KeyboardHide'
 import SwapVertIcon from '@mui/icons-material/SwapVert'
 import Numpad from '../../components/Numpad/Numpad'
-import { Helmet } from 'react-helmet-async'
 import { unitOptions, convertTime, safeEvaluate } from './timeUtils'
 import { useTranslation } from '../../hooks/useTranslation'
 
@@ -153,16 +152,6 @@ export default function TimeCalc() {
 
   return (
     <Container maxWidth="lg" sx={{ py: { xs: 2, md: 4 } }}>
-      <Helmet>
-        <title>{t('time')} | {t('appTitle')}</title>
-        <meta name="description" content={t('timeDesc')} />
-        <meta name="keywords" content="zaman çevirici, saat dakika hesaplama, saniye çevirme, süre hesaplama, gün hesaplama, zaman birimleri" />
-        <link rel="canonical" href="https://www.hesapmerkez.com/time" />
-        <meta property="og:title" content={`${t('time')} | ${t('appTitle')}`} />
-        <meta property="og:description" content={t('timeDesc')} />
-        <meta property="og:url" content="https://www.hesapmerkez.com/time" />
-        <meta property="og:type" content="website" />
-      </Helmet>
       <Box sx={{ mb: 4, textAlign: 'center', position: 'relative' }}>
         <Typography variant="h3" fontWeight="800" sx={{ background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.secondary?.main || '#ff4081'} 100%)`, backgroundClip: 'text', textFillColor: 'transparent', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', fontSize: { xs: '2rem', md: '3rem' } }}>{t('time')}</Typography>
         <Typography variant="body1" color="text.secondary" sx={{ maxWidth: 500, mx: 'auto', fontSize: { xs: '0.9rem', md: '1rem' } }}>{t('timeDesc')}</Typography>

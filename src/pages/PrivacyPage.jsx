@@ -1,6 +1,5 @@
 import React from 'react'
 import { Container, Typography, Box, Paper, useTheme } from '@mui/material'
-import { Helmet } from 'react-helmet-async'
 import { useTranslation } from '../hooks/useTranslation'
 
 export default function PrivacyPage() {
@@ -9,16 +8,6 @@ export default function PrivacyPage() {
 
   return (
     <Container maxWidth="md" sx={{ py: 8 }}>
-      <Helmet>
-        <title>{t('privacy')} | {t('appTitle')}</title>
-        <meta name="description" content={t('privacy')} />
-        <link rel="canonical" href="https://www.hesapmerkez.com/privacy" />
-        <meta property="og:title" content={`${t('privacy')} | ${t('appTitle')}`} />
-        <meta property="og:description" content={t('privacy')} />
-        <meta property="og:url" content="https://www.hesapmerkez.com/privacy" />
-        <meta property="og:type" content="website" />
-      </Helmet>
-      
       <Paper elevation={0} sx={{ p: { xs: 2, md: 4 }, borderRadius: 4, border: `1px solid ${theme.palette.divider}` }}>
         <Typography variant="h4" fontWeight="bold" gutterBottom sx={{ color: theme.palette.primary.main, fontSize: { xs: '1.5rem', md: '2.125rem' } }}>
           {t('privacy')}

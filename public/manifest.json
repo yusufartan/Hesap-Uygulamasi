@@ -1,16 +1,27 @@
 {
   "short_name": "Hesap Uzmanı",
-  "name": "Hesap Uzmanı - Pratik Hesaplama Araçları",
-  "description": "Günlük, finansal ve bilimsel hesaplama araçları.",
+  "name": "Hesap Uzmanı - Ücretsiz Online Hesaplama Araçları",
+  "description": "Kredi, VKE, yaş hesaplama, döviz çevirici, indirim hesaplama ve daha fazlası. Finans, sağlık ve günlük hesaplamalar için ücretsiz online araçlar.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "theme_color": "#ff9800",
+  "background_color": "#ffffff",
+  "lang": "tr",
   "icons": [
+    {
+      "src": "/HesapMerkezLogo.png",
+      "sizes": "192x192 512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
     {
       "src": "/favicon.svg",
       "sizes": "any",
-      "type": "image/svg+xml"
+      "type": "image/svg+xml",
+      "purpose": "any"
     }
   ],
-  "start_url": "/",
-  "display": "standalone",
-  "theme_color": "#ff9800",
-  "background_color": "#ffffff"
+  "categories": ["utilities", "finance", "productivity"]
 }

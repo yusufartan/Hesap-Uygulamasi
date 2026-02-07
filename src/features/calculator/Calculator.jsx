@@ -1,6 +1,5 @@
 import React, { useState, useCallback } from 'react'
 import { Box, Container, Typography, Card, Button, useTheme, alpha } from '@mui/material'
-import { Helmet } from 'react-helmet-async'
 import CalculateIcon from '@mui/icons-material/Calculate'
 import BackspaceIcon from '@mui/icons-material/Backspace'
 import SwapHorizIcon from '@mui/icons-material/SwapHoriz'
@@ -313,10 +312,6 @@ export default function Calculator() {
 
   return (
     <Container maxWidth="sm" sx={{ py: { xs: 2, md: 4 } }}>
-      <Helmet>
-        <title>{t('calculator')} | {t('appTitle')}</title>
-        <meta name="description" content={t('calculatorDesc')} />
-      </Helmet>
       <Box sx={{ mb: 3, textAlign: 'center', position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1 }}>
         <Typography
           variant="h4"

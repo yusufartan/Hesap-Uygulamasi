@@ -5,7 +5,6 @@ import KeyboardIcon from '@mui/icons-material/Keyboard'
 import KeyboardHideIcon from '@mui/icons-material/KeyboardHide'
 import SwapVertIcon from '@mui/icons-material/SwapVert'
 import Numpad from '../../components/Numpad/Numpad'
-import { Helmet } from 'react-helmet-async'
 import { unitOptions, convertData } from './dataUtils'
 import { useTranslation } from '../../hooks/useTranslation'
 
@@ -112,15 +111,6 @@ export default function DataCalc() {
 
   return (
     <Container maxWidth="lg" sx={{ py: { xs: 2, md: 4 } }}>
-      <Helmet>
-        <title>{t('data')} | {t('appTitle')}</title>
-        <meta name="description" content={t('dataDesc')} />
-        <link rel="canonical" href="https://www.hesapmerkez.com/data" />
-        <meta property="og:title" content={`${t('data')} | ${t('appTitle')}`} />
-        <meta property="og:description" content={t('dataDesc')} />
-        <meta property="og:url" content="https://www.hesapmerkez.com/data" />
-        <meta property="og:type" content="website" />
-      </Helmet>
       <Box sx={{ mb: 5, textAlign: 'center', position: 'relative' }}>
         <Typography
           variant="h3"

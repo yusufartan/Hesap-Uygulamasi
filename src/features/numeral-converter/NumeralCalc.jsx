@@ -5,7 +5,6 @@ import KeyboardIcon from '@mui/icons-material/Keyboard'
 import KeyboardHideIcon from '@mui/icons-material/KeyboardHide'
 import SwapVertIcon from '@mui/icons-material/SwapVert'
 import Numpad from '../../components/Numpad/Numpad'
-import { Helmet } from 'react-helmet-async'
 import { unitOptions, convertNumeral, isValidInput } from './numeralUtils'
 import { useTranslation } from '../../hooks/useTranslation'
 
@@ -150,16 +149,6 @@ export default function NumeralCalc() {
 
   return (
     <Container maxWidth="lg" sx={{ py: { xs: 2, md: 4 } }}>
-      <Helmet>
-        <title>{t('numeral')} | {t('appTitle')}</title>
-        <meta name="description" content={t('numeralDesc')} />
-        <meta name="keywords" content="sayı sistemleri, binary çevirici, hex hesaplama, onluk taban, ikilik taban, decimal to binary, taban aritmetiği" />
-        <link rel="canonical" href="https://www.hesapmerkez.com/numeral" />
-        <meta property="og:title" content={`${t('numeral')} | ${t('appTitle')}`} />
-        <meta property="og:description" content={t('numeralDesc')} />
-        <meta property="og:url" content="https://www.hesapmerkez.com/numeral" />
-        <meta property="og:type" content="website" />
-      </Helmet>
       <Box sx={{ mb: 4, textAlign: 'center', position: 'relative' }}>
         <Typography 
           variant="h3" 

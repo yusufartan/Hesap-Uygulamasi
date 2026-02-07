@@ -5,7 +5,6 @@ import FemaleIcon from '@mui/icons-material/Female'
 import CalculateIcon from '@mui/icons-material/Calculate'
 import DeleteIcon from '@mui/icons-material/Delete'
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined'
-import { Helmet } from 'react-helmet-async'
 import { validateBmiInput, calculateBmi, getIndicatorPosition } from './bmiUtils'
 import { useTranslation } from '../../hooks/useTranslation'
 
@@ -81,15 +80,6 @@ export default function BmiCalc() {
 
   return (
     <Container maxWidth="lg" sx={{ py: { xs: 2, md: 4 } }}>
-      <Helmet>
-        <title>{t('bmi')} | {t('appTitle')}</title>
-        <meta name="description" content={t('bmiDesc')} />
-        <link rel="canonical" href="https://www.hesapmerkez.com/bmi" />
-        <meta property="og:title" content={`${t('bmi')} | ${t('appTitle')}`} />
-        <meta property="og:description" content={t('bmiDesc')} />
-        <meta property="og:url" content="https://www.hesapmerkez.com/bmi" />
-        <meta property="og:type" content="website" />
-      </Helmet>
       <Box sx={{ mb: 5, textAlign: 'center', position: 'relative' }}>
         <Typography 
           variant="h3" 

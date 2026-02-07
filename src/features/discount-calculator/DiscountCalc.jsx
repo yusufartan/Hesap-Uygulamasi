@@ -5,7 +5,6 @@ import KeyboardIcon from '@mui/icons-material/Keyboard'
 import KeyboardHideIcon from '@mui/icons-material/KeyboardHide'
 import LocalOfferIcon from '@mui/icons-material/LocalOffer'
 import Numpad from '../../components/Numpad/Numpad'
-import { Helmet } from 'react-helmet-async'
 import { calculateDiscountResults } from './discountUtils'
 import { useTranslation } from '../../hooks/useTranslation'
 
@@ -101,15 +100,6 @@ export default function DiscountCalc() {
 
   return (
     <Container maxWidth="lg" sx={{ py: { xs: 2, md: 4 } }}>
-      <Helmet>
-        <title>{t('discount')} | {t('appTitle')}</title>
-        <meta name="description" content={t('discountDesc')} />
-        <link rel="canonical" href="https://www.hesapmerkez.com/discount" />
-        <meta property="og:title" content={`${t('discount')} | ${t('appTitle')}`} />
-        <meta property="og:description" content={t('discountDesc')} />
-        <meta property="og:url" content="https://www.hesapmerkez.com/discount" />
-        <meta property="og:type" content="website" />
-      </Helmet>
       <Box sx={{ mb: 5, textAlign: 'center', position: 'relative' }}>
         <Typography 
           variant="h3" 

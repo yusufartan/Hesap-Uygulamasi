@@ -11,7 +11,6 @@ import {
 } from '@mui/material'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import { Link } from 'react-router-dom'
-import { Helmet } from 'react-helmet-async'
 import { useTranslation } from '../../hooks/useTranslation'
 import { toolsConfig } from '../../config/toolsConfig'
 
@@ -142,13 +141,6 @@ export default function Dashboard() {
 
   return (
     <Box sx={{ minHeight: '100%', position: 'relative', zIndex: 1 }}>
-      <Helmet>
-        <title>Hesap Uzmanı | Tüm Hesaplama Araçları Tek Yerde</title>
-        <meta
-          name="description"
-          content="Yaş, VKE, Finans, Tarih ve daha birçok hesaplama aracı ile günlük işlemlerinizi hızlandırın."
-        />
-      </Helmet>
       <Box
         sx={{
           position: 'absolute',

@@ -8,7 +8,6 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import KeyboardIcon from '@mui/icons-material/Keyboard'
 import KeyboardHideIcon from '@mui/icons-material/KeyboardHide'
 import Numpad from '../../components/Numpad/Numpad'
-import { Helmet } from 'react-helmet-async'
 import { calculateLoan, calculateInvestment } from './financeUtils.js'
 import { useTranslation } from '../../hooks/useTranslation'
 
@@ -99,16 +98,6 @@ export default function FinanceCalc() {
 
   return (
     <Container maxWidth="lg" sx={{ py: { xs: 2, md: 4 } }}>
-      <Helmet>
-        <title>{t('finance')} | {t('appTitle')}</title>
-        <meta name="description" content={t('financeDesc')} />
-        <link rel="canonical" href="https://www.hesapmerkez.com/finance" />
-        <meta property="og:title" content={`${t('finance')} | ${t('appTitle')}`} />
-        <meta property="og:description" content={t('financeDesc')} />
-        <meta property="og:url" content="https://www.hesapmerkez.com/finance" />
-        <meta property="og:type" content="website" />
-      </Helmet>
-      
       {/* Header */}
       <Box sx={{ mb: 4, textAlign: 'center', position: 'relative' }}>
         <Typography variant="h3" fontWeight="800" sx={{ background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.secondary?.main || '#ff4081'} 100%)`, backgroundClip: 'text', textFillColor: 'transparent', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', fontSize: { xs: '2rem', md: '3rem' } }}>

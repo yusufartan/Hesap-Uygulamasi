@@ -5,7 +5,6 @@ import KeyboardIcon from '@mui/icons-material/Keyboard'
 import KeyboardHideIcon from '@mui/icons-material/KeyboardHide'
 import SwapVertIcon from '@mui/icons-material/SwapVert'
 import Numpad from '../../components/Numpad/Numpad'
-import { Helmet } from 'react-helmet-async'
 import { unitOptions, convertLength, safeEvaluate } from './lengthUtils'
 import { useTranslation } from '../../hooks/useTranslation'
 
@@ -162,15 +161,6 @@ export default function LengthCalc() {
 
   return (
     <Container maxWidth="lg" sx={{ py: { xs: 2, md: 4 } }}>
-      <Helmet>
-        <title>{t('length')} | {t('appTitle')}</title>
-        <meta name="description" content={t('lengthDesc')} />
-        <link rel="canonical" href="https://www.hesapmerkez.com/length" />
-        <meta property="og:title" content={`${t('length')} | ${t('appTitle')}`} />
-        <meta property="og:description" content={t('lengthDesc')} />
-        <meta property="og:url" content="https://www.hesapmerkez.com/length" />
-        <meta property="og:type" content="website" />
-      </Helmet>
       <Box sx={{ mb: 4, textAlign: 'center', position: 'relative' }}>
         <Typography 
           variant="h3" 
