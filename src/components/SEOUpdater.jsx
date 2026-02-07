@@ -87,10 +87,14 @@ export default function SEOUpdater() {
       title = t('seo.notFoundTitle')
       description = t('seo.notFoundDesc')
     } else if (found?.item) {
-      const toolName = getToolTitle(found.item.id)
-      title = `${toolName} - ${siteName}`
-      description = getToolDescription(found.item.id) || t('seo.defaultKeywords')
-      keywords = `${toolName}, ${t('seo.defaultKeywords')}`
+      const toolId = found.item.id
+      const toolName = getToolTitle(toolId)
+      const toolDescKey = `seo.tool${toolId.charAt(0).toUpperCase() + toolId.slice(1)}Desc`
+      const toolKwKey = `seo.tool${toolId.charAt(0).toUpperCase() + toolId.slice(1)}Keywords`
+      const suffix = t('seo.toolTitleSuffix')
+      title = `${toolName} | ${suffix} - ${siteName}`
+      description = t(toolDescKey) !== toolDescKey ? t(toolDescKey) : (getToolDescription(toolId) || t('seo.defaultKeywords'))
+      keywords = t(toolKwKey) !== toolKwKey ? t(toolKwKey) : `${toolName}, ${t('seo.defaultKeywords')}`
     }
 
     return {
@@ -121,18 +125,50 @@ export default function SEOUpdater() {
     }
   }, [language])
 
-  const jsonLd = React.useMemo(() => ({
-    '@context': 'https://schema.org',
-    '@type': 'WebSite',
-    name: seo.siteName,
-    url: seo.baseUrl,
-    description: seo.description,
-    potentialAction: {
-      '@type': 'SearchAction',
-      target: { '@type': 'EntryPoint', urlTemplate: `${seo.baseUrl}/tools?q={search_term_string}` },
-      'query-input': 'required name=search_term_string',
-    },
-  }), [seo])
+  const jsonLd = React.useMemo(() => {
+    const website = {
+      '@context': 'https://schema.org',
+      '@type': 'WebSite',
+      name: seo.siteName,
+      url: seo.baseUrl,
+      description: seo.description,
+      potentialAction: {
+        '@type': 'SearchAction',
+        target: { '@type': 'EntryPoint', urlTemplate: `${seo.baseUrl}/tools?q={search_term_string}` },
+        'query-input': 'required name=search_term_string',
+      },
+    }
+    const items = []
+    const pageName = pageType === 'home' ? seo.siteName
+      : pageType === 'all-tools' ? t('all-tools')
+      : pageType === 'about' ? t('about')
+      : pageType === 'contact' ? t('contact')
+      : pageType === 'privacy' ? t('privacy')
+      : pageType === 'terms' ? t('terms')
+      : found?.item ? getToolTitle(found.item.id) : null
+
+    if (pageName && pathname !== '/') {
+      items.push({
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: seo.siteName, item: seo.baseUrl },
+          { '@type': 'ListItem', position: 2, name: pageName, item: seo.canonicalUrl },
+        ],
+      })
+    }
+    if (found?.item) {
+      items.push({
+        '@type': 'SoftwareApplication',
+        name: getToolTitle(found.item.id),
+        applicationCategory: 'UtilitiesApplication',
+        description: seo.description,
+        url: seo.canonicalUrl,
+        offers: { '@type': 'Offer', price: '0', priceCurrency: 'TRY' },
+      })
+    }
+    return items.length > 0 ? [website, ...items] : website
+  }, [seo, found, pathname, pageType, t, getToolTitle])
 
   return (
     <Helmet>
@@ -147,6 +183,8 @@ export default function SEOUpdater() {
       <meta property="og:title" content={seo.title} />
       <meta property="og:description" content={seo.description} />
       <meta property="og:image" content={seo.ogImage} />
+      <meta property="og:image:width" content="512" />
+      <meta property="og:image:height" content="512" />
       <meta property="og:site_name" content={seo.siteName} />
       <meta property="og:locale" content={seo.locale} />
       <meta property="og:locale:alternate" content={seo.altLocale} />
