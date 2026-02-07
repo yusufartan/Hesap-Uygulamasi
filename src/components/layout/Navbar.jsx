@@ -521,6 +521,7 @@ export default function Navbar({ mobileMenuOpen, onMenuClick, rightOffset = 0 })
                     py: 0.5,
                     overflow: 'hidden',
                     zIndex: 1200,
+                    bgcolor: theme.palette.mode === 'dark' ? 'background.paper' : 'grey.100',
                   }}
                 >
                   {cat.items.map((item) => (
