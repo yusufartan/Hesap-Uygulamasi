@@ -81,8 +81,6 @@ export default function DashboardLayout() {
 
   const isTablet = !isMobile && !isDesktop
   const navbarRightOffset = isTablet ? sidebarMiniWidth : 0
-  const sidebarGapPx = 3
-  const mainPr = !isMobile ? `${sidebarMiniWidth + sidebarGapPx}px` : undefined
 
   return (
     <Box sx={{ display: 'block', height: '100vh', position: 'relative' }}>
@@ -113,24 +111,24 @@ export default function DashboardLayout() {
           pt: `${navbarHeight}px`,
         }}
       >
-        <Box sx={{ flexGrow: 1, p: { xs: 2, sm: 3 }, pr: { xs: 2, sm: 3, md: mainPr }, display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
+        <Box sx={{ flexGrow: 1, p: { xs: 2, sm: 3 }, display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
           <Box sx={{ width: '100%', maxWidth: '1200px', mx: 'auto' }}>
             <CustomBreadcrumbs />
             {/* Hata Kalkanı: Sadece içerik alanı çökerse burası devreye girer */}
             <ErrorBoundary>
-              <React.Suspense fallback={<Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}><CircularProgress /></Box>}><Outlet key={location.pathname} context={{ sidebarOpen }} /></React.Suspense>
+              <React.Suspense fallback={<Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}><CircularProgress /></Box>}><Outlet key={location.pathname} /></React.Suspense>
             </ErrorBoundary>
           </Box>
         </Box>
         <Footer />
         
-        {/* Yukarı Çık Butonu — sidebar kapalıyken altında kalmaması için sola alındı */}
+        {/* Yukarı Çık Butonu */}
         <Zoom in={showScrollTop}>
           <Fab 
             color="primary" 
             size="small" 
             onClick={scrollToTop}
-            sx={{ position: 'fixed', bottom: 32, right: { xs: 32, md: 80 }, zIndex: 9999 }}
+            sx={{ position: 'fixed', bottom: 32, right: 32, zIndex: 9999 }}
           >
             <KeyboardArrowUpIcon />
           </Fab>
