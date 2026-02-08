@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { Box, Typography, ToggleButtonGroup, ToggleButton, useTheme, alpha, CircularProgress } from '@mui/material'
 import dayjs from 'dayjs'
-import 'dayjs/locale/tr'
-import {
-  AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer
+import 'dayjs/locale/tr' 
+import { 
+  AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer 
 } from 'recharts'
 import { fetchHistoricalRates } from './currencyUtils'
 
@@ -18,10 +18,10 @@ const PERIODS = [
 const CustomTooltip = ({ active, payload, label }) => {
   if (active && payload && payload.length) {
     return (
-      <Box sx={{
-        bgcolor: 'rgba(30, 30, 30, 0.95)',
+      <Box sx={{ 
+        bgcolor: 'rgba(30, 30, 30, 0.95)', 
         border: '1px solid rgba(255,255,255,0.1)',
-        borderRadius: 2,
+        borderRadius: 2, 
         p: 1.5,
         boxShadow: 4
       }}>
@@ -50,23 +50,23 @@ export default function CurrencyChart({ fromCurrency, toCurrency }) {
     }
 
     const config = PERIODS.find((p) => p.key === period) || PERIODS[1]
-
+    
     // Bitiş tarihi bugün
     const end = dayjs()
     // Başlangıç tarihi
     const start = end.subtract(config.days, 'day')
-
+    
     // API formatı: YYYY-MM-DD
     const startStr = start.format('YYYY-MM-DD')
     const endStr = end.format('YYYY-MM-DD')
 
     setLoading(true)
-
+    
     fetchHistoricalRates(fromCurrency, toCurrency, startStr, endStr)
       .then(({ dates, rates }) => {
         if (!dates || dates.length === 0) {
-          setData([])
-          return
+            setData([])
+            return
         }
         // Recharts formatına çevir
         const formattedData = dates.map((d, i) => ({
@@ -97,7 +97,6 @@ export default function CurrencyChart({ fromCurrency, toCurrency }) {
         minHeight: 320
       }}
     >
-      {/* ... Üst Başlık ve Butonlar (Buralar aynı kalıyor) ... */}
       <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: 2, mb: 3 }}>
         <Box>
           <Typography variant="caption" color="text.secondary" fontWeight="600">
@@ -143,8 +142,7 @@ export default function CurrencyChart({ fromCurrency, toCurrency }) {
         </ToggleButtonGroup>
       </Box>
 
-      {/* !!! DÜZELTME BURADA YAPILDI !!! */}
-      <Box sx={{ width: '100%', height: 240, minWidth: 0, position: 'relative' }}> 
+      <Box sx={{ width: '100%', height: 240 }}>
         {loading ? (
           <Box sx={{ height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <CircularProgress size={30} thickness={4} />
@@ -155,7 +153,7 @@ export default function CurrencyChart({ fromCurrency, toCurrency }) {
             <Typography variant="caption">Bu tarih aralığı veya para birimi için veri bulunamadı.</Typography>
           </Box>
         ) : (
-          <ResponsiveContainer width="100%" height="100%" debounce={1}>
+          <ResponsiveContainer width="100%" height="100%">
             <AreaChart data={data} margin={{ top: 5, right: 0, left: 0, bottom: 0 }}>
               <defs>
                 <linearGradient id="colorValue" x1="0" y1="0" x2="0" y2="1">
@@ -190,5 +188,4 @@ export default function CurrencyChart({ fromCurrency, toCurrency }) {
       </Box>
     </Box>
   )
-
 }
