@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="tr">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#ff9800" />
+
+  <!-- Favicon: HesapMerkez logosu (önce PNG, SVG yedek) -->
+  <link rel="icon" type="image/png" href="/HesapMerkezLogo.png" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="apple-touch-icon" href="/HesapMerkezLogo.png" />
+
+  <!-- Font Optimizasyonu: CSS @import yerine buradan yüklüyoruz (Hız Artışı) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Varsayılan SEO (SPA yüklenmeden önce / crawler fallback; Helmet sayfa bazlı günceller) -->
+  <title>Ücretsiz Online Hesaplama Araçları | Kredi, VKE, Yaş - Hesap Uzmanı</title>
+  <meta name="description"
+    content="Ücretsiz hesaplama araçları: Kredi taksit, VKE (boy kilo), yaş hesaplama, döviz çevirici, indirim hesaplama. Online hemen hesapla, doğru sonuç al." />
+  <meta name="keywords"
+    content="ücretsiz hesaplama, online hesap makinesi, kredi hesaplama, VKE hesaplama, yaş hesaplama, döviz çevirici, indirim hesaplama, hesaplama araçları" />
+  <meta name="robots" content="index, follow" />
+<!-- Google Analytics 4 (GA4)
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-YN8YS3BMDX"></script> -->
+  <!-- Google Analytics 4 (GA4) - 'async' yerine 'defer' ile React yüklenmesini engellemiyoruz -->
+  <script defer src="https://www.googletagmanager.com/gtag/js?id=G-YN8YS3BMDX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-YN8YS3BMDX');
+  </script>
+
+  <!-- PWA Manifest (Mobil Uygulama Özelliği) -->
+  <link rel="manifest" href="/manifest.json" />
+
+  <!-- Sitemap (arama motoru keşfi) -->
+  <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="module" src="/src/main.jsx"></script>
+</body>
+
+</html>
