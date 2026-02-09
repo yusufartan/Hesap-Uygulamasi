@@ -230,7 +230,7 @@ export default function LandingPage() {
           {t('whyChooseUs')}
         </Typography>
 
-        <Grid container spacing={6} alignItems="center" sx={{ mb: 16 }}>
+        <Grid container spacing={{ xs: 3, md: 6 }} alignItems="center" sx={{ mb: { xs: 8, md: 16 } }}>
           <Grid item xs={12} md={6}>
             <motion.div
               initial="hidden"
@@ -241,13 +241,15 @@ export default function LandingPage() {
               <Box
                 sx={{
                   display: 'flex', justifyContent: 'center', alignItems: 'center',
-                  height: 350,
+                  height: { xs: 160, sm: 220, md: 350 },
+                  maxWidth: { xs: 200, sm: 260, md: 'none' },
+                  mx: { xs: 'auto', md: 0 },
                   background: `linear-gradient(135deg, ${alpha(theme.palette.primary.main, 0.1)} 0%, transparent 100%)`,
                   borderRadius: '30% 70% 70% 30% / 30% 30% 70% 70%',
                   border: `2px solid ${alpha(theme.palette.primary.main, 0.2)}`
                 }}
               >
-                <BoltIcon sx={{ fontSize: 120, color: 'primary.main' }} />
+                <BoltIcon sx={{ fontSize: { xs: 56, sm: 80, md: 120 }, color: 'primary.main' }} />
               </Box>
             </motion.div>
           </Grid>
@@ -268,7 +270,7 @@ export default function LandingPage() {
           </Grid>
         </Grid>
 
-        <Grid container spacing={6} alignItems="center" sx={{ mb: 16, flexDirection: { xs: 'column-reverse', md: 'row' } }}>
+        <Grid container spacing={{ xs: 3, md: 6 }} alignItems="center" sx={{ mb: { xs: 8, md: 16 }, flexDirection: { xs: 'column-reverse', md: 'row' } }}>
           <Grid item xs={12} md={6}>
             <motion.div
               initial="hidden"
@@ -294,19 +296,21 @@ export default function LandingPage() {
               <Box
                 sx={{
                   display: 'flex', justifyContent: 'center', alignItems: 'center',
-                  height: 350,
+                  height: { xs: 160, sm: 220, md: 350 },
+                  maxWidth: { xs: 200, sm: 260, md: 'none' },
+                  mx: { xs: 'auto', md: 0 },
                   background: `linear-gradient(135deg, ${alpha(theme.palette.secondary?.main || '#8b5cf6', 0.1)} 0%, transparent 100%)`,
                   borderRadius: '70% 30% 30% 70% / 60% 40% 60% 40%',
                   border: `2px solid ${alpha(theme.palette.secondary?.main || '#8b5cf6', 0.2)}`
                 }}
               >
-                <VerifiedIcon sx={{ fontSize: 120, color: theme.palette.secondary?.main || '#8b5cf6' }} />
+                <VerifiedIcon sx={{ fontSize: { xs: 56, sm: 80, md: 120 }, color: theme.palette.secondary?.main || '#8b5cf6' }} />
               </Box>
             </motion.div>
           </Grid>
         </Grid>
 
-        <Grid container spacing={6} alignItems="center">
+        <Grid container spacing={{ xs: 3, md: 6 }} alignItems="center">
           <Grid item xs={12} md={6}>
             <motion.div
               initial="hidden"
@@ -317,13 +321,15 @@ export default function LandingPage() {
               <Box
                 sx={{
                   display: 'flex', justifyContent: 'center', alignItems: 'center',
-                  height: 350,
+                  height: { xs: 160, sm: 220, md: 350 },
+                  maxWidth: { xs: 200, sm: 260, md: 'none' },
+                  mx: { xs: 'auto', md: 0 },
                   background: `linear-gradient(135deg, ${alpha('#10b981', 0.1)} 0%, transparent 100%)`,
                   borderRadius: '40% 60% 60% 40% / 40% 60% 40% 60%',
                   border: `2px solid ${alpha('#10b981', 0.2)}`
                 }}
               >
-                <FreeBreakfastIcon sx={{ fontSize: 120, color: '#10b981' }} />
+                <FreeBreakfastIcon sx={{ fontSize: { xs: 56, sm: 80, md: 120 }, color: '#10b981' }} />
               </Box>
             </motion.div>
           </Grid>
