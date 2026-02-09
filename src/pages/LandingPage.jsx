@@ -25,7 +25,7 @@ export default function LandingPage() {
   }
 
   const slideInLeft = {
-    hidden: { opacity: 0, x: -100 },
+    hidden: { opacity: 0, x: -50 },
     visible: { 
       opacity: 1, 
       x: 0,
@@ -34,7 +34,7 @@ export default function LandingPage() {
   }
 
   const slideInRight = {
-    hidden: { opacity: 0, x: 100 },
+    hidden: { opacity: 0, x: 50 },
     visible: { 
       opacity: 1, 
       x: 0,
@@ -217,7 +217,7 @@ export default function LandingPage() {
       </Box>
 
       {/* ========================================
-        2. FEATURES (Özellikler)
+        2. FEATURES (Özellikler) - Düzeltilmiş Mobil Görünüm
         ========================================
       */}
       <Container maxWidth="xl" sx={{ py: 12, px: { xs: 2, md: 8 } }}>
@@ -225,125 +225,131 @@ export default function LandingPage() {
         <Typography
           variant="h2"
           align="center"
-          sx={{ mb: 12, fontWeight: 800, fontSize: { xs: '2rem', md: '3rem' } }}
+          sx={{ mb: { xs: 8, md: 12 }, fontWeight: 800, fontSize: { xs: '2rem', md: '3rem' } }}
         >
           {t('whyChooseUs')}
         </Typography>
 
-        <Grid container spacing={{ xs: 3, md: 6 }} alignItems="center" sx={{ mb: { xs: 8, md: 16 } }}>
+        {/* 1. ÖZELLİK: Yüksek Hız */}
+        <Grid container spacing={{ xs: 4, md: 6 }} alignItems="center" sx={{ mb: { xs: 8, md: 16 } }}>
           <Grid item xs={12} md={6}>
             <motion.div
               initial="hidden"
               whileInView="visible"
-              viewport={{ once: true, margin: "-100px" }}
+              viewport={{ once: true, margin: "-50px" }}
               variants={slideInLeft}
             >
               <Box
                 sx={{
                   display: 'flex', justifyContent: 'center', alignItems: 'center',
-                  height: { xs: 160, sm: 220, md: 350 },
-                  maxWidth: { xs: 200, sm: 260, md: 'none' },
-                  mx: { xs: 'auto', md: 0 },
+                  // Mobilde boyutları küçülttük (100px)
+                  height: { xs: 100, sm: 220, md: 350 },
+                  width: { xs: 100, sm: 220, md: '100%' }, 
+                  mx: 'auto', 
                   background: `linear-gradient(135deg, ${alpha(theme.palette.primary.main, 0.1)} 0%, transparent 100%)`,
                   borderRadius: '30% 70% 70% 30% / 30% 30% 70% 70%',
                   border: `2px solid ${alpha(theme.palette.primary.main, 0.2)}`
                 }}
               >
-                <BoltIcon sx={{ fontSize: { xs: 56, sm: 80, md: 120 }, color: 'primary.main' }} />
+                {/* Mobilde ikon boyutu 40px */}
+                <BoltIcon sx={{ fontSize: { xs: 40, sm: 80, md: 120 }, color: 'primary.main' }} />
               </Box>
             </motion.div>
           </Grid>
-          <Grid item xs={12} md={6}>
+          <Grid item xs={12} md={6} sx={{ textAlign: { xs: 'center', md: 'left' } }}>
             <motion.div
               initial="hidden"
               whileInView="visible"
-              viewport={{ once: true, margin: "-100px" }}
+              viewport={{ once: true, margin: "-50px" }}
               variants={slideInRight}
             >
-              <Typography variant="h3" fontWeight="bold" gutterBottom>
+              <Typography variant="h3" fontWeight="bold" gutterBottom sx={{ fontSize: { xs: '1.5rem', md: '3rem' } }}>
                 {t('highSpeed')}
               </Typography>
-              <Typography variant="h5" color="text.secondary" sx={{ lineHeight: 1.8, fontWeight: 400 }}>
+              <Typography variant="h5" color="text.secondary" sx={{ lineHeight: 1.6, fontWeight: 400, fontSize: { xs: '1rem', md: '1.5rem' } }}>
                 {t('highSpeedDesc')}
               </Typography>
             </motion.div>
           </Grid>
         </Grid>
 
-        <Grid container spacing={{ xs: 3, md: 6 }} alignItems="center" sx={{ mb: { xs: 8, md: 16 }, flexDirection: { xs: 'column-reverse', md: 'row' } }}>
+        {/* 2. ÖZELLİK: Güvenilir Sonuçlar (Hizalama ve Boyut Düzeltildi) */}
+        {/* flexDirection: row-reverse ile masaüstünde sağda, mobilde (column) üstte olmasını sağladık */}
+        <Grid container spacing={{ xs: 4, md: 6 }} alignItems="center" sx={{ mb: { xs: 8, md: 16 }, flexDirection: { xs: 'column', md: 'row-reverse' } }}>
           <Grid item xs={12} md={6}>
             <motion.div
               initial="hidden"
               whileInView="visible"
-              viewport={{ once: true, margin: "-100px" }}
-              variants={slideInLeft}
-            >
-              <Typography variant="h3" fontWeight="bold" gutterBottom align="right" sx={{ textAlign: { xs: 'left', md: 'right' } }}>
-                {t('reliableResults')}
-              </Typography>
-              <Typography variant="h5" color="text.secondary" sx={{ lineHeight: 1.8, textAlign: { xs: 'left', md: 'right' }, fontWeight: 400 }}>
-                {t('reliableResultsDesc')}
-              </Typography>
-            </motion.div>
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: "-100px" }}
-              variants={slideInRight}
+              viewport={{ once: true, margin: "-50px" }}
+              variants={slideInRight} // Masaüstünde sağdan geleceği için Right
             >
               <Box
                 sx={{
                   display: 'flex', justifyContent: 'center', alignItems: 'center',
-                  height: { xs: 160, sm: 220, md: 350 },
-                  maxWidth: { xs: 200, sm: 260, md: 'none' },
-                  mx: { xs: 'auto', md: 0 },
+                  height: { xs: 100, sm: 220, md: 350 },
+                  width: { xs: 100, sm: 220, md: '100%' },
+                  mx: 'auto',
                   background: `linear-gradient(135deg, ${alpha(theme.palette.secondary?.main || '#8b5cf6', 0.1)} 0%, transparent 100%)`,
                   borderRadius: '70% 30% 30% 70% / 60% 40% 60% 40%',
                   border: `2px solid ${alpha(theme.palette.secondary?.main || '#8b5cf6', 0.2)}`
                 }}
               >
-                <VerifiedIcon sx={{ fontSize: { xs: 56, sm: 80, md: 120 }, color: theme.palette.secondary?.main || '#8b5cf6' }} />
+                <VerifiedIcon sx={{ fontSize: { xs: 40, sm: 80, md: 120 }, color: theme.palette.secondary?.main || '#8b5cf6' }} />
               </Box>
+            </motion.div>
+          </Grid>
+          <Grid item xs={12} md={6} sx={{ textAlign: { xs: 'center', md: 'right' } }}>
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-50px" }}
+              variants={slideInLeft} // Masaüstünde soldan geleceği için Left
+            >
+              <Typography variant="h3" fontWeight="bold" gutterBottom sx={{ fontSize: { xs: '1.5rem', md: '3rem' } }}>
+                {t('reliableResults')}
+              </Typography>
+              <Typography variant="h5" color="text.secondary" sx={{ lineHeight: 1.6, fontWeight: 400, fontSize: { xs: '1rem', md: '1.5rem' } }}>
+                {t('reliableResultsDesc')}
+              </Typography>
             </motion.div>
           </Grid>
         </Grid>
 
-        <Grid container spacing={{ xs: 3, md: 6 }} alignItems="center">
+        {/* 3. ÖZELLİK: Tamamen Ücretsiz */}
+        <Grid container spacing={{ xs: 4, md: 6 }} alignItems="center">
           <Grid item xs={12} md={6}>
             <motion.div
               initial="hidden"
               whileInView="visible"
-              viewport={{ once: true, margin: "-100px" }}
+              viewport={{ once: true, margin: "-50px" }}
               variants={slideInLeft}
             >
               <Box
                 sx={{
                   display: 'flex', justifyContent: 'center', alignItems: 'center',
-                  height: { xs: 160, sm: 220, md: 350 },
-                  maxWidth: { xs: 200, sm: 260, md: 'none' },
-                  mx: { xs: 'auto', md: 0 },
+                  height: { xs: 100, sm: 220, md: 350 },
+                  width: { xs: 100, sm: 220, md: '100%' },
+                  mx: 'auto',
                   background: `linear-gradient(135deg, ${alpha('#10b981', 0.1)} 0%, transparent 100%)`,
                   borderRadius: '40% 60% 60% 40% / 40% 60% 40% 60%',
                   border: `2px solid ${alpha('#10b981', 0.2)}`
                 }}
               >
-                <FreeBreakfastIcon sx={{ fontSize: { xs: 56, sm: 80, md: 120 }, color: '#10b981' }} />
+                <FreeBreakfastIcon sx={{ fontSize: { xs: 40, sm: 80, md: 120 }, color: '#10b981' }} />
               </Box>
             </motion.div>
           </Grid>
-          <Grid item xs={12} md={6}>
+          <Grid item xs={12} md={6} sx={{ textAlign: { xs: 'center', md: 'left' } }}>
             <motion.div
               initial="hidden"
               whileInView="visible"
-              viewport={{ once: true, margin: "-100px" }}
+              viewport={{ once: true, margin: "-50px" }}
               variants={slideInRight}
             >
-              <Typography variant="h3" fontWeight="bold" gutterBottom>
+              <Typography variant="h3" fontWeight="bold" gutterBottom sx={{ fontSize: { xs: '1.5rem', md: '3rem' } }}>
                 {t('completelyFree')}
               </Typography>
-              <Typography variant="h5" color="text.secondary" sx={{ lineHeight: 1.8, fontWeight: 400 }}>
+              <Typography variant="h5" color="text.secondary" sx={{ lineHeight: 1.6, fontWeight: 400, fontSize: { xs: '1rem', md: '1.5rem' } }}>
                 {t('completelyFreeDesc')}
               </Typography>
             </motion.div>
@@ -353,7 +359,7 @@ export default function LandingPage() {
       </Container>
 
       {/* ========================================
-        3. CATEGORIES (Kategoriler) - FİXLENMİŞ ALAN
+        3. CATEGORIES (Kategoriler)
         ========================================
       */}
       <Box sx={{ py: 12, bgcolor: alpha(theme.palette.primary.main, 0.03) }}>
@@ -362,19 +368,8 @@ export default function LandingPage() {
             {t('exploreCategories')}
           </Typography>
 
-          {/* Grid container ayarları:
-            spacing={3}: Kartlar arası boşluk.
-            justifyContent="center": Az kart varsa ortala.
-            alignItems="stretch": Tüm kartların boyunu en uzuna eşitle.
-          */}
           <Grid container spacing={3} justifyContent="center" alignItems="stretch">
             {toolsConfig.map((category, index) => (
-              /* Grid item ayarları (RESPONSIVE ÇÖZÜMÜ BURASI):
-                xs={12}: Mobil (Tek sütun - Tam genişlik)
-                sm={6}: Tablet (2 sütun - %50 genişlik)
-                md={4}: Laptop (3 sütun - %33.3 genişlik)
-                lg={2}: Büyük Ekran (6 sütun - %16.6 genişlik)
-              */
               <Grid item xs={12} sm={6} md={4} lg={2} key={category.id}>
                 <motion.div
                   variants={fadeInUp}
@@ -382,13 +377,14 @@ export default function LandingPage() {
                   whileInView="visible"
                   viewport={{ once: true, margin: "-50px" }}
                   transition={{ delay: index * 0.1 }}
-                  style={{ height: '100%' }} // Yükseklik %100, stretch için gerekli
+                  style={{ height: '100%' }}
                 >
                   <Card
                     elevation={0}
                     sx={{
-                      width: '100%', // ARTIK 220PX DEĞİL, %100! KUTU YAZIYA GÖRE DEĞİL, EKRANA GÖRE ŞEKİL ALIR.
-                      height: '100%', // Tüm kartlar eşit boyda
+                      width: '100%',
+                      height: '100%',
+                      minHeight: 220,
                       display: 'flex',
                       flexDirection: 'column',
                       borderRadius: 3,
@@ -419,7 +415,6 @@ export default function LandingPage() {
                         p: { xs: 3, sm: 3 },
                       }}
                     >
-                      {/* Arka plan ikonu */}
                       <Box
                         className="icon-bg"
                         sx={{
@@ -437,7 +432,6 @@ export default function LandingPage() {
                         {category.icon}
                       </Box>
 
-                      {/* Üst Kısım: İkon ve Başlık */}
                       <Box sx={{ zIndex: 1, width: '100%' }}>
                         <Box
                           sx={{
@@ -455,7 +449,6 @@ export default function LandingPage() {
                         >
                           {category.icon && React.cloneElement(category.icon, {})}
                         </Box>
-                        {/* noWrap: Yazı çok uzarsa tek satırda kalıp ... olsun mu? İstersen kaldırabilirsin */}
                         <Typography variant="h5" fontWeight="700" gutterBottom>
                           {getCategoryTitle(category.id)}
                         </Typography>
@@ -464,7 +457,6 @@ export default function LandingPage() {
                         </Typography>
                       </Box>
 
-                      {/* Alt Kısım: Buton Yazısı */}
                       <Box
                         sx={{
                           display: 'flex',
