@@ -150,9 +150,7 @@ export const translations = {
     disclaimer: 'Sorumluluk Reddi',
     changes: 'Değişiklikler',
 
-    // Footer
-    appTitle: 'Hesap Uzmanı',
-    footerDesc: 'Günlük hayatta, finansta ve eğitimde ihtiyacınız olan tüm hesaplama araçları tek bir yerde. Hızlı, doğru ve ücretsiz.',
+    appTitle: 'Hesap Merkezi',
     quickAccess: 'Hızlı Erişim',
     corporate: 'Kurumsal',
     about: 'Hakkımızda',
@@ -187,18 +185,18 @@ export const translations = {
     messageReceived: 'Mesajınız bize ulaştı.',
 
     // Kullanım Koşulları
-    termsMetaDesc: 'Hesap Uzmanı web sitesi kullanım koşulları ve yasal uyarılar.',
+    termsMetaDesc: 'Hesap Merkezi web sitesi kullanım koşulları ve yasal uyarılar.',
     termsKeywords: 'kullanım koşulları, hizmet şartları, sorumluluk reddi',
     lastUpdate: 'Son Güncelleme',
-    acceptanceDesc: 'Bu web sitesini (Hesap Uzmanı) kullanarak, aşağıda belirtilen şartları kabul etmiş sayılırsınız. Eğer bu şartları kabul etmiyorsanız, lütfen siteyi kullanmayınız.',
+    acceptanceDesc: 'Bu web sitesini (Hesap Merkezi) kullanarak, aşağıda belirtilen şartları kabul etmiş sayılırsınız. Eğer bu şartları kabul etmiyorsanız, lütfen siteyi kullanmayınız.',
     serviceNatureDesc: 'Sitemizde sunulan hesaplama araçları (Finans, VKE, Zaman vb.) yalnızca bilgilendirme amaçlıdır. Finansal veya tıbbi tavsiye niteliği taşımaz. Kesin kararlar almadan önce lütfen bir uzmana danışınız.',
-    disclaimerDesc: 'Hesap Uzmanı, hesaplama sonuçlarının %100 doğruluğunu garanti etmez. Yazılım hatalarından veya veri girişlerinden kaynaklanabilecek yanlış hesaplamalardan doğacak zararlardan site yönetimi sorumlu tutulamaz.',
+    disclaimerDesc: 'Hesap Merkezi, hesaplama sonuçlarının %100 doğruluğunu garanti etmez. Yazılım hatalarından veya veri girişlerinden kaynaklanabilecek yanlış hesaplamalardan doğacak zararlardan site yönetimi sorumlu tutulamaz.',
     changesDesc: 'Site yönetimi, bu koşulları önceden haber vermeksizin değiştirme hakkını saklı tutar.',
 
     //Hakkımızda sayfası
-    aboutIntro: 'Hesap Uzmanı, modern yaşamın getirdiği karmaşık hesaplama ihtiyaçlarına pratik, hızlı ve güvenilir çözümler sunmak amacıyla hayata geçirilmiş kapsamlı bir dijital platformdur. Finansal planlamadan sağlık verilerine, akademik hesaplamalardan günlük pratik dönüşümlere kadar geniş bir yelpazede hizmet veriyoruz. Amacımız, kullanıcılarımızın zamanını en verimli şekilde kullanmalarını sağlamak ve karmaşık formüllerle uğraşmadan doğru sonuçlara anında ulaşmalarına yardımcı olmaktır.',
+    aboutIntro: 'Hesap Merkezi, modern yaşamın getirdiği karmaşık hesaplama ihtiyaçlarına pratik, hızlı ve güvenilir çözümler sunmak amacıyla hayata geçirilmiş kapsamlı bir dijital platformdur. Finansal planlamadan sağlık verilerine, akademik hesaplamalardan günlük pratik dönüşümlere kadar geniş bir yelpazede hizmet veriyoruz. Amacımız, kullanıcılarımızın zamanını en verimli şekilde kullanmalarını sağlamak ve karmaşık formüllerle uğraşmadan doğru sonuçlara anında ulaşmalarına yardımcı olmaktır.',
     missionDesc: 'Misyonumuz, teknolojinin sunduğu imkanları en iyi şekilde kullanarak bilgiye erişimi demokratikleştirmek ve herkes için anlaşılır hale getirmektir. Sürekli gelişen dijital dünyada, kullanıcılarımızın karar verme süreçlerini destekleyen, hayatlarını kolaylaştıran ve her zaman güvenebilecekleri bir başvuru kaynağı olmayı hedefliyoruz. İnovasyon ve kullanıcı odaklılık ilkeleriyle hareket ederek, araçlarımızı sürekli güncelliyor ve ihtiyaçlarınıza uygun yeni çözümler geliştiriyoruz.',
-    whyUsDesc: 'Neden Hesap Uzmanı\'nı tercih etmelisiniz? Çünkü biz, kullanıcı deneyimini her şeyin üzerinde tutuyoruz. Karmaşık arayüzlerden uzak, sade ve anlaşılır tasarımımızla herkesin rahatça kullanabileceği bir ortam sunuyoruz. Hesaplama algoritmalarımız, en güncel veriler ve bilimsel formüller kullanılarak titizlikle hazırlanmıştır. Ayrıca, veri gizliliğinize büyük önem veriyor, kişisel bilgilerinizi korumak için en üst düzey güvenlik standartlarını uyguluyoruz.',
+    whyUsDesc: 'Neden Hesap Merkezi\'nı tercih etmelisiniz? Çünkü biz, kullanıcı deneyimini her şeyin üzerinde tutuyoruz. Karmaşık arayüzlerden uzak, sade ve anlaşılır tasarımımızla herkesin rahatça kullanabileceği bir ortam sunuyoruz. Hesaplama algoritmalarımız, en güncel veriler ve bilimsel formüller kullanılarak titizlikle hazırlanmıştır. Ayrıca, veri gizliliğinize büyük önem veriyor, kişisel bilgilerinizi korumak için en üst düzey güvenlik standartlarını uyguluyoruz.',
   },
   en: {
     // Menu Titles
@@ -351,9 +349,7 @@ export const translations = {
     disclaimer: 'Disclaimer',
     changes: 'Changes',
 
-    // Footer
     appTitle: 'Calc Master',
-    footerDesc: 'All the calculation tools you need in daily life, finance, and education in one place. Fast, accurate, and free.',
     quickAccess: 'Quick Access',
     corporate: 'Corporate',
     about: 'About Us',

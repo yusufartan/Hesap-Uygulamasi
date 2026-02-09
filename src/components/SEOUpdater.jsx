@@ -7,7 +7,7 @@ import { useTranslation } from '../hooks/useTranslation'
 // Statik sayfa path → SEO tipi eşlemesi
 const STATIC_PAGES = {
   '/': 'home',
-  '/tools': 'all-tools',
+  '/tum-araclar': 'all-tools',
   '/privacy': 'privacy',
   '/contact': 'contact',
   '/about': 'about',
@@ -134,7 +134,7 @@ export default function SEOUpdater() {
       description: seo.description,
       potentialAction: {
         '@type': 'SearchAction',
-        target: { '@type': 'EntryPoint', urlTemplate: `${seo.baseUrl}/tools?q={search_term_string}` },
+        target: { '@type': 'EntryPoint', urlTemplate: `${seo.baseUrl}/tum-araclar?q={search_term_string}` },
         'query-input': 'required name=search_term_string',
       },
     }

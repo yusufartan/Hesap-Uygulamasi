@@ -1,4 +1,4 @@
-# Hesap Uzmanı (Calculator App) 🧮
+# Hesap Merkezi (Calculator App) 🧮
 
 Modern, kullanıcı dostu ve kapsamlı bir hesaplama araçları seti. Finans, sağlık, matematik, tarih ve birim çevirme gibi günlük ihtiyaçlarınız için geliştirilmiş web uygulaması.
 

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Routes, Route, useLocation } from 'react-router-dom'
+import { Routes, Route, useLocation, Navigate } from 'react-router-dom'
 import DashboardLayout from '../components/layout/DashboardLayout'
 import { toolsConfig } from '../config/toolsConfig'
 
@@ -33,6 +33,12 @@ const AboutPage = React.lazy(() => import('../pages/AboutPage'))
 const TermsPage = React.lazy(() => import('../pages/TermsPage'))
 const NotFoundPage = React.lazy(() => import('../pages/NotFoundPage'))
 
+/** /tools veya /tools/* → /tum-araclar (hash korunur) */
+function ToolsRedirect() {
+  const { hash } = useLocation()
+  return <Navigate to={`/tum-araclar${hash || ''}`} replace />
+}
+
 // toolsConfig'den tüm araçları düzleştir (path + id)
 const toolRoutes = toolsConfig.flatMap((category) =>
   category.items.map((item) => ({ id: item.id, path: item.path }))
@@ -56,6 +62,9 @@ export default function AppRoutes() {
         <Route path="/" element={<DashboardLayout />}>
           {/* Ana sayfa: / — Landing Page */}
           <Route index element={<LandingPage />} />
+          {/* /tools veya /tools/* → /tum-araclar yönlendirmesi (hash korunur) */}
+          <Route path="tools" element={<ToolsRedirect />} />
+          <Route path="tools/*" element={<ToolsRedirect />} />
           {/* Sabit sayfalar (önce eşlensin) */}
           <Route path="privacy" element={<PrivacyPage />} />
           <Route path="contact" element={<ContactPage />} />

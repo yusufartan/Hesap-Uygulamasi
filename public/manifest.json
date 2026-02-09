@@ -1,6 +1,6 @@
 {
-  "short_name": "Hesap Uzmanı",
-  "name": "Hesap Uzmanı - Ücretsiz Online Hesaplama Araçları",
+  "short_name": "Hesap Merkezi",
+  "name": "Hesap Merkezi - Ücretsiz Online Hesaplama Araçları",
   "description": "Kredi, VKE, yaş hesaplama, döviz çevirici, indirim hesaplama ve daha fazlası. Finans, sağlık ve günlük hesaplamalar için ücretsiz online araçlar.",
   "start_url": "/",
   "scope": "/",

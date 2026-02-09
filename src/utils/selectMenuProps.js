@@ -1,6 +1,6 @@
 /**
  * Material-UI Select bileşenleri için ortak MenuProps ayarları
- * Menu content'in sidebar ve footer gibi elementlerin üzerine gelmesi için yüksek z-index
+ * Menu content'in sidebar gibi elementlerin üzerine gelmesi için yüksek z-index
  */
 export const SELECT_MENU_PROPS = {
   disablePortal: false, // Portal kullanarak body'ye render et (varsayılan)

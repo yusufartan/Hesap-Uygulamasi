@@ -5,7 +5,7 @@ import { useTheme } from '@mui/material/styles'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import Sidebar, { sidebarMiniWidth } from './Sidebar'
 import Navbar, { desktopNavbarHeight, mobileNavbarHeight, secondaryBarHeight } from './Navbar'
-import Footer from '../Footer'
+import Footer from './Footer'
 import ErrorBoundary from '../ErrorBoundary'
 import CustomBreadcrumbs from '../CustomBreadcrumbs'
 import SEOUpdater from '../SEOUpdater'
@@ -111,15 +111,23 @@ export default function DashboardLayout() {
           pt: `${navbarHeight}px`,
         }}
       >
-        <Box sx={{ flexGrow: 1, p: { xs: 2, sm: 3 }, display: 'flex', flexDirection: 'column', width: '100%' }}>
-          <Box sx={{ width: '100%', flex: 1 }}>
-            <CustomBreadcrumbs />
-            {/* Hata Kalkanı: Sadece içerik alanı çökerse burası devreye girer */}
-            <ErrorBoundary>
-              <React.Suspense fallback={<Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}><CircularProgress /></Box>}><Outlet key={location.pathname} /></React.Suspense>
-            </ErrorBoundary>
-          </Box>
+        {/* Ana İçerik Alanı */}
+        <Box 
+          sx={{ 
+            flex: '1 0 auto',
+            width: '100%',
+            p: { xs: 2, sm: 3 },
+            minHeight: 0,
+          }}
+        >
+          <CustomBreadcrumbs />
+          {/* Hata Kalkanı: Sadece içerik alanı çökerse burası devreye girer */}
+          <ErrorBoundary>
+            <React.Suspense fallback={<Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}><CircularProgress /></Box>}><Outlet key={location.pathname} /></React.Suspense>
+          </ErrorBoundary>
         </Box>
+        
+        {/* Footer - Her zaman en altta */}
         <Footer />
       </Box>
 
@@ -129,7 +137,7 @@ export default function DashboardLayout() {
           color="primary" 
           size="small" 
           onClick={scrollToTop}
-          sx={{ position: 'fixed', bottom: 32, left: 32, zIndex: 1400 }}
+          sx={{ position: 'fixed', bottom: 32, right: 32, zIndex: 1400 }}
         >
           <KeyboardArrowUpIcon />
         </Fab>

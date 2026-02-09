@@ -15,7 +15,7 @@ export default function AboutPage() {
           {t('about')}
         </Typography>
         <Typography variant="h6" color="text.secondary" sx={{ maxWidth: 600, mx: 'auto', fontSize: { xs: '1rem', md: '1.25rem' } }}>
-          {t('footerDesc')}
+          {t('heroDescription')}
         </Typography>
       </Box>
 

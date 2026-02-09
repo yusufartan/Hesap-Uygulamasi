@@ -12,6 +12,8 @@ const STATIC_PAGE_NAMES = {
   contact: 'contact',
   privacy: 'privacy',
   terms: 'terms',
+  tools: 'all-tools', // /tools → Tüm Araçlar (redirect ile /tum-araclar'a gider)
+  'tum-araclar': 'all-tools',
 }
 
 function findToolByPath(path) {
@@ -27,13 +29,15 @@ export default function CustomBreadcrumbs() {
   const location = useLocation()
   const { t, getToolTitle, getCategoryTitle } = useTranslation()
   const pathname = location.pathname
-  const pathSegment = pathname.replace(/^\//, '') || ''
+  const pathSegment = pathname.replace(/^\//, '').split('/')[0] || ''
 
   // Ana sayfadaysak breadcrumb gösterme
   if (pathname === '/' || pathname === '') return null
 
-  const found = findToolByPath(pathSegment)
-  const isStaticPage = STATIC_PAGE_NAMES[pathSegment]
+  // /tools → /tum-araclar'a yönlendiriliyor; breadcrumb'da "Tüm Araçlar" göster
+  const effectivePath = pathSegment === 'tools' ? 'tum-araclar' : pathSegment
+  const found = findToolByPath(effectivePath)
+  const isStaticPage = STATIC_PAGE_NAMES[pathSegment] || STATIC_PAGE_NAMES[effectivePath]
 
   return (
     <Box sx={{ mb: 2 }}>
