@@ -15,7 +15,6 @@ import CompactInput from '../../components/common/CompactInput'
 import PrimaryButton from '../../components/common/PrimaryButton'
 import ResultCard from '../../components/common/ResultCard'
 import SimilarToolsCard from '../../components/common/SimilarToolsCard'
-import { similarToolsByPageId } from '../../config/similarToolsConfig'
 import { calculateDiscountResults } from './discountUtils'
 import { useTranslation } from '../../hooks/useTranslation'
 
@@ -94,7 +93,7 @@ export default function DiscountCalc() {
           onClick={handleClear}
           sx={{
             position: { md: 'absolute' },
-            right: 0,
+            right: { md: 3 }, // Sidebar ile arasında boşluk (24px)
             top: '50%',
             transform: { md: 'translateY(-50%)' },
             mt: { xs: 1.5, md: 0 },
@@ -230,7 +229,7 @@ export default function DiscountCalc() {
         </Grid>
 
         <Grid size={{ xs: 12, md: 5 }} sx={{ alignSelf: 'flex-start', minWidth: 0, display: 'flex', justifyContent: { xs: 'stretch', md: 'flex-end' } }}>
-          <SimilarToolsCard toolIds={similarToolsByPageId.discount || []} />
+          <SimilarToolsCard />
         </Grid>
       </Grid>
     </Container>

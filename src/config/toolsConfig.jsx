@@ -30,7 +30,7 @@ export const toolsConfig = [
     items: [
       { id: 'dashboard', path: '/', icon: <HomeIcon /> },
       { id: 'calculator', path: '/calculator', icon: <CalculateIcon /> },
-      { id: 'all-tools', path: '/tools', icon: <AppsIcon /> },
+      { id: 'all-tools', path: '/tum-araclar', icon: <AppsIcon /> },
     ],
   },
   {

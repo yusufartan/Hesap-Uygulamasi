@@ -19,20 +19,16 @@ import {
 import DeleteIcon from '@mui/icons-material/Delete'
 import SwapVertIcon from '@mui/icons-material/SwapVert'
 import SimilarToolsCard from '../../components/common/SimilarToolsCard'
-import { similarToolsByPageId } from '../../config/similarToolsConfig'
 import { fetchCurrencies, convertCurrency, FALLBACK_CURRENCIES } from './currencyUtils'
 import { getCurrencyDisplayName, getCurrencyLabelWithSymbol } from './currencyNames'
 import CurrencyChart from './CurrencyChart'
 import { useTranslation } from '../../hooks/useTranslation'
-
-const SELECT_MENU_PROPS = {
-  PaperProps: { sx: { zIndex: 1000 } },
-}
+import { SELECT_MENU_PROPS } from '../../utils/selectMenuProps'
 
 export default function CurrencyCalc() {
   const theme = useTheme()
   const { t, language } = useTranslation()
-  const lang = language?.startsWith('tr') ? 'tr' : 'en'
+  const lang = React.useMemo(() => (language?.startsWith('tr') ? 'tr' : 'en'), [language])
 
   const [amount, setAmount] = useState(() => localStorage.getItem('currency_amount') || '')
   const [fromCurrency, setFromCurrency] = useState(() => localStorage.getItem('currency_from') || 'USD')
@@ -78,13 +74,13 @@ export default function CurrencyCalc() {
         if (!cancelled) setResult(val)
       })
       .catch((err) => {
-        if (!cancelled) setError(err.message || 'Çeviri hatası.')
+        if (!cancelled) setError(err.message || t('conversionError'))
       })
       .finally(() => {
         if (!cancelled) setLoading(false)
       })
     return () => { cancelled = true }
-  }, [amount, fromCurrency, toCurrency])
+  }, [amount, fromCurrency, toCurrency, t])
 
   const handleClear = () => {
     setAmount('')
@@ -133,7 +129,7 @@ export default function CurrencyCalc() {
           onClick={handleClear}
           sx={{
             position: { md: 'absolute' },
-            right: 0,
+            right: { md: 3 }, // Sidebar ile arasında boşluk (24px)
             top: '50%',
             transform: { md: 'translateY(-50%)' },
             mt: { xs: 1.5, md: 0 },
@@ -161,7 +157,6 @@ export default function CurrencyCalc() {
             </Typography>
             <Box sx={{ display: 'flex', gap: 2, alignItems: 'center', flexWrap: 'wrap' }}>
               <TextField
-                fullWidth
                 value={amount}
                 onChange={handleInputChange}
                 placeholder="0"
@@ -170,6 +165,7 @@ export default function CurrencyCalc() {
                   disableUnderline: true,
                   sx: { fontSize: { xs: '1.25rem', md: '1.5rem' }, fontWeight: 'bold', color: 'primary.main' },
                 }}
+                sx={{ flex: 1, minWidth: 0 }}
               />
               <Select
                 value={fromCurrency}
@@ -254,7 +250,7 @@ export default function CurrencyCalc() {
         </Grid>
 
         <Grid size={{ xs: 12, md: 5 }} sx={{ alignSelf: 'flex-start', minWidth: 0, display: 'flex', justifyContent: { xs: 'stretch', md: 'flex-end' } }}>
-          <SimilarToolsCard toolIds={similarToolsByPageId.currency || []} />
+          <SimilarToolsCard />
         </Grid>
       </Grid>
 

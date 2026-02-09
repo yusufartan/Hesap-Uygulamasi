@@ -26,6 +26,7 @@ const COMPONENT_MAP = {
 }
 
 // Sabit sayfalar (araç değil)
+const LandingPage = React.lazy(() => import('../pages/LandingPage'))
 const PrivacyPage = React.lazy(() => import('../pages/PrivacyPage'))
 const ContactPage = React.lazy(() => import('../pages/ContactPage'))
 const AboutPage = React.lazy(() => import('../pages/AboutPage'))
@@ -41,10 +42,7 @@ const toolRoutes = toolsConfig.flatMap((category) =>
 // Böylece route eşleşmesi takılsa bile gösterilen sayfa URL ile senkron kalır.
 function ToolContentFromUrl() {
   const { pathname } = useLocation()
-  const route =
-    pathname === '/'
-      ? { id: 'dashboard' }
-      : toolRoutes.find((r) => r.path === pathname)
+  const route = toolRoutes.find((r) => r.path === pathname)
   const toolId = route?.id
   const Component = toolId ? COMPONENT_MAP[toolId] : null
   if (!Component) return <NotFoundPage />
@@ -56,8 +54,8 @@ export default function AppRoutes() {
     <React.Suspense fallback={<div style={{ padding: 24, textAlign: 'center' }}>Yükleniyor...</div>}>
       <Routes>
         <Route path="/" element={<DashboardLayout />}>
-          {/* Ana sayfa: / — içerik her zaman URL'den */}
-          <Route index element={<ToolContentFromUrl />} />
+          {/* Ana sayfa: / — Landing Page */}
+          <Route index element={<LandingPage />} />
           {/* Sabit sayfalar (önce eşlensin) */}
           <Route path="privacy" element={<PrivacyPage />} />
           <Route path="contact" element={<ContactPage />} />

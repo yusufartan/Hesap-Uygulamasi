@@ -393,7 +393,7 @@ export default function Navbar({ mobileMenuOpen, onMenuClick, rightOffset = 0 })
 
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
         {generalItems.map((item) => {
-          const isActive = location.pathname === item.path || (item.path !== '/' && location.pathname.startsWith(item.path))
+          const isActive = location.pathname === item.path || (item.path !== '/' && location.pathname.startsWith(item.path + '/'))
           return (
             <Box
               key={item.id}

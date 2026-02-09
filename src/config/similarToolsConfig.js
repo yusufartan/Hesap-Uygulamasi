@@ -1,32 +1,44 @@
 /**
- * Benzer araçlar: Her sayfa için "Benzer Hesaplama Araçları" kutusunda
- * gösterilecek araç id'leri. Yeni araç eklemek için buraya id listesi ekleyin;
- * başlık/ikon toolsConfig + çevirilerden gelir.
+ * Benzer Araçlar Konfigürasyonu
+ * 
+ * Bu dosya artık sadece MANUEL OVERRIDE'lar için kullanılır.
+ * Otomatik sistem kategori bazlı eşleşme yapar.
+ * 
+ * Manuel override eklemek isterseniz:
+ * - Buraya toolId: [toolId1, toolId2, ...] şeklinde ekleyin
+ * - Otomatik sistem bu override'ı önceliklendirir
+ * 
+ * Otomatik sistem:
+ * - Aynı kategorideki araçları önceliklendirir
+ * - İlgili kategorilerden araçları ekler
+ * - Popüler araçlarla tamamlar
  */
-import { toolsConfig } from './toolsConfig.jsx'
 
-const allTools = toolsConfig.flatMap((c) => c.items || [])
+import { getToolById as getToolByIdUtil } from '../utils/similarToolsUtils'
 
+/**
+ * Backward compatibility için getToolById export ediyoruz
+ * Yeni kodlar utils/similarToolsUtils.js'den import etmeli
+ */
 export function getToolById(id) {
-  return allTools.find((t) => t.id === id) || null
+  return getToolByIdUtil(id)
 }
 
-/** Sayfa id'sine göre benzer araç id listesi (kendisi hariç) */
+/**
+ * MANUEL OVERRIDE MAPPING
+ * 
+ * Bu mapping otomatik sistemi override eder.
+ * Boş bırakırsanız otomatik kategori bazlı eşleşme kullanılır.
+ * 
+ * Örnek kullanım:
+ * - Özel bir eşleşme istiyorsanız buraya ekleyin
+ * - Yoksa otomatik sistem devreye girer
+ */
 export const similarToolsByPageId = {
-  discount: ['finance', 'currency', 'calculator'],
-  finance: ['discount', 'currency', 'calculator'],
-  currency: ['finance', 'discount', 'calculator'],
-  calculator: ['discount', 'finance', 'currency'],
-  bmi: ['age', 'date'],
-  age: ['bmi', 'date'],
-  date: ['age', 'bmi'],
-  length: ['area', 'volume', 'mass'],
-  area: ['length', 'volume', 'mass'],
-  volume: ['length', 'area', 'mass'],
-  mass: ['length', 'area', 'volume'],
-  speed: ['length', 'temp', 'time'],
-  temp: ['length', 'speed', 'time'],
-  time: ['date', 'speed', 'temp'],
-  data: ['numeral', 'calculator'],
-  numeral: ['data', 'calculator'],
+  // Manuel override örnekleri (opsiyonel)
+  // discount: ['finance', 'currency', 'calculator'],
+  // finance: ['discount', 'currency', 'calculator'],
+  // currency: ['finance', 'discount', 'calculator'],
+  
+  // Boş bırakılanlar otomatik sistem tarafından doldurulur
 }

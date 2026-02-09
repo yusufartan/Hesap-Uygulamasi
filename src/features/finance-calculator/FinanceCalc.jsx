@@ -25,7 +25,6 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth'
 import CalculateIcon from '@mui/icons-material/Calculate'
 import DeleteIcon from '@mui/icons-material/Delete'
 import SimilarToolsCard from '../../components/common/SimilarToolsCard'
-import { similarToolsByPageId } from '../../config/similarToolsConfig'
 import { calculateLoan, calculateInvestment } from './financeUtils.js'
 import { useTranslation } from '../../hooks/useTranslation'
 
@@ -144,7 +143,7 @@ export default function FinanceCalc() {
           onClick={handleClear}
           sx={{
             position: { md: 'absolute' },
-            right: 0,
+            right: { md: 3 }, // Sidebar ile arasında boşluk (24px)
             top: '50%',
             transform: { md: 'translateY(-50%)' },
             mt: { xs: 1.5, md: 0 },
@@ -392,7 +391,7 @@ export default function FinanceCalc() {
         </Grid>
 
         <Grid size={{ xs: 12, md: 5 }} sx={{ alignSelf: 'flex-start', minWidth: 0, display: 'flex', justifyContent: { xs: 'stretch', md: 'flex-end' } }}>
-          <SimilarToolsCard toolIds={similarToolsByPageId.finance || []} />
+          <SimilarToolsCard />
         </Grid>
       </Grid>
 
@@ -444,7 +443,7 @@ export default function FinanceCalc() {
           </Box>
         </DialogContent>
         <Button onClick={() => setOpenPicker(false)} sx={{ m: 2 }}>
-          Tamam
+          {t('ok')}
         </Button>
       </Dialog>
     </Container>

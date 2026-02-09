@@ -7,6 +7,7 @@ import SwapVertIcon from '@mui/icons-material/SwapVert'
 import Numpad from '../../components/Numpad/Numpad'
 import { unitOptions, convertData } from './dataUtils'
 import { useTranslation } from '../../hooks/useTranslation'
+import { SELECT_MENU_PROPS } from '../../utils/selectMenuProps'
 
 export default function DataCalc() {
   const theme = useTheme()
@@ -157,6 +158,7 @@ export default function DataCalc() {
                 onChange={(e) => handleUnit1Change(e.target.value)}
                 variant="standard"
                 disableUnderline // width: '200px' yerine responsive değerler
+                MenuProps={SELECT_MENU_PROPS}
                 sx={{ width: { xs: '120px', sm: '150px', md: '200px' }, '& .MuiSelect-select': { fontWeight: 'bold', color: '#FF8C00' } }}
               >
                 {unitOptions.map((option) => (
@@ -204,6 +206,7 @@ export default function DataCalc() {
                 onChange={(e) => handleUnit2Change(e.target.value)}
                 variant="standard"
                 disableUnderline // width: '200px' yerine responsive değerler
+                MenuProps={SELECT_MENU_PROPS}
                 sx={{ width: { xs: '120px', sm: '150px', md: '200px' }, '& .MuiSelect-select': { fontWeight: 'bold', color: '#FF8C00' } }}
               >
                 {unitOptions.map((option) => (

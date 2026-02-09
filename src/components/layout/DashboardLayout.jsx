@@ -111,8 +111,8 @@ export default function DashboardLayout() {
           pt: `${navbarHeight}px`,
         }}
       >
-        <Box sx={{ flexGrow: 1, p: { xs: 2, sm: 3 }, display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
-          <Box sx={{ width: '100%', maxWidth: '1200px', mx: 'auto' }}>
+        <Box sx={{ flexGrow: 1, p: { xs: 2, sm: 3 }, display: 'flex', flexDirection: 'column', width: '100%' }}>
+          <Box sx={{ width: '100%', flex: 1 }}>
             <CustomBreadcrumbs />
             {/* Hata Kalkanı: Sadece içerik alanı çökerse burası devreye girer */}
             <ErrorBoundary>
@@ -121,19 +121,19 @@ export default function DashboardLayout() {
           </Box>
         </Box>
         <Footer />
-        
-        {/* Yukarı Çık Butonu */}
-        <Zoom in={showScrollTop}>
-          <Fab 
-            color="primary" 
-            size="small" 
-            onClick={scrollToTop}
-            sx={{ position: 'fixed', bottom: 32, right: 32, zIndex: 9999 }}
-          >
-            <KeyboardArrowUpIcon />
-          </Fab>
-        </Zoom>
       </Box>
+
+      {/* Yukarı Çık Butonu — main dışında, sidebar üstünde görünsün */}
+      <Zoom in={showScrollTop}>
+        <Fab 
+          color="primary" 
+          size="small" 
+          onClick={scrollToTop}
+          sx={{ position: 'fixed', bottom: 32, left: 32, zIndex: 1400 }}
+        >
+          <KeyboardArrowUpIcon />
+        </Fab>
+      </Zoom>
     </Box>
   )
 }
