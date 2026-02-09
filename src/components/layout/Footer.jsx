@@ -38,14 +38,28 @@ export default function Footer() {
       sx={{
         flexShrink: 0,
         width: '100%',
+        maxWidth: '100vw',
+        boxSizing: 'border-box',
         pt: { xs: 4, sm: 5, md: 8 },
         pb: { xs: 2.5, sm: 3, md: 4 },
         background: theme.palette.background.paper,
         borderTop: `1px solid ${theme.palette.divider}`,
+        overflow: 'hidden',
       }}
     >
-      <Container maxWidth="xl" sx={{ px: { xs: 2, sm: 3, md: 4 } }}>
-        <Grid container spacing={{ xs: 3, sm: 4, md: 6 }} alignItems="flex-start">
+      <Container 
+        maxWidth="xl" 
+        disableGutters={false}
+        sx={{ 
+          px: { xs: 2, sm: 3, md: 4 },
+          width: '100%',
+        }}
+      >
+        <Grid 
+          container 
+          spacing={{ xs: 2.5, sm: 4, md: 6 }} 
+          alignItems="flex-start"
+        >
           {/* Marka & Açıklama - Mobil/tablette üstte tam genişlik, masaüstünde solda */}
           <Grid item xs={12} sm={12} md={3}>
             <Link
@@ -95,8 +109,8 @@ export default function Footer() {
             </Typography>
           </Grid>
 
-          {/* Hızlı Erişim - 4 başlık her ekranda aynı satırda, aynı hizada */}
-          <Grid item xs={6} sm={3} md={2} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+          {/* Hızlı Erişim - Mobilde tam genişlik, tablet+ aynı hizada */}
+          <Grid item xs={12} sm={3} md={2} sx={{ display: 'flex', flexDirection: 'column', alignItems: { xs: 'flex-start', sm: 'flex-start' } }}>
             <Typography 
               variant="subtitle2" 
               fontWeight={700} 
@@ -122,7 +136,7 @@ export default function Footer() {
           </Grid>
 
           {/* Kurumsal */}
-          <Grid item xs={6} sm={3} md={2} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+          <Grid item xs={12} sm={3} md={2} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
             <Typography 
               variant="subtitle2" 
               fontWeight={700} 
@@ -264,7 +278,9 @@ export default function Footer() {
             color="text.secondary"
             sx={{ 
               fontSize: { xs: '0.75rem', sm: '0.8125rem' },
-              textAlign: 'center',
+              textAlign: { xs: 'center', sm: 'center' },
+              wordBreak: 'break-word',
+              maxWidth: '100%',
             }}
           >
             © {currentYear} {t('appTitle')}. {t('rightsReserved')}
